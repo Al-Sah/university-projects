@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-
+#include <fstream>
 
 
 //33. Предметна область: «Матриця довільної розмірності» (транспонування матриці).
@@ -24,13 +24,17 @@
         }
     }
  */
+std::ifstream Matrix_in("Matrix_in.txt");
+std::ofstream Matrix_out("Matrix_out.txt");
 
 class Matrix{
 
     int rows, cols;
     int **matrix_pointer; //указатель на что то (динамическую память)
 
+
 public:
+
 
     //Констуктор
     Matrix(int ox, int oy) {
@@ -146,6 +150,20 @@ public:
             }
         }
     }
+    int operator [] (const int index){
+        if(index < 0 || index > rows*cols){
+            throw  "Error: index < 0 || index > rows*cols";
+        }
+        int i= 0;
+        int *arr = new int[rows*cols];
+        for(int y = 0;y<rows;y++){
+            for(int x = 0;x<cols;x++){
+                arr[i] = matrix_pointer[y][x];
+                i++;
+            }
+        }
+        return arr[index];
+    }
 
     //Перегрузка оператора сложения
     Matrix operator + (const Matrix& matrix1){
@@ -198,8 +216,37 @@ public:
         }
         return *this;
     }
-
+    friend std::ostream&  operator << (std::ostream &Matrix_out, const Matrix &matrix);
+    friend std::ofstream&  operator << (std::ofstream &Matrix_out, const Matrix &matrix);
+    friend void  operator >> (std::ifstream &Matrix_in, const Matrix &matrix);
 };
+std::ostream& operator<< (std::ostream &out, const Matrix &matrix) {
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            out << std::setw(3)<< matrix.matrix_pointer[y][x] << " ";
+        }
+        out << std::endl;
+    }
+    return out;
+}
+
+std::ofstream& operator<< (std::ofstream &out, const Matrix &matrix) {
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            out << std::setw(3)<< matrix.matrix_pointer[y][x] << " ";
+        }
+        out << std::endl;
+    }
+    return out;
+}
+
+void operator>>(std::ifstream &in, const Matrix &matrix) {
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            in >> matrix.matrix_pointer[y][x];
+        }
+    }
+}
 
 class Matrix1{
 
@@ -363,8 +410,14 @@ public:
         return true;
     }
 
+    int operator [] (const int index){
+        if(index < 0 || index > rows*cols){
+            throw  "Error: index < 0 || index > rows*cols";
+        }
 
-
+        auto array = (int *)matrix_pointer;
+        return array[index];
+    }
 
     Matrix1& operator = (const Matrix1& matrix1){
 
@@ -383,12 +436,44 @@ public:
 
         return *this;
     }
-
+    friend std::ostream& operator<< (std::ostream &Matrix_out, const Matrix1 &matrix);
+    friend std::ofstream&  operator << (std::ofstream &Matrix_out, const Matrix1 &matrix1);
+    friend void  operator >> (std::ifstream &Matrix_in, const Matrix1 &matrix1);
 };
 
+std::ostream& operator<< (std::ostream &out, const Matrix1 &matrix) {
+    auto matr = (int (*)[matrix.cols]) matrix.matrix_pointer;
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            out << std::setw(3)<< matr[y][x] << " ";
+        }
+        out << std::endl;
+    }
+    return out;
+}
+std::ofstream&  operator << (std::ofstream &out, const Matrix1 &matrix) {
+    auto matr = (int (*)[matrix.cols]) matrix.matrix_pointer;
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            out << std::setw(3)<< matr[y][x] << " ";
+        }
+        out << std::endl;
+    }
+    return out;
+}
+
+void operator >> (std::ifstream &in, const Matrix1 &matrix) {
+    auto matr = (int (*)[matrix.cols]) matrix.matrix_pointer;
+    for (int y = 0; y < matrix.rows; y++) {
+        for (int x = 0; x < matrix.cols; x++) {
+            in >> matr[y][x];
+        }
+    }
+}
 
 
 int main() {
+
 
     srand(time(nullptr));
 
@@ -407,13 +492,17 @@ int main() {
     // "heap_matrix1_1->" заменяет "(*heap_matrix1_1)."
     heap_matrix1_1->fill_randomly(20);
     heap_matrix1_2->fill_randomly(40);
-    matrix1_1.fill_randomly();
+    Matrix_in >> matrix1_1;
     matrix1_2.fill_randomly(10);
+
+    std::cout << matrix1_2;
 
     heap_matrix1_1->print();
     heap_matrix1_2->print();
     matrix1_1.print();
     matrix1_2.print();
+
+    Matrix_out << matrix1_2;
 
     try {
         //Обработка ошибки перемножения матриц
@@ -431,6 +520,14 @@ int main() {
     matrix1_3.multiply_by_number(-1);
     matrix1_3.print(5);
 
+    std::cout << matrix1_3[24] << " Обращение по индексу\n";
+    std::cout << matrix1_3[14] << " Обращение по индексу\n";
+    std::cout << matrix1_3[8] << " Обращение по индексу\n";
+    try {
+        std::cout << matrix1_3[266];
+    } catch (const char* &error) {
+        std::cerr << std::endl << error << std::endl;
+    }
 
     delete heap_matrix1_1;
     delete heap_matrix1_2;
@@ -456,7 +553,7 @@ int main() {
     heap_matrix_1->print();
     heap_matrix_2->print();
     matrix_2.print();
-
+    std::cout << "Matrix1 \n" << matrix_2;
 
 
     try {
@@ -472,7 +569,6 @@ int main() {
     matrix_3.print();
     matrix_3.multiply_by_number(-1);
     matrix_3.print();
-
 
 
     delete heap_matrix_1;
