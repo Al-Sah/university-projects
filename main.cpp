@@ -20,6 +20,7 @@ public:
     virtual int getIsolatedVertices() =0; //...изолированных вершин
     virtual int getLoopNumber() const =0;  //...петель
     virtual int getVertex() const =0;       //...всех вершин
+    virtual int getArchs() const =0;
     virtual int getMultipleArcs() const = 0;  //...кратных дуг
 
     // Координаты "first_vertex" и "second_vertex" добавляются в матрицу смежноси
@@ -30,13 +31,212 @@ public:
     // для этого используются данные из матрицы смежности
     virtual void generate_incidence_matrix() = 0; //Генерирование матрицы инцидентности
     virtual void print_incidence_matrix() = 0; // Вывод материалы инцидентности
-    virtual void print_info() =0; //Вывод информации про граф
+    virtual void print_info(); //Вывод информации про граф
 };
+void Graph::print_info() {
+// Формирование и вывод информации про граф
+    std::cout << "\nweightedGraph with " << getVertex() << " vertices and " << getArchs() << " arcs";
+    std::cout << "\nLoop number: " << getLoopNumber();
+    std::cout << "\nVertex number: " << getVertex();
+    std::cout << "\nIsolated vertices: " << getIsolatedVertices();
+    std::cout << "\nMultiple arcs: " << getMultipleArcs();
+}
+
+class weightedGraph : public Graph{
+    //указатели на матрицы
+    void *graph_pointer; // смежности
+    void *incidence_matrix_pointer; //инцидентности
+
+    int vertex_number;
+    int arc_number;
+
+public:
+
+    int getIsolatedVertices() override;
+    int getLoopNumber() const override;
+    int getVertex() const override;
+    int getArchs() const override;
+    int getMultipleArcs() const override;
+
+    void AddArc(int first_vertex, int second_vertex)override;
+    bool HasArc(int first_vertex, int second_vertex)override;
+    void generate_incidence_matrix()override;
+    void print_adjacency_matrix()override;
+    void print_incidence_matrix()override;
+
+
+
+    ~weightedGraph();
+    weightedGraph(int vertex);
+
+};
+
+weightedGraph::~weightedGraph() {
+    // Освобождение памяти
+    delete [] (bool*)graph_pointer ;
+    if(incidence_matrix_pointer != nullptr){
+        delete []  (int*)incidence_matrix_pointer;
+    }
+}
+
+weightedGraph::weightedGraph(int vertex) {
+    this->vertex_number = vertex;
+    this->arc_number = 0;
+    this->graph_pointer = (int **) new int[vertex * vertex];
+    this->incidence_matrix_pointer = nullptr;
+}
+
+int weightedGraph::getIsolatedVertices() {
+    auto graph = (int (*)[vertex_number]) graph_pointer;
+    int count = vertex_number;
+    //Обход всех элементов матрицы
+    // Если вершина изолирована, все элементы в столбце соответствующей вершине равны 0
+    for(int y = 0;y<vertex_number;y++) {
+        for (int x = 0; x < vertex_number; x++) {
+            if (graph[y][x] >= 1) {
+                --count;
+                break;
+            }
+        }
+    }
+    return count;
+}
+
+int weightedGraph::getLoopNumber() const {
+    int res = 0;
+    auto graph = (int (*)[vertex_number]) graph_pointer;
+    //Обход по диагонали (кл-во итераций == колличеству вершин)
+    for(int i = 0; i<vertex_number;i++){
+        if( graph[i][i] >= 1){
+            res += 1;
+        }
+    }
+    return res;
+}
+
+int weightedGraph::getVertex() const {
+    return vertex_number;
+}
+int weightedGraph::getArchs() const {
+    return arc_number;
+}
+
+int weightedGraph::getMultipleArcs() const {
+    return 0;
+}
+int price_check() {
+    int price;
+    while (!(std::cin >> price)) {
+        std::cout << "Input error, you need type: (int)\nEnter correct data:";
+        std::cin.clear();
+        while (std::cin.get() != '\n');
+    }
+    return price;
+}
+void weightedGraph::AddArc(int first_vertex, int second_vertex) {
+    //Проверка на корректность введённых данных
+    if(first_vertex < 0 || first_vertex > vertex_number || second_vertex < 0 || second_vertex > vertex_number ){
+        throw "Param Error";
+    }else {
+        int price = price_check();
+        auto graph = (int (*)[vertex_number]) graph_pointer; // Добавление дуги в матрицу смежности
+        int check = graph[first_vertex-1][second_vertex-1];
+        if(first_vertex != second_vertex){ // Проверка на дугу
+            graph[first_vertex-1][second_vertex-1] = price;
+        }
+        graph[second_vertex-1][first_vertex-1] = price;
+        if(check == 0){
+            arc_number += 1;
+        }
+    }
+}
+
+bool weightedGraph::HasArc(int first_vertex, int second_vertex) {
+    //Проверка на корректность введённых данных
+    if(first_vertex < 0 || first_vertex > vertex_number || second_vertex < 0 || second_vertex > vertex_number ){
+        throw "Param Error";
+    }else{
+        auto graph = (int (*)[vertex_number]) graph_pointer;
+        return graph [first_vertex-1][second_vertex-1];
+    }
+}
+
+void weightedGraph::generate_incidence_matrix() {
+    if(incidence_matrix_pointer != nullptr){
+        //Если мы вызывали ранее generate_incidence_matrix,
+        //осталась не освобождённая память, которую нужно отчистить
+        delete []  (int*)incidence_matrix_pointer;
+    }
+
+    // Выделение памяти под матрицу инцидентности
+    auto incidence_matrix_memory = (int(*)[arc_number]) new int[vertex_number * arc_number]{};
+    // Привязка указателя на выделеную память
+    this->incidence_matrix_pointer = incidence_matrix_memory;
+    // Приведение типов (одномерный массив к двмерному)
+    auto incidence_matrix = (int (*)[arc_number]) incidence_matrix_pointer;
+
+
+    int iter = 0;
+    auto graph = (int (*)[vertex_number]) graph_pointer;
+    // Алгоритм заполнения матрицы корректными данными
+    for(int y = 0;y< vertex_number;y++){
+        for(int x = y; x < vertex_number; x++){
+            //incidence_matrix[y][iter] = graph[y][x];
+            if(graph[y][x] >= 1 ){
+                    if(x == y ){
+                        incidence_matrix[y][iter] = graph[y][x];
+                        iter++;
+                    } else {
+                        incidence_matrix[y][iter] = graph[y][x];
+                        incidence_matrix[x][iter] = graph[y][x];
+                        iter++;
+                    }
+
+
+            }
+        }
+    }
+}
+
+void weightedGraph::print_adjacency_matrix() {
+    auto graph = (int (*)[vertex_number]) graph_pointer;
+    std::cout<< CLR_GREEN "\n  Adjacency matrix" << CLR_NORMAL << std::endl;
+    std::cout << CLR_GREEN " V";
+    for(int i = 1; i <= vertex_number;i++ ){
+        std::cout << std::setw(3) << i;
+    }
+    std::cout << CLR_NORMAL << std::endl;
+    for(int y = 0, i = 1; y < vertex_number; y++, i++){
+        std::cout << CLR_GREEN << std::setw(2) << i << " " << CLR_NORMAL;
+        for(int x = 0; x < vertex_number; x++){
+            std::cout << std::setw(2) << graph[y][x] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void weightedGraph::print_incidence_matrix() {
+    generate_incidence_matrix();
+    auto incidence_matrix = (int(*)[arc_number]) incidence_matrix_pointer;
+
+    std::cout<<CLR_GREEN "\nIncidence matrix\n";
+    std::cout << "V/arcs" << CLR_NORMAL << std::endl;
+    for(int y = 0, i = 1; y < vertex_number; y++, i++){
+        std::cout << CLR_GREEN << std::setw(2) << i << " " << CLR_NORMAL;
+        for(int x = 0; x < arc_number; x++){
+            std::cout << std::setw(2) << incidence_matrix[y][x] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+
+
 
 
 
 //Реализация ориентированного графа
-class directedGraph : Graph{
+class directedGraph : public Graph{
     //указатели на матрицы
     void *graph_pointer; // смежности
     void *incidence_matrix_pointer; //инцидентности
@@ -50,6 +250,7 @@ public:
     int getIsolatedVertices() override;
     int getLoopNumber() const override;
     int getVertex() const override;
+    int getArchs() const override;
     int getMultipleArcs() const override;
 
     void AddArc(int first_vertex, int second_vertex)override;
@@ -57,7 +258,7 @@ public:
     void generate_incidence_matrix()override;
     void print_adjacency_matrix()override;
     void print_incidence_matrix()override;
-    void print_info()override;
+
 
 
     ~directedGraph();
@@ -112,6 +313,9 @@ int directedGraph::getLoopNumber() const {
 int directedGraph::getVertex() const {
     return vertex_number;
 }
+int directedGraph::getArchs() const {
+    return arc_number;
+}
 
 int directedGraph::getMultipleArcs() const {
     auto graph = (int (*)[vertex_number]) graph_pointer;
@@ -143,7 +347,7 @@ bool directedGraph::HasArc(int first_vertex, int second_vertex) {
         throw "Param Error";
     }else{
         auto graph = (int (*)[vertex_number]) graph_pointer;
-        return graph [first_vertex][second_vertex];
+        return graph [first_vertex-1][second_vertex-1];
     }
 }
 
@@ -216,20 +420,13 @@ void directedGraph::print_incidence_matrix() {
     }
 }
 
-void directedGraph::print_info() {
-    // Формирование и вывод информации про граф
-    std::cout << "\ndirectedGraph with " << vertex_number << " vertices and " << arc_number << " arcs";
-    std::cout << "\nLoop number: " << getLoopNumber();
-    std::cout << "\nVertex number: " << getVertex();
-    std::cout << "\nIsolated vertices: " << getIsolatedVertices();
-    std::cout << "\nMultiple arcs: " << getMultipleArcs();
-}
 
 
 
 
 
-class undirectedGraph : Graph{
+
+class undirectedGraph : public Graph{
 
     void *graph_pointer;
     void *incidence_matrix_pointer;
@@ -241,6 +438,7 @@ public:
     int getIsolatedVertices()override;
     int getLoopNumber() const override;
     int getVertex() const override;
+    int getArchs() const override;
     int getMultipleArcs() const override;
 
     void AddArc(int first_vertex, int second_vertex)override;
@@ -248,7 +446,7 @@ public:
     void generate_incidence_matrix()override;
     void print_adjacency_matrix()override;
     void print_incidence_matrix()override;
-    void print_info()override;
+
 
     ~undirectedGraph();
     undirectedGraph(int vertex);
@@ -284,6 +482,9 @@ int undirectedGraph::getLoopNumber() const {
 
 int undirectedGraph::getVertex() const {
     return vertex_number;
+}
+int undirectedGraph::getArchs() const {
+    return arc_number;
 }
 
 int undirectedGraph::getIsolatedVertices(){
@@ -405,23 +606,19 @@ bool undirectedGraph::HasArc(int first_vertex, int second_vertex) {
         throw "Param Error";
     }else{
         auto graph = (int (*)[vertex_number]) graph_pointer;
-        return graph [first_vertex][second_vertex];
+        return graph [first_vertex-1][second_vertex-1];
     }
 }
 
-void undirectedGraph::print_info() {
-    // Формирование и вывод информации про граф
-    std::cout << "\nundirectedGraph with " << vertex_number << " vertices and " << arc_number << " arcs";
-    std::cout << "\nLoop number: " << getLoopNumber();
-    std::cout << "\nVertex number: " << getVertex();
-    std::cout << "\nIsolated vertices: " << getIsolatedVertices();
-    std::cout << "\nMultiple arcs: " << getMultipleArcs() << "\n";
-}
+
+
+
 
 
 int main() {
     undirectedGraph graph(7);
     directedGraph dr_graph(7);
+    weightedGraph w_graph(7);
 
     //Добавление дуг и петель
     dr_graph.AddArc(2, 3);
@@ -432,6 +629,14 @@ int main() {
     dr_graph.AddArc(1, 3);
     dr_graph.AddArc(5, 3);
 
+    w_graph.AddArc(2, 3);
+    w_graph.AddArc(1, 5);
+    w_graph.AddArc(3, 5);
+    w_graph.AddArc(3, 5);
+    w_graph.AddArc(2, 2);
+    w_graph.AddArc(1, 3);
+    w_graph.AddArc(5, 3);
+
     graph.AddArc(2, 3);
     graph.AddArc(1, 5);
     graph.AddArc(3, 5);
@@ -440,11 +645,15 @@ int main() {
     graph.AddArc(2, 2);
     graph.AddArc(1, 3);
 
-
+    std::cout << "\n*********************************************************** ";
     graph.print_info();
     graph.print_adjacency_matrix();
     graph.print_incidence_matrix();
-
+    std::cout << "\n*********************************************************** ";
+    w_graph.print_info();
+    w_graph.print_adjacency_matrix();
+    w_graph.print_incidence_matrix();
+    std::cout << "\n*********************************************************** ";
     dr_graph.print_info();
     dr_graph.print_adjacency_matrix();
     dr_graph.print_incidence_matrix();
@@ -462,6 +671,12 @@ int main() {
               << dr_graph.HasArc(2,3)
               << "\nHasArc (5,3): "
               << dr_graph.HasArc(3,5);
+    std::cout << "\nweightedGraph\nHasArc (4,6): "
+              << w_graph.HasArc(4,6)
+              << "\nHasArc (2,3): "
+              << w_graph.HasArc(2,3)
+              << "\nHasArc (5,3): "
+              << w_graph.HasArc(3,5);
     return 0;
 }
 
