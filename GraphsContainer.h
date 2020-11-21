@@ -9,17 +9,21 @@
 #include <cstdlib>
 class Graph;
 
+// класс-контейнер
 template <class T >
 class GraphsContainer{
 private:
-    std::vector<T> graphsVector;
+    std::vector<T> graphsVector; // структура данных позволяющая хранить объекты
 public:
-    void addToVector(T graph);
-    void printElementsInfo();
-    void printGraph(T graph);
-    void printGraph(unsigned int id);
-    void addArchsToGraph(T graph, int arc_number);
+    void push_back(T graph);
+    void pop_back();
+    void clear();
+    void printGraphsInfo(); // Вывод информации про все графы
+    void printGraph(T graph); // Вывод информации, матрицы смежности и матрицы инцидентности одного графа
+    void printGraph(unsigned int id); // Вывод информации, матрицы смежности и матрицы инцидентности одного графа (из вектора)
+    void addArchsToGraph(T graph, int arc_number); // Добавление дуг в граф
+    T operator [] (int index); // Получение <T> из вектора по индексу
 };
 
-typedef GraphsContainer<Graph*> GraphContainer;
+typedef GraphsContainer<Graph*> graphsContainer;
 #endif //PRACTIC3_OOP_GRAPHSCONTAINER_H
