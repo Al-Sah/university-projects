@@ -2,6 +2,7 @@
 // Created by al_sah on 20.11.20.
 //
 
+#include <iostream>
 #include "GraphsContainer.h"
 
 template<class T>
