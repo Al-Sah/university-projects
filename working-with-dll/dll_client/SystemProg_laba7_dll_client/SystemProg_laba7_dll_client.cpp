@@ -5,8 +5,8 @@
 #include "SystemProg_laba7_dll_client.h"
 
 #define MAX_LOADSTRING 100
+#define DEBUG
 
-// Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
@@ -21,16 +21,15 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+HRESULT ExecuteFuncFromDll(DWORD dll, UINT* puParam2);
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
-{
+typedef void(CALLBACK* testDllFunction)(DWORD, UINT*);
+
+
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow){
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
-    // TODO: Place code here.
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -38,20 +37,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance);
 
     // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
-    {
+    if (!InitInstance (hInstance, nCmdShow)){
         return FALSE;
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SYSTEMPROGLABA7DLLCLIENT));
-
     MSG msg;
 
     // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
+    while (GetMessage(&msg, nullptr, 0, 0)){
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)){
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
@@ -62,13 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
-{
+ATOM MyRegisterClass(HINSTANCE hInstance){
     WNDCLASSEXW wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -88,25 +77,14 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
+
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow){
    hInst = hInstance; // Store instance handle in our global variable
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
-   {
+   if (!hWnd){
       return FALSE;
    }
 
@@ -278,16 +256,11 @@ void TransformAndDraw(int iTransform, HWND hWnd){
     
 }
 
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE: Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-//
-//
+// left - (x) левый верхний угол 
+// top -  (y) левый верхний угол 
+// right -  (x)
+// bottom - (y)
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 
     static BITMAP bm;
@@ -295,56 +268,103 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     static PAINTSTRUCT ps;
     static HBITMAP hBitmap;
     static XFORM xForm;
+    static RECT rect;
+    static POINT center;
+    static int x, y, cx, cy;
 
-    switch (message)
-    {
+    switch (message){
     case WM_CREATE:
-        ///LoadBitmap(hInst, L"bitmap1");
-        hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1));
+        hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1)); // загрузка картинки 
 
+        hdc = GetDC(hWnd);
+        hmdc = CreateCompatibleDC(hdc);
+        SelectObject(hmdc, hBitmap);
+        GetObject(hBitmap, sizeof(bm), &bm);
+        ReleaseDC(hWnd, hdc);
 
+        // Определение центра HDC
+        GetClientRect(hWnd, (LPRECT)&rect);
+        center.x = rect.right / 2;
+        center.y = rect.bottom / 2;
+
+         //поворот на -90
         //xForm.eM11 = (FLOAT)0.8660;
-        //xForm.eM12 = (FLOAT)0.5000;
-        //xForm.eM21 = (FLOAT)-0.5000;
+        //xForm.eM12 = (FLOAT)0.001;
+        //xForm.eM21 = (FLOAT)-0.001;
         //xForm.eM22 = (FLOAT)0.8660;
+        //xForm.eDx = (FLOAT)0.0;
+        //xForm.eDy = (FLOAT)0.0;
 
-        //xForm.eM11 = (FLOAT)0.0000;
-        //xForm.eM12 = (FLOAT)1.0000;
-        //xForm.eM21 = (FLOAT)-1.0000;
-        //xForm.eM22 = (FLOAT)0.0000;
-
-        xForm.eM11 = (FLOAT)1.0;
+         
+        //инверсия по горизонтали 
+        xForm.eM11 = (FLOAT)1.0; 
         xForm.eM12 = (FLOAT)0.0;
         xForm.eM21 = (FLOAT)0.0;
         xForm.eM22 = (FLOAT)-1.0;
+        // Коррекция
+        xForm.eDx = 0;
+        xForm.eDy = bm.bmHeight - 1; 
+
+        ////инверсия по вертикали 
+        //xForm.eM11 = (FLOAT)-1.0;
+        //xForm.eM12 = (FLOAT)0.0;
+        //xForm.eM21 = (FLOAT)0.0;
+        //xForm.eM22 = (FLOAT)1.0;
+        //// Коррекция 
+        //xForm.eDx = bm.bmWidth -1; 
+        //xForm.eDy = 0;
+
+
+        //инверсия по вертикали и горизонтали
+        xForm.eM11 = (FLOAT)-1.0;
+        xForm.eM12 = (FLOAT)0.0;
+        xForm.eM21 = (FLOAT)0.0;
+        xForm.eM22 = (FLOAT)-1.0;
+        // Коррекция 
+        xForm.eDx = bm.bmWidth -1; 
+        xForm.eDy = bm.bmHeight -1;
 
 
         //xForm.eM11 = cos(90);
         //xForm.eM12 = sin(90);
         //xForm.eM21 = -sin(90);
         //xForm.eM22 = cos(90);
-        xForm.eDx = (FLOAT)0.0;
-        xForm.eDy = (FLOAT)0.0;
+
 
        /* xForm.eM21 = (float)(sin(txtRotate) - tan(txtOblique) * cos(txtRotate));
         xForm.eM12 = (float)-sin(txtRotate);
         xForm.eM22 = (float)(cos(txtRotate) + tan(txtOblique) * sin(txtRotate));*/
 
         
-        hdc = GetDC(hWnd);
 
-        hmdc = CreateCompatibleDC(hdc);
-        SelectObject(hmdc, hBitmap);
-        GetObject(hBitmap, sizeof(bm), &bm);
-        ReleaseDC(hWnd, hdc);
+        //xForm.eM11 = (FLOAT)0.0;
+        //xForm.eM12 = (FLOAT)1.0;
+        //xForm.eM21 = (FLOAT)-0.00;
+        //xForm.eM22 = (FLOAT)0.0;
+        //xForm.eDx =  (FLOAT)0.0;
+        //xForm.eDy =  (FLOAT)0.0;
+
+       
+
 
         break;
+    case WM_SIZE:
+    case WM_MOVE:
+        GetClientRect(hWnd, (LPRECT)&rect);
+        center.x = rect.right / 2;
+        center.y = rect.bottom / 2;
+        /* xForm.eDx = LOWORD(lParam) / 2;
+        xForm.eDy = HIWORD(lParam) / 2;*/
 
+        x = -bm.bmWidth / 2;
+        y = -bm.bmHeight / 2;
+       
+
+       
+        break;
     case WM_COMMAND:
         {
-            int wmId = LOWORD(wParam);
-            // Parse the menu selections:
-            switch (wmId)
+            switch (LOWORD(wParam))
             {
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -360,39 +380,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
 
+ 
         SetGraphicsMode(hdc, GM_ADVANCED);
+        SetGraphicsMode(hmdc, GM_ADVANCED);
+        SetWorldTransform(hmdc, &xForm);
+        BitBlt(hdc, center.x - bm.bmWidth/2, center.y - bm.bmHeight/2, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
+        //BitBlt(hdc, x, y, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
 
-        SetWorldTransform(hdc, &xForm);
-
-        BitBlt(hdc, 100, -100, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
+        //TransformAndDraw(3, hWnd);
+        #ifdef DEBUG
+            LineTo(hdc, rect.right, rect.bottom);
+            MoveToEx(hdc, 0, rect.bottom, NULL);
+            LineTo(hdc, rect.right, 0);
+        #endif // DEBUG
 
         EndPaint(hWnd, &ps);
-
         break;
 
-
-        //hmdc = CreateCompatibleDC(hdc); //Создаёт совместимый с оконным контекст памяти
-        //SetWorldTransform(hdc, &xForm);
-        //SetWorldTransform(hmdc, &xForm);
-        //hmdc = CreateCompatibleDC(hDC); //Создаёт совместимый с оконным контекст памяти
-        // SelectObject(hmdc, hBitmap);
-         //GetObject(hBitmap, sizeof(bm), (LPSTR)&bm); //получаем высоту и ширину картинки
-         //BitBlt(hdc, 10, 10, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY); //Помещает картинку на экран в точку 10, 10
-         //DeleteDC(hmdc);
-
-        //hmdc = CreateCompatibleDC(hdc); //Создаёт совместимый с оконным контекст памяти
-        //SelectObject(hmdc, hBitmap); //Выбирает объект картинку
-        //GetObject(hBitmap, sizeof(bm), (LPSTR)&bm); //получаем высоту и ширину картинки
-        //BitBlt(hdc, 10, 10, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY); //Помещает картинку на экран в точку 10, 10 из памяти (hmdc)
-        //DeleteDC(hmdc);
-
-        //удаляем из памяти контекст
-        //TODO: Add any drawing code that uses hdc here...
-
-
-        //TransformAndDraw(3, hWnd, hBitmap);
-
     case WM_DESTROY:
+
         PostQuitMessage(0);
         break;
     default:
@@ -421,115 +427,3 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-
-    static HBITMAP hBitmap;
-    static BITMAP bm;
-    static HDC memBit;
-    HDC hdc;
-    PAINTSTRUCT ps;
-
-    static XFORM xf;
-    static double angle = 0;
-    static int x, y, cx, cy;
-
-    switch (message)
-    {
-
-    case WM_CREATE:
-
-        SetClassLong(hwnd, GCL_HBRBACKGROUND, (LONG)CreateSolidBrush(RGB(0, 0, 0)));
-
-        hBitmap = (HBITMAP)LoadImage(NULL, L"1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-
-        GetObject(hBitmap, sizeof(bm), &bm);
-        hdc = GetDC(hwnd);
-
-        memBit = CreateCompatibleDC(hdc);
-        SelectObject(memBit, hBitmap);
-        ReleaseDC(hwnd, hdc);
-
-        break;
-
-    case WM_SIZE:
-
-        cx = LOWORD(lParam) / 2;
-        cy = HIWORD(lParam) / 2;
-        xf.eDx = cx;
-        xf.eDy = cy;
-        x = -bm.bmWidth / 2;
-        y = -bm.bmHeight / 2;
-
-        InvalidateRect(hwnd, NULL, TRUE);
-
-        break;
-
-    case WM_KEYDOWN:
-
-        if (GetAsyncKeyState(VK_LEFT))
-        {
-            angle += 3.14 * 10.0 / 180.0;
-            InvalidateRect(hwnd, NULL, FALSE);
-
-        }
-
-        if (GetAsyncKeyState(VK_RIGHT))
-        {
-            angle -= 3.14 * 10.0 / 180.0;
-            InvalidateRect(hwnd, NULL, FALSE);
-
-        }
-
-        break;
-
-
-    case WM_PAINT:
-
-        xf.eM22 = xf.eM11 = cos(angle);
-        xf.eM12 = -(xf.eM21 = sin(angle));
-
-        hdc = BeginPaint(hwnd, &ps);
-
-        SetGraphicsMode(hdc, GM_ADVANCED);
-        SetWorldTransform(hdc, &xf);
-
-        BitBlt(hdc, x, y, bm.bmWidth, bm.bmHeight, memBit, 0, 0, SRCCOPY);
-
-        EndPaint(hwnd, &ps);
-
-        break;
-
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hwnd, message, wParam, lParam);
-    }
-
-    return 0;
-}
-*/
