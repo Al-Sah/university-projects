@@ -24,6 +24,7 @@
     <ProjectGuid>{299040c9-addf-49db-866c-20e62a22f303}</ProjectGuid>
     <RootNamespace>SystemProglaba7dllclient</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>dll_client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -141,19 +142,19 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SystemProg_laba7_dll_client.h" />
+    <ClInclude Include="dll_client.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SystemProg_laba7_dll_client.cpp" />
+    <ClCompile Include="dll_client.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SystemProg_laba7_dll_client.rc" />
+    <ResourceCompile Include="dll_client.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="bitmap1.bmp" />
     <Image Include="small.ico" />
-    <Image Include="SystemProg_laba7_dll_client.ico" />
+    <Image Include="dll_client.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

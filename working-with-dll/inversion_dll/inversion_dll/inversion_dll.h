@@ -13,6 +13,13 @@
 #endif
 
 
-extern INVERSIONDLL_API void invert(void);
+extern "C" INVERSIONDLL_API const int SET_NORMAL;
+extern "C" INVERSIONDLL_API const int VERTICAL;
+extern "C" INVERSIONDLL_API const int HORIZONTAL;
 
-extern INVERSIONDLL_API enum inversion_type;
+// param "type" -> type of inversion. Must be: "VERTICAL", "HORIZONTAL" or "VERTICAL | HORIZONTAL"
+// param "hdc" -> source HDC. Used for: "SetGraphicsMode" and "SetWorldTransform"
+// (NULL-SAFETY) pointers PBITMAP and PPOINT are used for position correction.
+// Have to be passed just one parameter (PBITMAP or PPOINT)
+// Returns FALSE if both pointers != NULL or passed unsuported param "type"
+extern "C" INVERSIONDLL_API BOOLEAN invert(const int type, HDC hdc, PBITMAP bitmap, PPOINT newPos);
