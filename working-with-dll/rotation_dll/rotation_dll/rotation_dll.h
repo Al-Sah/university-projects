@@ -13,4 +13,5 @@
 #endif
 
 
-extern ROTATIONDLL_API void rotate(UINT16);
+extern "C" ROTATIONDLL_API void rotate(UINT16);
+extern "C" ROTATIONDLL_API void helloWorld(HWND);

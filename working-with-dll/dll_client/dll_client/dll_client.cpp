@@ -2,6 +2,8 @@
 
 #include "framework.h"
 #include "dll_client.h"
+#include "rotation_dll.h"
+
 
 #define MAX_LOADSTRING 100
 #define DEBUG
@@ -147,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     case WM_CREATE:
         //hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1)); // загрузка картинки 
         hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1));
-
+        helloWorld(hWnd);
         hdc = GetDC(hWnd);
         hmdc = CreateCompatibleDC(hdc);
         SelectObject(hmdc, hBitmap);
