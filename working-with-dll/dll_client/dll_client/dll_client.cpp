@@ -143,22 +143,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     static PAINTSTRUCT ps;
     static RECT rect;
     static POINT center;
+    static XFORM xForm; 
+    static std::function<void()> action;
 
     switch (message){
 
     case WM_CREATE:
         //hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1)); // загрузка картинки 
         hBitmap = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1));
-        helloWorld(hWnd);
+        //helloWorld(hWnd);
         hdc = GetDC(hWnd);
         hmdc = CreateCompatibleDC(hdc);
         SelectObject(hmdc, hBitmap);
         GetObject(hBitmap, sizeof(bm), &bm);
-        ReleaseDC(hWnd, hdc);
+        
 
         GetClientRect(hWnd, (LPRECT)&rect); // ќпределение центра HDC
+        
         center.x = rect.right / 2;
         center.y = rect.bottom / 2;
+        action = []() {
+            dllInvert(SET_NORMAL, hdc, NULL, &center);
+        };
+        
+        /*xForm.eM11 = (FLOAT)1.0;
+        xForm.eM22 = (FLOAT)1.0;*/
+       /* SetGraphicsMode(hdc, GM_ADVANCED);
+        SetGraphicsMode(hmdc, GM_ADVANCED);
+        SetWorldTransform(hmdc, &xForm);*/
+        ReleaseDC(hWnd, hdc);
         break;
 
     case WM_SIZE:
@@ -178,20 +191,50 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
             DestroyWindow(hWnd);
             break;
 
+        case ID_ROTATION_LEFT90:
+            action = []() {
+                rotate(LEFT_90, hdc, center);
+            };
+            InvalidateRect(hWnd, NULL, TRUE);
+            break;
+        case ID_ROTATION_RIGHT90:
+            action = []() {
+                rotate(RIGHT_90, hdc, center);
+            };
+            InvalidateRect(hWnd, NULL, TRUE);
+            break;
+        case ID_ROTATION_SETNORMAL:
+            action = []() {
+                rotate(SET_DEFAULT, hdc, center);
+            };
+            rotate(SET_DEFAULT, hdc, center);
+            InvalidateRect(hWnd, NULL, TRUE);
+            break;
+
         case ID_INVERSION_HORIZONTAL:
-            dllInvert(HORIZONTAL_INVERSION, hmdc, &bm, NULL);
+            action = []() {
+                dllInvert(HORIZONTAL_INVERSION, hdc, NULL, &center);
+            };
             InvalidateRect(hWnd, NULL, TRUE);
             break;
         case ID_INVERSION_VERTICAL:
-            dllInvert(VERTICAL_INVERSION, hmdc, &bm, NULL);
+            action = []() {
+                dllInvert(VERTICAL_INVERSION, hdc, NULL, &center);
+            };
             InvalidateRect(hWnd, NULL, TRUE);
             break;
         case ID_INVERSION_BOTH:
-            dllInvert(VERTICAL_INVERSION | HORIZONTAL_INVERSION, hmdc, &bm, NULL);
+            action = []() {
+                dllInvert(VERTICAL_INVERSION | HORIZONTAL_INVERSION, hdc, NULL, &center);
+            };
+            //dllInvert(VERTICAL_INVERSION | HORIZONTAL_INVERSION, hmdc, &bm, NULL);
+            //dllInvert(VERTICAL_INVERSION | HORIZONTAL_INVERSION, hdc, NULL, &center);
             InvalidateRect(hWnd, NULL, TRUE);
             break;
         case ID_INVERSION_SETNORMAL:
-            dllInvert(SET_NORMAL, hmdc, &bm, NULL);
+            action = []() {
+                dllInvert(SET_NORMAL, hdc, NULL, &center);
+            };
             InvalidateRect(hWnd, NULL, TRUE);
             break;
         default:
@@ -201,22 +244,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
 
-        SetGraphicsMode(hdc, GM_ADVANCED);
-       
-        // just bitmap inversion
-        
-        BitBlt(hdc, center.x - bm.bmWidth/2, center.y - bm.bmHeight/2, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
-
-        // full screan inversion
-        //dllInvert(VERTICAL_INVERSION | HORIZONTAL_INVERSION, hdc, NULL, &center);
-        //BitBlt(hdc, -bm.bmWidth / 2, -bm.bmHeight / 2, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
-
-        #ifdef DEBUG
-            //TransformAndDraw(3, hWnd);
-            LineTo(hdc, rect.right, rect.bottom);
-            MoveToEx(hdc, 0, rect.bottom, NULL);
-            LineTo(hdc, rect.right, 0);
-        #endif // DEBUG
+        action();
+        BitBlt(hdc, -bm.bmWidth / 2, -bm.bmHeight / 2, bm.bmWidth, bm.bmHeight, hmdc, 0, 0, SRCCOPY);
 
         EndPaint(hWnd, &ps);
         break;
@@ -251,111 +280,3 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-
-//поворот на -90
-//xForm.eM11 = (FLOAT)0.8660;
-//xForm.eM12 = (FLOAT)0.001;
-//xForm.eM21 = (FLOAT)-0.001;
-//xForm.eM22 = (FLOAT)0.8660;
-//xForm.eDx = (FLOAT)0.0;
-//xForm.eDy = (FLOAT)0.0;
-
-//xForm.eM11 = cos(90);
-//xForm.eM12 = sin(90);
-//xForm.eM21 = -sin(90);
-//xForm.eM22 = cos(90);
-
-/* xForm.eM21 = (float)(sin(txtRotate) - tan(txtOblique) * cos(txtRotate));
- xForm.eM12 = (float)-sin(txtRotate);
- xForm.eM22 = (float)(cos(txtRotate) + tan(txtOblique) * sin(txtRotate));*/
-
-//void TransformAndDraw(int iTransform, HWND hWnd) {
-    //
-    //    BITMAP bm;
-    //    HDC hDC, hmdc;
-    //    XFORM xForm;
-    //    RECT rect;
-    //
-    //    // Retrieve a DC handle for the application's window.  
-    //    hDC = GetDC(hWnd);
-    //    
-    //    // Set the mapping mode to LOENGLISH. This moves the  
-    //    // client area origin from the upper left corner of the  
-    //    // window to the lower left corner (this also reorients  
-    //    // the y-axis so that drawing operations occur in a true  
-    //    // Cartesian space). It guarantees portability so that  
-    //    // the object drawn retains its dimensions on any display.  
-    //
-    //    SetGraphicsMode(hDC, GM_ADVANCED);
-    //    SetMapMode(hDC, MM_LOENGLISH);
-    //    switch (iTransform)
-    //    {
-    //    case 3:      // Rotate 30 degrees counterclockwise.  
-    //        xForm.eM11 = (FLOAT)0.8660;
-    //        xForm.eM12 = (FLOAT)0.5000;
-    //        xForm.eM21 = (FLOAT)-0.5000;
-    //        xForm.eM22 = (FLOAT)0.8660;
-    //        xForm.eDx = (FLOAT)0.0;
-    //        xForm.eDy = (FLOAT)0.0;
-    //        SetWorldTransform(hDC, &xForm);
-    //        //SetWorldTransform(hmdc, &xForm);
-    //        break;
-    //    case 4:       // Shear along the x-axis with a  
-    //                      // proportionality constant of 1.0.  
-    //        xForm.eM11 = (FLOAT)1.0;
-    //        xForm.eM12 = (FLOAT)1.0;
-    //        xForm.eM21 = (FLOAT)0.0;
-    //        xForm.eM22 = (FLOAT)1.0;
-    //        xForm.eDx = (FLOAT)0.0;
-    //        xForm.eDy = (FLOAT)0.0;
-    //        SetWorldTransform(hDC, &xForm);
-    //        break;
-    //    case 6:      // Set the unity transformation.  
-    //        xForm.eM11 = (FLOAT)1.0;
-    //        xForm.eM12 = (FLOAT)0.0;
-    //        xForm.eM21 = (FLOAT)0.0;
-    //        xForm.eM22 = (FLOAT)1.0;
-    //        xForm.eDx = (FLOAT)0.0;
-    //        xForm.eDy = (FLOAT)0.0;
-    //        SetWorldTransform(hDC, &xForm);
-    //        break;
-    //    }
-    //
-    //    // Find the midpoint of the client area.  
-    //    GetClientRect(hWnd, (LPRECT)&rect);
-    //    DPtoLP(hDC, (LPPOINT)&rect, 2);
-    //
-    //    // Select a hollow brush.  
-    //    SelectObject(hDC, GetStockObject(HOLLOW_BRUSH));
-    //
-    //    // Draw the exterior circle.  
-    //    Ellipse(hDC, (rect.right / 2 - 100), (rect.bottom / 2 + 100),(rect.right / 2 + 100), (rect.bottom / 2 - 100));
-    //
-    //    // Draw the interior circle.  
-    //    Ellipse(hDC, (rect.right / 2 - 94), (rect.bottom / 2 + 94),(rect.right / 2 + 94), (rect.bottom / 2 - 94));
-    //
-    //    // Draw the key.  
-    //    Rectangle(hDC, (rect.right / 2 - 13), (rect.bottom / 2 + 113),(rect.right / 2 + 13), (rect.bottom / 2 + 50));
-    //    Rectangle(hDC, (rect.right / 2 - 13), (rect.bottom / 2 + 96),(rect.right / 2 + 13), (rect.bottom / 2 + 50));
-    //
-    //    // Draw the horizontal lines.  
-    //    MoveToEx(hDC, (rect.right / 2 - 150), (rect.bottom / 2 + 0), NULL);
-    //    LineTo(hDC, (rect.right / 2 - 16), (rect.bottom / 2 + 0));
-    //
-    //    MoveToEx(hDC, (rect.right / 2 - 13), (rect.bottom / 2 + 0), NULL);
-    //    LineTo(hDC, (rect.right / 2 + 13), (rect.bottom / 2 + 0));
-    //
-    //    MoveToEx(hDC, (rect.right / 2 + 16), (rect.bottom / 2 + 0), NULL);
-    //    LineTo(hDC, (rect.right / 2 + 150), (rect.bottom / 2 + 0));
-    //
-    //    // Draw the vertical lines.  
-    //
-    //    MoveToEx(hDC, (rect.right / 2 + 0), (rect.bottom / 2 - 150), NULL);
-    //    LineTo(hDC, (rect.right / 2 + 0), (rect.bottom / 2 - 16));
-    //
-    //    MoveToEx(hDC, (rect.right / 2 + 0), (rect.bottom / 2 - 13), NULL);
-    //    LineTo(hDC, (rect.right / 2 + 0), (rect.bottom / 2 + 13));
-    //
-    //    MoveToEx(hDC, (rect.right / 2 + 0), (rect.bottom / 2 + 16), NULL);
-    //    LineTo(hDC, (rect.right / 2 + 0), (rect.bottom / 2 + 150));
-    //    ReleaseDC(hWnd, hDC);}

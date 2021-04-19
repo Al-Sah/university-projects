@@ -13,5 +13,19 @@
 #endif
 
 
-extern "C" ROTATIONDLL_API void rotate(UINT16);
-extern "C" ROTATIONDLL_API void helloWorld(HWND);
+
+
+extern "C" ROTATIONDLL_API const int SET_DEFAULT;
+extern "C" ROTATIONDLL_API const int LEFT_90;
+extern "C" ROTATIONDLL_API const int RIGHT_90;
+
+#ifdef __cplusplus
+	extern "C" {
+#endif
+
+	ROTATIONDLL_API void rotate(const int type, HDC hdc, POINT newPos);
+	ROTATIONDLL_API void helloWorld(HWND);
+
+#ifdef __cplusplus
+}
+#endif
