@@ -1,1 +1,1 @@
-# nure-1c-double-linked_list
+# doubly linked list C++ implementation
