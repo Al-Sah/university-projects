@@ -3,11 +3,6 @@
 //#define MEGABYTE_TO_BYTES 1000000
 #define MEGABYTE_TO_BYTES 1048576
 #define MAX_ALLOC_MEGABYTES 10  // in megabytes
-
-#ifdef _WIN64
-#define GetTickCount GetTickCount64
-#endif
-
 #define setw(val, n) std::setw(n)<<val
 
 #define THREADS 5
@@ -31,53 +26,45 @@ inline size_t get_max_allocation_size(std::mt19937 &rand_engine){
     return result;
 }
 
-DWORD APIENTRY thread_callback(LPVOID threadsPtr){
+DWORD APIENTRY thread_callback(LPVOID threadsPtr){ // pass item_ptr
 
     auto threads = (std::map<ThreadId,ThreadInfo>*)threadsPtr;
-    DWORD tickStart, tickEnd;
-    DWORD id;
+    DWORD id = GetCurrentThreadId();
+
+    auto item = threads->find(id);
+    if (item == threads->end()) {
+        return -1; // ERROR
+    }
 
     while (true){
-        WaitForSingleObject(hMutex, INFINITE);
-        id = GetCurrentThreadId();
-        auto item = threads->find(id);
-        if (item == threads->end()) {
-            ReleaseMutex(hMutex);
-            return -1; // ERROR
-        }
-
-        tickStart = GetTickCount();
         item->second.allocatedMemory->push_back(malloc(allocation_size));
         item->second.currentlyAllocated += allocation_size;
-        tickEnd = GetTickCount();
 
-        std::cout << "Thread [ " << setw(id, 5) << " ] allocated memory in "
-                  << setw((double)(tickEnd - tickStart)/1000, 5) << " sec "
+        WaitForSingleObject(hMutex, INFINITE);
+        std::cout << "Thread [ " << setw(id, 5) << " ] "
                   << "Currently allocated [ " << setw(item->second.currentlyAllocated, 7) << " ]; "
-                  << "Max: [ "<< setw(item->second.maxSize, 5) <<" ]\n";
+                  << "Max: [ " << setw(item->second.maxSize, 6) << " ]\n";
+        ReleaseMutex(hMutex);
 
         if(item->second.currentlyAllocated >=  item->second.maxSize){
+            WaitForSingleObject(hMutex, INFINITE);
+            std::cout << "Thread [ " << setw(id, 5) << " ] STOP !\n";
             ReleaseMutex(hMutex);
             break;
         }
-        ReleaseMutex(hMutex);
     }
 
     WaitForSingleObject(hMutex, INFINITE);
     --threads_counter;
-    auto item = threads->find(GetCurrentThreadId())->second;
-    for (auto &ptr : *item.allocatedMemory){
+    ReleaseMutex(hMutex);
+    for (auto &ptr : *item->second.allocatedMemory){
         free(ptr);
     }
-    ReleaseMutex(hMutex);
     return 0;
 }
 
 
-
-
 void setupThread(std::map<ThreadId,ThreadInfo> &threads, std::mt19937 &rand_engine){
-
     DWORD threadId;
     HANDLE newThreadHandle = CreateThread(nullptr, 0, thread_callback, &threads, CREATE_SUSPENDED, &threadId);
 
@@ -92,15 +79,15 @@ void setupThread(std::map<ThreadId,ThreadInfo> &threads, std::mt19937 &rand_engi
     } else{
         threads_counter++;
     }
-
 }
 
-
-
 int main() {
-
     LARGE_INTEGER start, end, frequency;
     LONGLONG res;
+
+    std::random_device rd;
+    std::mt19937 rand(rd());
+    std::map<ThreadId,ThreadInfo> threads;
 
     hMutex = CreateMutex(
             nullptr,    // default security attributes
@@ -111,14 +98,10 @@ int main() {
         return 1;
     }
 
-    std::random_device rd;
-    std::mt19937 rand(rd());
-    std::map<ThreadId,ThreadInfo> threads;
-
     for(int i = 0; i < THREADS; i++){
         setupThread(threads, rand);
     }
-    std::cout << " All threads are created\n";
+    std::cout << " All threads are created: " << threads_counter << std::endl;
 
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&start);
@@ -129,9 +112,7 @@ int main() {
         }
     }
 
-    while (threads_counter) {
-        Sleep(0);
-    }
+    while (threads_counter) {} // threads_counter - volatile
 
     QueryPerformanceCounter(&end);
     res = ((end.QuadPart - start.QuadPart) * 1000 ) / frequency.QuadPart;
