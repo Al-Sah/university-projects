@@ -1,0 +1,8 @@
+# CMake
+cmake-build-*/
+
+.idea/
+
+
+out/
+.vs/
