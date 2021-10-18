@@ -6,7 +6,7 @@
 
 #define MY_SWAP_TEMP_STORAGE(v1,v2) {auto tmp=v1;v1=v2;v2=tmp;}
 #define MY_SWAP_ARITHMETIC(v1,v2) {v1+= v2;v2=v1-v2;v1=v1-v2;}
-#define MY_SWAP_XOR(v1,v2) { v1 = v2 ^ v1; v2 = v1 ^ v2;}
+//#define MY_SWAP_XOR(v1,v2) { v1 = v2 ^ v1; v2 = v1 ^ v2;}
 
 template <typename my_type>
 void my_swap_temp_storage(my_type &v1,my_type &v2){
@@ -92,12 +92,12 @@ void bubble_sort_arithmetic(my_type *arr, size_t size) {
 //  my_shaker_stop_sorts  *******************************************
 template <typename my_type>
 void my_shaker_stop_sort_standard_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
         int counter = 0;
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 std::swap(arr[i - 1], arr[i]);
                 ++counter;
@@ -107,7 +107,7 @@ void my_shaker_stop_sort_standard_swap(my_type *arr, size_t size) {
             return;
         }
         left++;
-        for (int i = left; i <= right; i++) {;
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 std::swap(arr[i - 1], arr[i]);
                 ++counter;
@@ -121,12 +121,12 @@ void my_shaker_stop_sort_standard_swap(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_stop_sort_user_storage_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
         int counter = 0;
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_temp_storage(arr[i - 1], arr[i]);
                 ++counter;
@@ -136,7 +136,7 @@ void my_shaker_stop_sort_user_storage_swap(my_type *arr, size_t size) {
             return;
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_temp_storage(arr[i - 1], arr[i]);
                 ++counter;
@@ -150,12 +150,12 @@ void my_shaker_stop_sort_user_storage_swap(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_stop_sort_user_arithmetic_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
         int counter = 0;
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_arithmetic(arr[i - 1], arr[i]);
                 ++counter;
@@ -165,7 +165,7 @@ void my_shaker_stop_sort_user_arithmetic_swap(my_type *arr, size_t size) {
             return;
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_arithmetic(arr[i - 1], arr[i]);
                 ++counter;
@@ -180,14 +180,14 @@ void my_shaker_stop_sort_user_arithmetic_swap(my_type *arr, size_t size) {
 
 template <typename my_type>
 void my_shaker_stop_sort_temp_storage(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
         int counter = 0;
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
-                MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i]);
+                MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i])
                 ++counter;
             }
         }
@@ -195,9 +195,9 @@ void my_shaker_stop_sort_temp_storage(my_type *arr, size_t size) {
             return;
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
-                MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i]);
+                MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i])
                 ++counter;
             }
         }
@@ -209,12 +209,12 @@ void my_shaker_stop_sort_temp_storage(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_stop_sort_arithmetic(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
         int counter = 0;
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_ARITHMETIC(arr[i - 1], arr[i])
                 ++counter;
@@ -224,7 +224,7 @@ void my_shaker_stop_sort_arithmetic(my_type *arr, size_t size) {
             return;
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_ARITHMETIC(arr[i - 1], arr[i])
                 ++counter;
@@ -241,17 +241,17 @@ void my_shaker_stop_sort_arithmetic(my_type *arr, size_t size) {
 //  my_shaker_sorts  *******************************************
 template <typename my_type>
 void my_shaker_sort_standard_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 std::swap(arr[i - 1], arr[i]);
             }
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 std::swap(arr[i - 1], arr[i]);
             }
@@ -261,17 +261,17 @@ void my_shaker_sort_standard_swap(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_sort_user_storage_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_temp_storage(arr[i - 1], arr[i]);
             }
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_temp_storage(arr[i - 1], arr[i]);
             }
@@ -281,17 +281,17 @@ void my_shaker_sort_user_storage_swap(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_sort_user_arithmetic_swap(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_arithmetic(arr[i - 1], arr[i]);
             }
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 my_swap_arithmetic(arr[i - 1], arr[i]);
             }
@@ -301,17 +301,17 @@ void my_shaker_sort_user_arithmetic_swap(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_sort_temp_storage(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i])
             }
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_TEMP_STORAGE(arr[i - 1], arr[i])
             }
@@ -321,17 +321,17 @@ void my_shaker_sort_temp_storage(my_type *arr, size_t size) {
 }
 template <typename my_type>
 void my_shaker_sort_arithmetic(my_type *arr, size_t size) {
-    int left, right;
+    size_t left, right;
     left = 1;
     right = size - 1;
     while (left <= right) {
-        for (int i = right; i >= left; i--) {
+        for (size_t i = right; i >= left; i--) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_ARITHMETIC(arr[i - 1], arr[i])
             }
         }
         left++;
-        for (int i = left; i <= right; i++) {
+        for (size_t i = left; i <= right; i++) {
             if (arr[i - 1] > arr[i]) {
                 MY_SWAP_ARITHMETIC(arr[i - 1], arr[i])
             }
@@ -356,8 +356,8 @@ void my_timer(my_type *arr, size_t size, void (*function)(my_type*, size_t) , co
 void test_time(){
     size_t size = 50000;
     int arr[size];
-    for(int i = 0, a = size; i < size; i++, a --){
-        arr[i] = a;
+    for(size_t i = 0, a = size; i < size; i++, a --){
+        arr[i] = (int)a;
     }
 
     outArray(arr, size);
@@ -381,8 +381,8 @@ void test_time(){
 
 int main() {
 
-    //test_time();
-//return 0;
+    test_time();
+    std::cout << "Тест закончен .......\n";
 
     size_t size;
     std::cout << "Введите размер массива: ";
@@ -410,51 +410,3 @@ int main() {
 
     return 0;
 }
-
-
-/*
- *
- *
- *
-    auto begin = std::chrono::steady_clock::now();
-   // auto call1 = std::bind(bubble_sort_arithmetic_int, arr, 56);
-    bubble_sort_arithmetic(arr, size);
-    auto end = std::chrono::steady_clock::now();
-
-    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-    std::cout << "The time: " << elapsed_ms.count() << " ns\n";
-
-
-   // FillArray(arr, size);
-
-    auto begin1 = std::chrono::steady_clock::now();
-   // bubble_sort_arithmetic(arr, size);
-    auto end1 = std::chrono::steady_clock::now();
-
-    auto elapsed_ms1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - begin1);
-    std::cout << "The time2: " << elapsed_ms1.count() << " ns\n";
-
- *
- *
-bubble_sort_arithmetic(arr, size);
-outArray(arr, size);
-std::cout << std::endl;
-
-std::cout << std::endl<< std::endl;
-
-FillArray(arr, size);
-outArray(arr, size);
-std::cout << std::endl;
-my_shaker_stop_sort_temp_storage(arr, size);
-outArray(arr, size);
-std::cout << std::endl;
-
-std::cout << std::endl<< std::endl;
-
-FillArray(arr, size);
-outArray(arr, size);
-std::cout << std::endl;
-my_shaker_sort_user_storage_swap(arr, size);
-outArray(arr, size);
-std::cout << std::endl;
-*/
