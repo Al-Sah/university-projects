@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
-project(OPZ)
+project(rpn)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(OPZ main.cpp)
+add_executable(rpn main.cpp)
