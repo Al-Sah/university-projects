@@ -1,6 +1,6 @@
-﻿namespace LabWork1.TaskScheduler
+﻿namespace LabWork1
 {
-    public enum TaskPriority
+    public enum TaskComplexity
     {
         BelowNormal,
         Normal,
