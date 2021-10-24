@@ -26,10 +26,12 @@ namespace LabWork1
             Console.WriteLine(
                 $"Task time: {taskScheduler.GetTaskExecutionTime(taskScheduler.AddTask(tasks[1])).ToString()}");
             var id = taskScheduler.AddTask(tasks[2]);
+
             taskScheduler.AddTask(new UserTask(TaskComplexity.Hard, 30));
             Console.WriteLine($"Tasks time: {taskScheduler.GetTasksExecutionTime().ToString()}");
             taskScheduler.PrintTasks();
             taskScheduler.RemoveTask(id);
+            taskScheduler.RemoveTask("zzz");
 
             taskScheduler.PrintHistory();
             taskScheduler.ClearHistory();

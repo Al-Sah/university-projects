@@ -69,18 +69,33 @@ namespace LabWork1
         public string AddTask(UserTask task)
         {
             var scheduled = new Task(CalcExecutionTime(task), task);
-            HistoryManager.AddLine(scheduled.Id);
-            return TaskManager.AddTask(scheduled);
+            try
+            {
+                TaskManager.AddTask(scheduled);
+                HistoryManager.AddLine(scheduled.Id);
+            }
+            catch (TaskExistsException)
+            {
+                Console.WriteLine($"Task with id {scheduled.Id} exists");
+            }
+
+            return scheduled.Id;
         }
 
         public void RemoveTask(string id)
         {
-            TaskManager.RemoveTask(id);
+            try
+            {
+                TaskManager.RemoveTask(id);
+            }
+            catch (TaskNotFoundException)
+            {
+                Console.WriteLine($"Task {id} not found");
+            }
         }
 
         private static int CalcExecutionTime(UserTask task)
         {
-            int res;
             var time = task.Complexity switch
             {
                 TaskComplexity.Elementary => 10,
@@ -89,15 +104,23 @@ namespace LabWork1
                 TaskComplexity.Hard => 60,
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            res = time / task.TaskWorkers;
+            var res = time / task.TaskWorkers;
             if ((double) time / task.TaskWorkers - res != 0) res++;
             return res;
         }
 
         public int GetTaskExecutionTime(string taskId)
         {
-            return TaskManager.GetTask(taskId).ExecutionTime;
+            try
+            {
+                return TaskManager.GetTask(taskId).ExecutionTime;
+            }
+            catch (TaskNotFoundException)
+            {
+                Console.WriteLine($"Task {taskId} not found");
+            }
+
+            return 0;
         }
 
         public int GetTasksExecutionTime()

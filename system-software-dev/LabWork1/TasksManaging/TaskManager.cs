@@ -30,6 +30,11 @@ namespace LabWork1.TasksManaging
 
         public string AddTask(Task task)
         {
+            if (_tasks.Exists(el => el.Id == task.Id))
+            {
+                throw new TaskExistsException();
+            }
+
             _tasks.Add(task);
             return task.Id;
         }
@@ -44,7 +49,7 @@ namespace LabWork1.TasksManaging
                 }
             }
 
-            throw new KeyNotFoundException();
+            throw new TaskNotFoundException();
         }
 
         public List<Task> GetTasks()
@@ -58,8 +63,10 @@ namespace LabWork1.TasksManaging
             {
                 if (!task.Id.Equals(taskId)) continue;
                 _tasks.Remove(task);
-                break;
+                return;
             }
+
+            throw new TaskNotFoundException();
         }
 
         public int GetTasksNumber()
