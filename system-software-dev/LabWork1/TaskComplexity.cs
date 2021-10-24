@@ -2,11 +2,9 @@
 {
     public enum TaskComplexity
     {
-        BelowNormal,
+        Elementary,
         Normal,
-        AboveNormal,
-
-        HighPriority,
-        RealtimePriority
+        Complicated,
+        Hard,
     }
 }

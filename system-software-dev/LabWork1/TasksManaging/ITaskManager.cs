@@ -1,4 +1,6 @@
-﻿namespace LabWork1.TasksManaging
+﻿using System.Collections.Generic;
+
+namespace LabWork1.TasksManaging
 {
     public interface ITaskManager
     {
@@ -9,6 +11,7 @@
         string AddTask(Task task); // return task id
 
         Task GetTask(string taskId);
+        List<Task> GetTasks();
         void RemoveTask(string taskId);
     }
 }

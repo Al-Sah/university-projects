@@ -21,15 +21,22 @@ namespace LabWork1.HistoryManaging
 
         public void Print()
         {
-            foreach (var str in _history)
+            if (_history.Count == 0)
             {
-                Console.WriteLine(str);
+                Console.WriteLine(" History is empty");
+                return;
+            }
+
+            Console.WriteLine(" History");
+            for (var index = 0; index < _history.Count; index++)
+            {
+                Console.WriteLine($"{index}: {_history[index]}");
             }
         }
 
         public void AddLine(string taskInfo)
         {
-            _history.Add($"[{DateTime.Now.ToString(CultureInfo.CurrentCulture)}] Task: {taskInfo}\n");
+            _history.Add($"[{DateTime.Now.ToString(CultureInfo.CurrentCulture)}] Task: {taskInfo}");
         }
     }
 }

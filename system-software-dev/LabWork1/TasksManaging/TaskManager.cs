@@ -19,10 +19,13 @@ namespace LabWork1.TasksManaging
 
         public void Print()
         {
+            Console.WriteLine("\n Tasks list:");
             foreach (var task in _tasks)
             {
                 Console.WriteLine(task);
             }
+
+            Console.WriteLine();
         }
 
         public string AddTask(Task task)
@@ -33,7 +36,20 @@ namespace LabWork1.TasksManaging
 
         public Task GetTask(string taskId)
         {
-            return null;
+            foreach (var task in _tasks)
+            {
+                if (task.Id.Equals(taskId))
+                {
+                    return task;
+                }
+            }
+
+            throw new KeyNotFoundException();
+        }
+
+        public List<Task> GetTasks()
+        {
+            return _tasks;
         }
 
         public void RemoveTask(string taskId)

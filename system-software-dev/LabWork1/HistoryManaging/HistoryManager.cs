@@ -19,9 +19,9 @@ namespace LabWork1.HistoryManaging
 
         public void Print()
         {
-            foreach (var str in _history)
+            for (var index = 0; index < _history.Count; index++)
             {
-                Console.WriteLine(str);
+                Console.WriteLine($"{index}: {_history[index]}");
             }
         }
 

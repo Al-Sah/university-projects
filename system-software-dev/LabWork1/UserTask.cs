@@ -9,7 +9,7 @@ namespace LabWork1
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return new UserTask(Complexity, TaskWorkers);
         }
 
         public UserTask()

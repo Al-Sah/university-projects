@@ -7,13 +7,19 @@ namespace LabWork1.TasksManaging
         public int ExecutionTime { get; set; }
         public string Id { get; set; }
 
-        public UserTask Clone;
+        private readonly UserTask _clone;
 
         public Task(int time, ICloneable userTask)
         {
             Id = Guid.NewGuid().ToString();
             ExecutionTime = time;
-            Clone = (UserTask) userTask.Clone();
+            _clone = (UserTask) userTask.Clone();
+        }
+
+        public override string ToString()
+        {
+            return
+                $"Task {Id}\n  Time: {ExecutionTime}; Complexity: {_clone.Complexity}, Workers: {_clone.TaskWorkers}";
         }
     }
 }
