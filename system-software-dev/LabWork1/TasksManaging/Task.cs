@@ -18,8 +18,7 @@ namespace LabWork1.TasksManaging
 
         public override string ToString()
         {
-            return
-                $"Task {Id}\n  Time: {ExecutionTime}; Complexity: {_clone.Complexity}, Workers: {_clone.TaskWorkers}";
+            return $"Task {Id}; execution time: {ExecutionTime};\n {_clone}";
         }
     }
 }
