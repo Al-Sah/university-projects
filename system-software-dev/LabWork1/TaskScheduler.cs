@@ -10,7 +10,7 @@ namespace LabWork1
     {
         public IHistoryManager HistoryManager { private get; set; }
         public ITaskManager TaskManager { private get; set; }
-        public int Workers; // TODO add check on AddTask 
+        public readonly int Workers;
 
         public TaskScheduler()
         {
@@ -68,6 +68,12 @@ namespace LabWork1
         // return task id
         public string AddTask(UserTask task)
         {
+            if (!Enumerable.Range(1, Workers).Contains(task.TaskWorkers))
+            {
+                Console.WriteLine($"AddTask error: task workers have to be in range: [1, {Workers.ToString()}]");
+                return "";
+            }
+
             var scheduled = new Task(CalcExecutionTime(task), task);
             try
             {
@@ -76,7 +82,7 @@ namespace LabWork1
             }
             catch (TaskExistsException)
             {
-                Console.WriteLine($"Task with id {scheduled.Id} exists");
+                Console.WriteLine($"Task with id '{scheduled.Id}' exists");
             }
 
             return scheduled.Id;
@@ -90,7 +96,7 @@ namespace LabWork1
             }
             catch (TaskNotFoundException)
             {
-                Console.WriteLine($"Task {id} not found");
+                Console.WriteLine($"Task '{id}' not found");
             }
         }
 
@@ -117,7 +123,7 @@ namespace LabWork1
             }
             catch (TaskNotFoundException)
             {
-                Console.WriteLine($"Task {taskId} not found");
+                Console.WriteLine($"Task '{taskId}' not found");
             }
 
             return 0;

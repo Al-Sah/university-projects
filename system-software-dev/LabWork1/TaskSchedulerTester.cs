@@ -12,10 +12,10 @@ namespace LabWork1
             var tasks = new[]
             {
                 new UserTask(),
-                new UserTask(TaskComplexity.Hard, 10),
-                new UserTask(),
                 new UserTask(TaskComplexity.Elementary, 5),
-                new UserTask(TaskComplexity.Complicated, 2)
+                new UserTask(TaskComplexity.Normal, 0),
+                new UserTask(TaskComplexity.Complicated, 2),
+                new UserTask(TaskComplexity.Hard, 10),
             };
 
             taskScheduler.Execute(tasks);
@@ -25,7 +25,7 @@ namespace LabWork1
             taskScheduler.HistoryManager = new AdvancedHistoryManager();
             Console.WriteLine(
                 $"Task time: {taskScheduler.GetTaskExecutionTime(taskScheduler.AddTask(tasks[1])).ToString()}");
-            var id = taskScheduler.AddTask(tasks[2]);
+            var id = taskScheduler.AddTask(tasks[3]);
 
             taskScheduler.AddTask(new UserTask(TaskComplexity.Hard, 30));
             Console.WriteLine($"Tasks time: {taskScheduler.GetTasksExecutionTime().ToString()}");
