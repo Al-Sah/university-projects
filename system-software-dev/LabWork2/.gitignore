@@ -1,0 +1,8 @@
+﻿
+.idea
+bin/
+obj/
+.vs
+
+*.user
+*.resx
