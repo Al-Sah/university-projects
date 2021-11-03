@@ -59,6 +59,15 @@ namespace LabWork2
             return seaport;
         }
 
+        public static Seaport operator --(Seaport seaport)
+        {
+            if (seaport._docks.Count == 0) return seaport;
+
+            seaport._docks.RemoveAt(seaport._docks.Count - 1);
+            seaport.UpdateDocksState();
+            return seaport;
+        }
+
 
         private void UpdateDocksState()
         {
@@ -86,6 +95,8 @@ namespace LabWork2
         public static bool operator <=(Seaport seaport1, Seaport seaport2) =>
             seaport1._functioningDocks <= seaport2._functioningDocks;
 
+        public static ushort GetDockEquipmentAmount() => DockEquipment;
+        public static ushort GetDockWorkers() => DockEquipment;
         public int GetDocksNumber() => _docks.Count;
         public int GetWorkers() => _workersNumber;
         public int GetFunctioningDocks() => _functioningDocks;
