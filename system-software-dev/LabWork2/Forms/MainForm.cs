@@ -13,6 +13,10 @@ namespace LabWork2.Forms
         private readonly HireWorkerDialog _hireDialog;
         private readonly FireWorkerDialog _fireDialog;
 
+        private readonly PortManagementDialog _portManagementDialog;
+
+        private const string ErrorCaption = "Ups ... ";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +38,27 @@ namespace LabWork2.Forms
             _hireDialog.Owner = this;
             _fireDialog = new FireWorkerDialog();
             _fireDialog.Owner = this;
+            _portManagementDialog = new PortManagementDialog();
+            _portManagementDialog.Owner = this;
+        }
+
+        public bool AddNewPort(Seaport seaport)
+        {
+            if (_seaports.Find(i => i.Name == seaport.Name) != null)
+                return false;
+
+            _seaports.Add(seaport);
+            PortsList.SelectedItem = PortsList.Items[PortsList.Items.Add(seaport.Name)];
+            return true;
+        }
+
+        public bool DeletePort(Seaport seaport)
+        {
+            if (_seaports.Count <= 1 || !_seaports.Remove(seaport)) return false;
+            PortsList.Items.Remove(seaport.Name);
+            PortsList.SelectedItem = PortsList.Items[0];
+            ActiveSeaport = _seaports[0];
+            return true;
         }
 
         private void HireWorkerBtn_Click(object sender, EventArgs e)
@@ -49,12 +74,16 @@ namespace LabWork2.Forms
         private void DecBtn_Click(object sender, EventArgs e)
         {
             ActiveSeaport++;
+            /*var count = ActiveSeaport.GetDocksNumber();
+            DocksView.Rows.Add(count.ToString(), ActiveSeaport.GetDockAt(count-1).State.ToString());*/
+            UpdateDocksViewer();
             UpdateLabels();
         }
 
         private void IncBtn_Click(object sender, EventArgs e)
         {
             ActiveSeaport--;
+            UpdateDocksViewer();
             UpdateLabels();
         }
 
@@ -70,7 +99,7 @@ namespace LabWork2.Forms
             else
             {
                 MessageBox.Show(
-                    $"Input value is not a number: '{IncomeTextBox.Text}", "Ups ... ",
+                    $"Input value is not a number: '{IncomeTextBox.Text}", ErrorCaption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -89,7 +118,7 @@ namespace LabWork2.Forms
             else
             {
                 MessageBox.Show(
-                    $"Input value is not a number: '{IncomeTextBox.Text}'", "Ups ...",
+                    $"Input value is not a number: '{IncomeTextBox.Text}'", ErrorCaption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -115,7 +144,51 @@ namespace LabWork2.Forms
         {
             var comboBox = (ComboBox) sender;
             ActiveSeaport = _seaports.Find(seaport => seaport.Name == (string) comboBox.SelectedItem);
+            UpdateDocksViewer();
             UpdateLabels();
+        }
+
+
+        private void CreatePort_Click(object sender, EventArgs e)
+        {
+            _portManagementDialog.IsCreation = true;
+            _portManagementDialog.ShowDialog();
+        }
+
+        private void ConfigBtn_Click(object sender, EventArgs e)
+        {
+            _portManagementDialog.IsCreation = false;
+            _portManagementDialog.ShowDialog();
+        }
+
+        private void DeletePortBtn_Click(object sender, EventArgs e) => DeletePort(ActiveSeaport);
+
+        private void CopyPort_Click(object sender, EventArgs e)
+        {
+            var newPort = new Seaport(ActiveSeaport);
+            newPort.Name += "(Clone)";
+            if (AddNewPort(newPort))
+            {
+                MessageBox.Show(
+                    $" Port {newPort.Name} created", "Info",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(
+                    $"Failed to add port. {newPort.Name} exists!", ErrorCaption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        public void UpdateDocksViewer()
+        {
+            DocksView.Rows.Clear();
+            for (var i = 1; i < ActiveSeaport.GetDocksNumber() + 1; i++)
+            {
+                DocksView.Rows.Add(i.ToString(), ActiveSeaport.GetDockAt(i - 1).State.ToString());
+            }
         }
     }
 }

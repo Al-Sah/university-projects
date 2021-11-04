@@ -15,6 +15,7 @@ namespace LabWork2.Forms
             {
                 ((MainWindow) Owner).ActiveSeaport.FireWorker((ushort) res);
                 WorkersNumberValue.Text = ((MainWindow) Owner).ActiveSeaport.GetWorkers().ToString();
+                ((MainWindow) Owner).UpdateDocksViewer();
                 ((MainWindow) Owner).UpdateLabels();
             }
             else

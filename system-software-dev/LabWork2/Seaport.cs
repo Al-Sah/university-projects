@@ -99,6 +99,8 @@ namespace LabWork2
 
         public static ushort GetDockEquipmentAmount() => DockEquipment;
         public static ushort GetDockWorkers() => DockEquipment;
+
+        public Dock GetDockAt(int index) => _docks[index];
         public int GetDocksNumber() => _docks.Count;
         public int GetWorkers() => _workersNumber;
         public int GetFunctioningDocks() => _functioningDocks;
