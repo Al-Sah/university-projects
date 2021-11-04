@@ -1,6 +1,6 @@
 ﻿namespace LabWork2
 {
-    class Dock
+    public class Dock
     {
         public DockState State { get; set; }
 

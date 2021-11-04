@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LabWork2
 {
-    class Seaport : IEqualityComparer<Dock>
+    public class Seaport : IEqualityComparer<Dock>
     {
         public string Address { get; set; }
         public string Name { get; set; }
@@ -56,6 +56,7 @@ namespace LabWork2
         public static Seaport operator ++(Seaport seaport)
         {
             seaport._docks.Add(new Dock());
+            seaport.UpdateDocksState();
             return seaport;
         }
 
@@ -87,6 +88,7 @@ namespace LabWork2
         {
             _workersNumber -= workers;
             if (_workersNumber < 0) _workersNumber = 0;
+            UpdateDocksState();
         }
 
         public static bool operator >=(Seaport seaport1, Seaport seaport2) =>

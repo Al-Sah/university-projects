@@ -44,8 +44,8 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.IncBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.DocksLabelValue = new System.Windows.Forms.Label();
             this.DecBtn = new System.Windows.Forms.Button();
+            this.DocksLabelValue = new System.Windows.Forms.Label();
             this.ServiceTimeLabelValue = new System.Windows.Forms.Label();
             this.ServicePriceLabel = new System.Windows.Forms.Label();
             this.ServicePriceLabelValue = new System.Windows.Forms.Label();
@@ -55,8 +55,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.FireWorkersBtn = new System.Windows.Forms.Button();
             this.WorkersLabel = new System.Windows.Forms.Label();
-            this.WorkersLabelValue = new System.Windows.Forms.Label();
             this.HireWorkerBtn = new System.Windows.Forms.Button();
+            this.WorkersLabelValue = new System.Windows.Forms.Label();
             this.EqNumberLabelValue = new System.Windows.Forms.Label();
             this.EquipmentLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -90,7 +90,7 @@
             this.PortInfoBox.Controls.Add(this.NameLabelValue);
             this.PortInfoBox.Controls.Add(this.AddressLabel);
             this.PortInfoBox.Controls.Add(this.NameLabel);
-            this.PortInfoBox.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.PortInfoBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.PortInfoBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.PortInfoBox.Location = new System.Drawing.Point(359, 104);
             this.PortInfoBox.Margin = new System.Windows.Forms.Padding(4);
@@ -189,7 +189,7 @@
             this.groupBox1.Controls.Add(this.tableLayoutPanel2);
             this.groupBox1.Controls.Add(this.EqNumberLabelValue);
             this.groupBox1.Controls.Add(this.EquipmentLabel);
-            this.groupBox1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.groupBox1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.Location = new System.Drawing.Point(359, 238);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
@@ -237,7 +237,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.26829F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.73171F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tableLayoutPanel3.Controls.Add(this.IncBtn, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.DecBtn, 2, 0);
@@ -251,7 +251,7 @@
             // 
             // IncBtn
             // 
-            this.IncBtn.Location = new System.Drawing.Point(273, 3);
+            this.IncBtn.Location = new System.Drawing.Point(272, 3);
             this.IncBtn.Name = "IncBtn";
             this.IncBtn.Size = new System.Drawing.Size(113, 27);
             this.IncBtn.TabIndex = 4;
@@ -270,6 +270,16 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Docks";
             // 
+            // DecBtn
+            // 
+            this.DecBtn.Location = new System.Drawing.Point(149, 3);
+            this.DecBtn.Name = "DecBtn";
+            this.DecBtn.Size = new System.Drawing.Size(109, 27);
+            this.DecBtn.TabIndex = 5;
+            this.DecBtn.Text = "Dec";
+            this.DecBtn.UseVisualStyleBackColor = true;
+            this.DecBtn.Click += new System.EventHandler(this.DecBtn_Click);
+            // 
             // DocksLabelValue
             // 
             this.DocksLabelValue.AutoSize = true;
@@ -280,16 +290,6 @@
             this.DocksLabelValue.Size = new System.Drawing.Size(27, 21);
             this.DocksLabelValue.TabIndex = 3;
             this.DocksLabelValue.Text = ". . .";
-            // 
-            // DecBtn
-            // 
-            this.DecBtn.Location = new System.Drawing.Point(150, 3);
-            this.DecBtn.Name = "DecBtn";
-            this.DecBtn.Size = new System.Drawing.Size(109, 27);
-            this.DecBtn.TabIndex = 5;
-            this.DecBtn.Text = "Dec";
-            this.DecBtn.UseVisualStyleBackColor = true;
-            this.DecBtn.Click += new System.EventHandler(this.DecBtn_Click);
             // 
             // ServiceTimeLabelValue
             // 
@@ -363,7 +363,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.26829F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.73171F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tableLayoutPanel2.Controls.Add(this.FireWorkersBtn, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.WorkersLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.HireWorkerBtn, 2, 0);
@@ -377,7 +377,7 @@
             // 
             // FireWorkersBtn
             // 
-            this.FireWorkersBtn.Location = new System.Drawing.Point(273, 3);
+            this.FireWorkersBtn.Location = new System.Drawing.Point(272, 3);
             this.FireWorkersBtn.Name = "FireWorkersBtn";
             this.FireWorkersBtn.Size = new System.Drawing.Size(113, 27);
             this.FireWorkersBtn.TabIndex = 4;
@@ -396,6 +396,16 @@
             this.WorkersLabel.TabIndex = 1;
             this.WorkersLabel.Text = "Workers";
             // 
+            // HireWorkerBtn
+            // 
+            this.HireWorkerBtn.Location = new System.Drawing.Point(149, 3);
+            this.HireWorkerBtn.Name = "HireWorkerBtn";
+            this.HireWorkerBtn.Size = new System.Drawing.Size(109, 27);
+            this.HireWorkerBtn.TabIndex = 5;
+            this.HireWorkerBtn.Text = "Hire";
+            this.HireWorkerBtn.UseVisualStyleBackColor = true;
+            this.HireWorkerBtn.Click += new System.EventHandler(this.HireWorkerBtn_Click);
+            // 
             // WorkersLabelValue
             // 
             this.WorkersLabelValue.AutoSize = true;
@@ -406,16 +416,6 @@
             this.WorkersLabelValue.Size = new System.Drawing.Size(27, 21);
             this.WorkersLabelValue.TabIndex = 3;
             this.WorkersLabelValue.Text = ". . .";
-            // 
-            // HireWorkerBtn
-            // 
-            this.HireWorkerBtn.Location = new System.Drawing.Point(150, 3);
-            this.HireWorkerBtn.Name = "HireWorkerBtn";
-            this.HireWorkerBtn.Size = new System.Drawing.Size(109, 27);
-            this.HireWorkerBtn.TabIndex = 5;
-            this.HireWorkerBtn.Text = "Hire";
-            this.HireWorkerBtn.UseVisualStyleBackColor = true;
-            this.HireWorkerBtn.Click += new System.EventHandler(this.HireWorkerBtn_Click);
             // 
             // EqNumberLabelValue
             // 

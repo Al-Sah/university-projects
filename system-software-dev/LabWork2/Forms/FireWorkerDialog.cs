@@ -8,5 +8,27 @@ namespace LabWork2.Forms
         {
             InitializeComponent();
         }
+
+        private void FireBtn_Click(object sender, System.EventArgs e)
+        {
+            if (int.TryParse(InputBox.Text, out var res))
+            {
+                ((MainWindow) Owner).ActiveSeaport.FireWorker((ushort) res);
+                WorkersNumberValue.Text = ((MainWindow) Owner).ActiveSeaport.GetWorkers().ToString();
+                ((MainWindow) Owner).UpdateLabels();
+            }
+            else
+            {
+                MessageBox.Show(
+                    $"Input value is not a number: '{InputBox.Text}", "Ups ... ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void FireWorkerDialog_Load(object sender, System.EventArgs e)
+        {
+            WorkersNumberValue.Text = ((MainWindow) Owner).ActiveSeaport.GetWorkers().ToString();
+        }
     }
 }

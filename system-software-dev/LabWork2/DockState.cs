@@ -1,6 +1,6 @@
 ﻿namespace LabWork2
 {
-    enum DockState
+    public enum DockState
     {
         Functioning,
         WorkersNeeded
