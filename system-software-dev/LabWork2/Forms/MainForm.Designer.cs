@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PortInfoBox = new System.Windows.Forms.GroupBox();
             this.AddressLabelValue = new System.Windows.Forms.Label();
             this.NameLabelValue = new System.Windows.Forms.Label();
@@ -71,10 +71,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.CmpPortsBtn = new System.Windows.Forms.Button();
             this.DocksView = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.PortInfoBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -239,10 +239,10 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.26829F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.73171F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
             this.tableLayoutPanel3.Controls.Add(this.IncBtn, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.DecBtn, 2, 0);
@@ -256,7 +256,7 @@
             // 
             // IncBtn
             // 
-            this.IncBtn.Location = new System.Drawing.Point(264, 3);
+            this.IncBtn.Location = new System.Drawing.Point(262, 3);
             this.IncBtn.Name = "IncBtn";
             this.IncBtn.Size = new System.Drawing.Size(113, 27);
             this.IncBtn.TabIndex = 4;
@@ -277,7 +277,7 @@
             // 
             // DecBtn
             // 
-            this.DecBtn.Location = new System.Drawing.Point(141, 3);
+            this.DecBtn.Location = new System.Drawing.Point(139, 3);
             this.DecBtn.Name = "DecBtn";
             this.DecBtn.Size = new System.Drawing.Size(109, 27);
             this.DecBtn.TabIndex = 5;
@@ -289,7 +289,7 @@
             // 
             this.DocksLabelValue.AutoSize = true;
             this.DocksLabelValue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DocksLabelValue.Location = new System.Drawing.Point(68, 5);
+            this.DocksLabelValue.Location = new System.Drawing.Point(85, 5);
             this.DocksLabelValue.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.DocksLabelValue.Name = "DocksLabelValue";
             this.DocksLabelValue.Size = new System.Drawing.Size(27, 21);
@@ -365,10 +365,10 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.26829F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.73171F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
             this.tableLayoutPanel2.Controls.Add(this.FireWorkersBtn, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.WorkersLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.HireWorkerBtn, 2, 0);
@@ -382,7 +382,7 @@
             // 
             // FireWorkersBtn
             // 
-            this.FireWorkersBtn.Location = new System.Drawing.Point(264, 3);
+            this.FireWorkersBtn.Location = new System.Drawing.Point(262, 3);
             this.FireWorkersBtn.Name = "FireWorkersBtn";
             this.FireWorkersBtn.Size = new System.Drawing.Size(113, 27);
             this.FireWorkersBtn.TabIndex = 4;
@@ -397,13 +397,13 @@
             this.WorkersLabel.Location = new System.Drawing.Point(4, 4);
             this.WorkersLabel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 0);
             this.WorkersLabel.Name = "WorkersLabel";
-            this.WorkersLabel.Size = new System.Drawing.Size(55, 29);
+            this.WorkersLabel.Size = new System.Drawing.Size(68, 21);
             this.WorkersLabel.TabIndex = 1;
             this.WorkersLabel.Text = "Workers";
             // 
             // HireWorkerBtn
             // 
-            this.HireWorkerBtn.Location = new System.Drawing.Point(141, 3);
+            this.HireWorkerBtn.Location = new System.Drawing.Point(139, 3);
             this.HireWorkerBtn.Name = "HireWorkerBtn";
             this.HireWorkerBtn.Size = new System.Drawing.Size(109, 27);
             this.HireWorkerBtn.TabIndex = 5;
@@ -415,7 +415,7 @@
             // 
             this.WorkersLabelValue.AutoSize = true;
             this.WorkersLabelValue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.WorkersLabelValue.Location = new System.Drawing.Point(68, 5);
+            this.WorkersLabelValue.Location = new System.Drawing.Point(85, 5);
             this.WorkersLabelValue.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.WorkersLabelValue.Name = "WorkersLabelValue";
             this.WorkersLabelValue.Size = new System.Drawing.Size(27, 21);
@@ -555,6 +555,7 @@
             this.CmpPortsBtn.TabIndex = 19;
             this.CmpPortsBtn.Text = "Compare ports";
             this.CmpPortsBtn.UseVisualStyleBackColor = true;
+            this.CmpPortsBtn.Click += new System.EventHandler(this.CmpPortsBtn_Click);
             // 
             // DocksView
             // 
@@ -570,6 +571,26 @@
             this.DocksView.RowTemplate.Height = 25;
             this.DocksView.Size = new System.Drawing.Size(233, 531);
             this.DocksView.TabIndex = 20;
+            // 
+            // Id
+            // 
+            this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Width = 48;
+            // 
+            // State
+            // 
+            this.State.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.NullValue = "...";
+            this.State.DefaultCellStyle = dataGridViewCellStyle1;
+            this.State.FillWeight = 10F;
+            this.State.HeaderText = "State";
+            this.State.Name = "State";
+            this.State.ReadOnly = true;
+            this.State.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // label10
             // 
@@ -590,26 +611,6 @@
             this.label2.Size = new System.Drawing.Size(101, 24);
             this.label2.TabIndex = 22;
             this.label2.Text = "Select Port";
-            // 
-            // Id
-            // 
-            this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Width = 48;
-            // 
-            // State
-            // 
-            this.State.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.NullValue = "...";
-            this.State.DefaultCellStyle = dataGridViewCellStyle2;
-            this.State.FillWeight = 10F;
-            this.State.HeaderText = "State";
-            this.State.Name = "State";
-            this.State.ReadOnly = true;
-            this.State.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // MainWindow
             // 

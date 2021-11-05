@@ -7,13 +7,14 @@ namespace LabWork2.Forms
 {
     public partial class MainWindow : Form
     {
-        private readonly List<Seaport> _seaports;
+        public readonly List<Seaport> Seaports;
         public Seaport ActiveSeaport { get; set; }
 
         private readonly HireWorkerDialog _hireDialog;
         private readonly FireWorkerDialog _fireDialog;
 
         private readonly PortManagementDialog _portManagementDialog;
+        private readonly PortsComparatorDialog _portsComparatorDialog;
 
         private const string ErrorCaption = "Ups ... ";
 
@@ -21,13 +22,13 @@ namespace LabWork2.Forms
         {
             InitializeComponent();
 
-            _seaports = new List<Seaport>();
-            _seaports.AddRange(new[]
+            Seaports = new List<Seaport>();
+            Seaports.AddRange(new[]
             {
                 new Seaport("1", "Example1", 100, 100, 100),
                 new Seaport("2", "Example2", 100, 100, 100)
             });
-            foreach (var item in _seaports)
+            foreach (var item in Seaports)
             {
                 PortsList.Items.Add(item.Name);
             }
@@ -40,24 +41,26 @@ namespace LabWork2.Forms
             _fireDialog.Owner = this;
             _portManagementDialog = new PortManagementDialog();
             _portManagementDialog.Owner = this;
+            _portsComparatorDialog = new PortsComparatorDialog();
+            _portsComparatorDialog.Owner = this;
         }
 
         public bool AddNewPort(Seaport seaport)
         {
-            if (_seaports.Find(i => i.Name == seaport.Name) != null)
+            if (Seaports.Find(i => i.Name == seaport.Name) != null)
                 return false;
 
-            _seaports.Add(seaport);
+            Seaports.Add(seaport);
             PortsList.SelectedItem = PortsList.Items[PortsList.Items.Add(seaport.Name)];
             return true;
         }
 
         public bool DeletePort(Seaport seaport)
         {
-            if (_seaports.Count <= 1 || !_seaports.Remove(seaport)) return false;
+            if (Seaports.Count <= 1 || !Seaports.Remove(seaport)) return false;
             PortsList.Items.Remove(seaport.Name);
             PortsList.SelectedItem = PortsList.Items[0];
-            ActiveSeaport = _seaports[0];
+            ActiveSeaport = Seaports[0];
             return true;
         }
 
@@ -133,17 +136,17 @@ namespace LabWork2.Forms
             ServiceTimeLabelValue.Text = ActiveSeaport.ShipServiceTime.ToString();
 
             EqPriceValue.Text = ActiveSeaport.EquipmentPrice.ToString(CultureInfo.CurrentCulture);
-            EqNumberLabelValue.Text = (ActiveSeaport.GetDocksNumber() * Seaport.GetDockEquipmentAmount()).ToString();
+            EqNumberLabelValue.Text = (ActiveSeaport.Docks.Count * Seaport.GetDockEquipmentAmount()).ToString();
 
             WorkersLabelValue.Text = ActiveSeaport.GetWorkers().ToString();
-            DocksLabelValue.Text = ActiveSeaport.GetDocksNumber().ToString();
+            DocksLabelValue.Text = ActiveSeaport.Docks.Count.ToString();
             FunctioningDocksLabelValue.Text = ActiveSeaport.GetFunctioningDocks().ToString();
         }
 
         private void PortsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var comboBox = (ComboBox) sender;
-            ActiveSeaport = _seaports.Find(seaport => seaport.Name == (string) comboBox.SelectedItem);
+            ActiveSeaport = Seaports.Find(seaport => seaport.Name == (string) comboBox.SelectedItem);
             UpdateDocksViewer();
             UpdateLabels();
         }
@@ -185,10 +188,12 @@ namespace LabWork2.Forms
         public void UpdateDocksViewer()
         {
             DocksView.Rows.Clear();
-            for (var i = 1; i < ActiveSeaport.GetDocksNumber() + 1; i++)
+            for (var i = 1; i < ActiveSeaport.Docks.Count + 1; i++)
             {
-                DocksView.Rows.Add(i.ToString(), ActiveSeaport.GetDockAt(i - 1).State.ToString());
+                DocksView.Rows.Add(i.ToString(), ActiveSeaport.Docks[i - 1].State.ToString());
             }
         }
+
+        private void CmpPortsBtn_Click(object sender, EventArgs e) => _portsComparatorDialog.ShowDialog();
     }
 }

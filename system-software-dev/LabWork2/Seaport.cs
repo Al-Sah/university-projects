@@ -18,9 +18,8 @@ namespace LabWork2
         public int ShipServiceTime { get; set; }
         public int ShipServicePrice { get; set; }
 
-        private readonly List<Dock> _docks;
+        public readonly List<Dock> Docks;
         private int _functioningDocks;
-
 
         public Seaport(string address, string name, int serviceTime, int servicePrice, int equipmentPrice)
         {
@@ -29,8 +28,8 @@ namespace LabWork2
             ShipServiceTime = serviceTime;
             ShipServicePrice = servicePrice;
             EquipmentPrice = equipmentPrice;
-            _docks = new List<Dock>();
-            _docks.Add(new Dock());
+            Docks = new List<Dock>();
+            Docks.Add(new Dock());
         }
 
         public Seaport(Seaport obj)
@@ -41,10 +40,10 @@ namespace LabWork2
             ShipServicePrice = obj.ShipServicePrice;
 
             _workersNumber = obj.GetWorkers();
-            _docks = new List<Dock>();
-            foreach (var dock in obj._docks)
+            Docks = new List<Dock>();
+            foreach (var dock in obj.Docks)
             {
-                _docks.Add(new Dock(dock));
+                Docks.Add(new Dock(dock));
             }
 
             _functioningDocks = obj.GetFunctioningDocks();
@@ -55,16 +54,16 @@ namespace LabWork2
 
         public static Seaport operator ++(Seaport seaport)
         {
-            seaport._docks.Add(new Dock());
+            seaport.Docks.Add(new Dock());
             seaport.UpdateDocksState();
             return seaport;
         }
 
         public static Seaport operator --(Seaport seaport)
         {
-            if (seaport._docks.Count == 0) return seaport;
+            if (seaport.Docks.Count == 0) return seaport;
 
-            seaport._docks.RemoveAt(seaport._docks.Count - 1);
+            seaport.Docks.RemoveAt(seaport.Docks.Count - 1);
             seaport.UpdateDocksState();
             return seaport;
         }
@@ -72,9 +71,9 @@ namespace LabWork2
 
         private void UpdateDocksState()
         {
-            int count = _workersNumber / DockWorkers > _docks.Count ? _docks.Count : _workersNumber / DockWorkers;
-            for (int i = 0; i < count; i++) _docks[i].State = DockState.Functioning;
-            for (int i = count; i < _docks.Count; i++) _docks[i].State = DockState.WorkersNeeded;
+            int count = _workersNumber / DockWorkers > Docks.Count ? Docks.Count : _workersNumber / DockWorkers;
+            for (int i = 0; i < count; i++) Docks[i].State = DockState.Functioning;
+            for (int i = count; i < Docks.Count; i++) Docks[i].State = DockState.WorkersNeeded;
             _functioningDocks = count;
         }
 
@@ -100,11 +99,8 @@ namespace LabWork2
         public static ushort GetDockEquipmentAmount() => DockEquipment;
         public static ushort GetDockWorkers() => DockEquipment;
 
-        public Dock GetDockAt(int index) => _docks[index];
-        public int GetDocksNumber() => _docks.Count;
         public int GetWorkers() => _workersNumber;
         public int GetFunctioningDocks() => _functioningDocks;
-        public int GetEquipmentNumber() => _docks.Count * DockEquipment;
 
         public bool Equals(Dock x, Dock y) => x.GetHashCode() == y.GetHashCode();
         public int GetHashCode([DisallowNull] Dock obj) => obj.GetHashCode();
