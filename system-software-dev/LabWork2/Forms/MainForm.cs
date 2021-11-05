@@ -76,16 +76,14 @@ namespace LabWork2.Forms
 
         private void DecBtn_Click(object sender, EventArgs e)
         {
-            ActiveSeaport++;
-            /*var count = ActiveSeaport.GetDocksNumber();
-            DocksView.Rows.Add(count.ToString(), ActiveSeaport.GetDockAt(count-1).State.ToString());*/
+            ActiveSeaport--;
             UpdateDocksViewer();
             UpdateLabels();
         }
 
         private void IncBtn_Click(object sender, EventArgs e)
         {
-            ActiveSeaport--;
+            ActiveSeaport++;
             UpdateDocksViewer();
             UpdateLabels();
         }
