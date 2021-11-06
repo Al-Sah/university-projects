@@ -1,0 +1,132 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>The best</title>
+</head>
+<body >
+
+  <h1>Лабораторна робота 1</h1>
+  <h2> Вариант 3</h2>
+
+  <div>
+    <h3>Оформленный текст</h3>
+    <p> <b><i>E</i></b>=<b><i>mc<sup>2</sup></i></b>, где <b>E</b> - энергия объекта,
+      <b>m</b> - его масса, <b>с</b> - скорость света в вакууме, равная 299 792 458 <i>м/с</i>.
+    </p>
+  </div>
+
+  <div>
+    <h3>Выпадающий список студентов</h3>
+    <label>
+      <select>
+        <option>Студент 1</option>
+        <option>Студент 2</option>
+        <option>Студент 3</option>
+        <option>Студент 4</option>
+        <option>Студент 5</option>
+      </select>
+    </label>
+  </div>
+
+
+  <div>
+    <h3>Таблица с данными оглавления</h3>
+    <table>
+      <tr>
+        <td>Введение</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Глава 1: Как выжить первокурснику? </td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Глава 2: Как пережить первую сессию? </td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Глава 3: Что делать когда тебя собираются отчислить? </td>
+        <td>24</td>
+      </tr>
+      <tr>
+        <td>Глава 4: Что делать когда тебя всё-таки отчислили? </td>
+        <td>37</td>
+      </tr>
+      <tr>
+        <td>Заключение </td>
+        <td>37</td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <h3>Форма для ввода информации о студенте.</h3>
+  <form action="#" method="post">
+    <div>
+      <table>
+        <tr>
+          <th>Параметр</th>
+          <th>Значение</th>
+        </tr>
+        <tr>
+          <td><label for="first-name">Имя</label></td>
+          <td><input type="text" name="first-name" id="first-name"></td>
+        </tr>
+        <tr>
+          <td><label for="in-last-name">Фамилия</label></td>
+          <td><input type="text" name="last-name" id="in-last-name"></td>
+        </tr>
+        <tr>
+          <td><label for="in-patronymic">Отчество</label></td>
+          <td><input type="text" name="patronymic" id="in-patronymic"></td>
+        </tr>
+        <tr>
+          <td><label for="in-tel-number">Номер телефона</label></td>
+          <td><input type="tel" name="tel-number" id="in-tel-number"> </td>
+        </tr>
+      </table>
+    </div>
+
+    <br> <br>
+
+    <table>
+      <tr>
+        <td><label for="in-university">Ваш университет</label></td>
+        <td><input type="text" name="university-name" value="ХНУРЕ" id="in-university"></td>
+      </tr>
+      <tr>
+        <td>Выберите ваш курс</td>
+        <td>
+            <p><input checked type="radio" name="year-of-study" value="1">Первый</p>
+            <p><input type="radio" name="year-of-study" value="2"> Второй</p>
+            <p><input type="radio" name="year-of-study" value="3"> Третий</p>
+            <p><input type="radio" name="year-of-study" value="4"> Четвёртый</p>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="in-speciality">Ваша специальность <br>(направление)</label></td>
+        <td><input type="text" name="speciality" value="Компьютерная инженерия" id="in-speciality"> </td>
+      </tr>
+    </table>
+
+    <div>
+      <p>
+        Файл, подтверждающий, что вы являетесь студентом указанного университета <br>
+        (Ваш студенческий)
+      </p>
+      <p><input type="file" name="file" ></p>
+    </div>
+
+    <p><input type="submit" value="Отправить"></p>
+  </form>
+
+
+
+  <h3>Относительные гиперссылки</h3>
+  <p><b>Относительная гиперссылка,</b> ведущая к <a href="page2.html#section1"> секции 1</a></p>
+  <p><b>Относительная гиперссылка,</b> ведущая к <a href="page2.html#section2"> секции 2</a></p>
+
+</body>
