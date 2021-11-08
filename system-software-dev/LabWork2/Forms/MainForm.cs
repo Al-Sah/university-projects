@@ -111,7 +111,7 @@ namespace LabWork2.Forms
             if (Int32.TryParse(IncomeTextBox.Text, out int res))
             {
                 MessageBox.Show(
-                    $"Calculated service time: {ActiveSeaport.ShipServiceTime * res}\nValue represented in days",
+                    $"Calculated service time: {ActiveSeaport.CalcServiceTime(res)}\nValue represented in days",
                     "Result",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);

@@ -50,7 +50,7 @@ namespace LabWork2
         }
 
 
-        public double CalcIncome(int ships) => ShipServicePrice * ships;
+        public double CalcIncome(int ships) => (ShipServicePrice - EquipmentPrice) * ships;
 
         public static Seaport operator ++(Seaport seaport)
         {
