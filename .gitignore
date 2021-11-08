@@ -7,26 +7,29 @@
 *.code-workspace
 
 # Local History for Visual Studio Code
-.history/
+*.history/
 # User-specific stuff
-.idea/*
+*.idea*
 
 # CMake
-cmake-build-*/
+*cmake-build-*/
 
 # File-based project format
 *.iws
 
 # IntelliJ
-out/
+*out/
 
 # mpeltonen/sbt-idea plugin
-.idea_modules/
+*.idea_modules/
 
 # Visual Studio 2015/2017 cache/options directory
-.vs/
+*.vs/
+*.user
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
+*bin/
+*obj/
 
 # Visual Studio 2017 auto generated files
-Generated\ Files/
+*Generated\ Files/
