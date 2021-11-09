@@ -84,6 +84,7 @@
     <Compile Include="Core\MemoryInformation.cs" />
     <Compile Include="Core\ProcessInfo.cs" />
     <Compile Include="Core\ProcessorInformation.cs" />
+    <Compile Include="Forms\DataMapper.cs" />
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

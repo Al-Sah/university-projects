@@ -6,14 +6,11 @@ namespace LabWork3.Core
 {
     public class ProcessInfo
     {
-
-        public string Description { get; set; }
         public string Priority { get; set; }
         public string Name { get; set; }
         public string ProcessorAffinity { get; set; }
         public string Memory { get; set; }
         public string Path { get; set; }
-        
         public int Pid { get; set; }
 
         private Process _process;
@@ -26,7 +23,6 @@ namespace LabWork3.Core
         public void GetData(Process process)
         {
             _process = process;
-            Description = string.Empty;
 
             try
             {
@@ -49,7 +45,7 @@ namespace LabWork3.Core
             Memory = _process.WorkingSet64.ToString();
             Name = _process.ProcessName;
             Pid = _process.Id;
-            
+
             try
             {
                 Priority = _process.PriorityClass.ToString();
@@ -59,7 +55,6 @@ namespace LabWork3.Core
                 Debug.WriteLine(_process + "  " + e.Message);
                 Priority = "ERROR";
             }
-
             try
             {
                 ProcessorAffinity = _process.ProcessorAffinity.ToString();
@@ -69,7 +64,7 @@ namespace LabWork3.Core
                 Debug.WriteLine(_process + "  " + e.Message);
                 ProcessorAffinity = "ERROR";
             }
-            
+
         }
     }
 }

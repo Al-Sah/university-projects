@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LabWork3.Core
 {
@@ -12,12 +13,24 @@ namespace LabWork3.Core
             Computers = new Dictionary<string, Computer> { {current.Name, current} };
         }
 
-        public void AddComputer()
+        public Computer AddComputer()
         {
-            if (Computers.Count != 0) return;
+            // TODO
+            if (Computers.Count != 0)
+                foreach(var pair in Computers) return pair.Value;
+            
             var current = new Computer();
             Computers.Add(current.Name, current);
+            return current;
         }
-        public void DeleteComputer() => Computers.Clear();
+
+        public bool DeleteComputer(Computer computer)
+        {
+            var item = Computers.First(kvp => kvp.Value == computer);
+            return Computers.Remove(item.Key);
+        }
+
+        public Computer Get(string name) => Computers[name];
+        
     }
 }

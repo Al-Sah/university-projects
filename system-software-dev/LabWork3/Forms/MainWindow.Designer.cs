@@ -51,21 +51,20 @@ namespace LabWork3.Forms
             this.DeleteProcessBtn = new System.Windows.Forms.Button();
             this.AddProcessBtn = new System.Windows.Forms.Button();
             this.ModifyProcessBtn = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ProcessesGridView = new System.Windows.Forms.DataGridView();
             this.Process = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainLayoutPanel.SuspendLayout();
             this.ComutersControlBasePanel.SuspendLayout();
             this.ComputersControlPanel.SuspendLayout();
             this.ListPanel.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.ProcessControlPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ProcessesGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // MainLayoutPanel
@@ -75,7 +74,7 @@ namespace LabWork3.Forms
             this.MainLayoutPanel.Controls.Add(this.ComutersControlBasePanel, 0, 0);
             this.MainLayoutPanel.Controls.Add(this.StatusStrip, 0, 3);
             this.MainLayoutPanel.Controls.Add(this.ProcessControlPanel, 0, 2);
-            this.MainLayoutPanel.Controls.Add(this.dataGridView1, 0, 1);
+            this.MainLayoutPanel.Controls.Add(this.ProcessesGridView, 0, 1);
             this.MainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.MainLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -144,6 +143,7 @@ namespace LabWork3.Forms
             this.DeleteComputerBtn.TabIndex = 5;
             this.DeleteComputerBtn.Text = "Delete";
             this.DeleteComputerBtn.UseVisualStyleBackColor = true;
+            this.DeleteComputerBtn.Click += new System.EventHandler(this.DeleteComputerBtn_Click);
             // 
             // AddComputerBtn
             // 
@@ -155,6 +155,7 @@ namespace LabWork3.Forms
             this.AddComputerBtn.TabIndex = 4;
             this.AddComputerBtn.Text = "Add new";
             this.AddComputerBtn.UseVisualStyleBackColor = true;
+            this.AddComputerBtn.Click += new System.EventHandler(this.AddComputerBtn_Click);
             // 
             // ModifyComputerBtn
             // 
@@ -191,6 +192,7 @@ namespace LabWork3.Forms
             this.ComputersList.Name = "ComputersList";
             this.ComputersList.Size = new System.Drawing.Size(375, 28);
             this.ComputersList.TabIndex = 0;
+            this.ComputersList.SelectedIndexChanged += new System.EventHandler(this.ComputersList_SelectedIndexChanged);
             // 
             // StatusStrip
             // 
@@ -351,25 +353,24 @@ namespace LabWork3.Forms
             this.ModifyProcessBtn.Text = "Modify process";
             this.ModifyProcessBtn.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // ProcessesGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ProcessesGridView.AllowUserToAddRows = false;
+            this.ProcessesGridView.AllowUserToOrderColumns = true;
+            this.ProcessesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ProcessesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Process,
             this.PID,
-            this.User,
             this.Priority,
             this.CPU,
             this.RAM,
-            this.Description});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 70);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1002, 554);
-            this.dataGridView1.TabIndex = 5;
+            this.Path});
+            this.ProcessesGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProcessesGridView.Location = new System.Drawing.Point(3, 70);
+            this.ProcessesGridView.Name = "ProcessesGridView";
+            this.ProcessesGridView.ReadOnly = true;
+            this.ProcessesGridView.Size = new System.Drawing.Size(1002, 554);
+            this.ProcessesGridView.TabIndex = 5;
             // 
             // Process
             // 
@@ -384,13 +385,6 @@ namespace LabWork3.Forms
             this.PID.HeaderText = "PID";
             this.PID.Name = "PID";
             this.PID.ReadOnly = true;
-            // 
-            // User
-            // 
-            this.User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.User.HeaderText = "User";
-            this.User.Name = "User";
-            this.User.ReadOnly = true;
             // 
             // Priority
             // 
@@ -413,12 +407,12 @@ namespace LabWork3.Forms
             this.RAM.Name = "RAM";
             this.RAM.ReadOnly = true;
             // 
-            // Description
+            // Path
             // 
-            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
+            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Path.HeaderText = "Path";
+            this.Path.Name = "Path";
+            this.Path.ReadOnly = true;
             // 
             // MainWindow
             // 
@@ -440,7 +434,7 @@ namespace LabWork3.Forms
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
             this.ProcessControlPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ProcessesGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -453,7 +447,7 @@ namespace LabWork3.Forms
         private System.Windows.Forms.Button DeleteProcessBtn;
         private System.Windows.Forms.Button AddProcessBtn;
         private System.Windows.Forms.Button ModifyProcessBtn;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView ProcessesGridView;
         private System.Windows.Forms.ToolStripStatusLabel StripLabel1;
         private System.Windows.Forms.ToolStripStatusLabel ProcessesLabel;
         private System.Windows.Forms.ToolStripStatusLabel StripLabel2;
@@ -462,13 +456,6 @@ namespace LabWork3.Forms
         private System.Windows.Forms.ToolStripStatusLabel StripLabel3;
         private System.Windows.Forms.ToolStripStatusLabel RamUsageLabel;
         private System.Windows.Forms.ToolStripStatusLabel PersentLabel2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Process;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RAM;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
         private System.Windows.Forms.TableLayoutPanel ComutersControlBasePanel;
         private System.Windows.Forms.Label ComputersLabel;
         private System.Windows.Forms.TableLayoutPanel ComputersControlPanel;
@@ -477,6 +464,12 @@ namespace LabWork3.Forms
         private System.Windows.Forms.Button ModifyComputerBtn;
         private System.Windows.Forms.TableLayoutPanel ListPanel;
         private System.Windows.Forms.ComboBox ComputersList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Process;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RAM;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Path;
     }
 }
 
