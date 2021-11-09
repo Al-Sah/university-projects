@@ -9,10 +9,10 @@ namespace LabWork3.Core
     {
         public string Name { get; set; }
 
-        public MemoryInformation Memory;
-        public ProcessorInformation Processor;
+        public MemoryInformation Memory { get; set; }
+        public ProcessorInformation Processor { get; set; }
 
-        public Dictionary<int, ProcessInfo> Processes;
+        public Dictionary<int, ProcessInfo> Processes { get; set; }
         public Computer()
         {
             Name = Environment.MachineName;
