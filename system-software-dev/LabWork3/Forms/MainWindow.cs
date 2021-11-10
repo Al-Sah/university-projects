@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using LabWork3.Core;
 
@@ -23,19 +24,19 @@ namespace LabWork3.Forms
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
-        private void ComputersList_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void ComputersList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Selected = ComputerManager.Get(ComputersList.SelectedItem.ToString());
             FillProcessesGridView();
         }
 
-        private void AddComputerBtn_Click(object sender, System.EventArgs e)
+        private void AddComputerBtn_Click(object sender, EventArgs e)
         {
             Selected = ComputerManager.AddComputer();
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
-        private void DeleteComputerBtn_Click(object sender, System.EventArgs e)
+        private void DeleteComputerBtn_Click(object sender, EventArgs e)
         {
             if (ComputersList.Items.Count == 0) return;
             ComputersList.Items.Remove(ComputersList.SelectedItem);
@@ -56,7 +57,7 @@ namespace LabWork3.Forms
                     process.Name,
                     process.Pid,
                     process.Priority,
-                    " ... ",
+                    process.ProcessorAffinity,
                     process.Memory,
                     process.Path );
             }

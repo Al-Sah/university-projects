@@ -8,12 +8,14 @@ namespace LabWork3.Core
     {
         public string Priority { get; set; }
         public string Name { get; set; }
-        public string ProcessorAffinity { get; set; }
-        public string Memory { get; set; }
+        public int ProcessorAffinity { get; set; }
+        public long Memory { get; set; }
         public string Path { get; set; }
         public int Pid { get; set; }
 
         private Process _process;
+
+        private const string Error = "- - - -";
         
         
         public ProcessInfo(Process process) => GetData(process);
@@ -34,15 +36,15 @@ namespace LabWork3.Core
             catch (Win32Exception e)
             {
                 Debug.WriteLine(_process + "  " + e.Message);
-                Path = "ERROR";
+                Path = Error;
             }
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine(_process + "  " + e.Message);
-                Path = "ERROR";
+                Path = Error;
             }
             
-            Memory = _process.WorkingSet64.ToString();
+            Memory = _process.WorkingSet64 / 1024; // TO KBytes
             Name = _process.ProcessName;
             Pid = _process.Id;
 
@@ -53,18 +55,17 @@ namespace LabWork3.Core
             catch (Win32Exception e)
             {
                 Debug.WriteLine(_process + "  " + e.Message);
-                Priority = "ERROR";
+                Priority = Error;
             }
             try
             {
-                ProcessorAffinity = _process.ProcessorAffinity.ToString();
+                ProcessorAffinity = _process.ProcessorAffinity.ToInt32();
             }
             catch (Win32Exception e)
             {
                 Debug.WriteLine(_process + "  " + e.Message);
-                ProcessorAffinity = "ERROR";
+                ProcessorAffinity = 0;
             }
-
         }
     }
 }

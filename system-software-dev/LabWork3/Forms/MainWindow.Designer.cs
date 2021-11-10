@@ -55,7 +55,7 @@ namespace LabWork3.Forms
             this.Process = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Affinity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainLayoutPanel.SuspendLayout();
@@ -362,7 +362,7 @@ namespace LabWork3.Forms
             this.Process,
             this.PID,
             this.Priority,
-            this.CPU,
+            this.Affinity,
             this.RAM,
             this.Path});
             this.ProcessesGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -374,38 +374,43 @@ namespace LabWork3.Forms
             // 
             // Process
             // 
-            this.Process.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Process.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Process.HeaderText = "Process";
             this.Process.Name = "Process";
             this.Process.ReadOnly = true;
+            this.Process.Width = 91;
             // 
             // PID
             // 
-            this.PID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.PID.HeaderText = "PID";
             this.PID.Name = "PID";
             this.PID.ReadOnly = true;
+            this.PID.Width = 61;
             // 
             // Priority
             // 
-            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Priority.HeaderText = "Priority";
             this.Priority.Name = "Priority";
             this.Priority.ReadOnly = true;
+            this.Priority.Width = 81;
             // 
-            // CPU
+            // Affinity
             // 
-            this.CPU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CPU.HeaderText = "CPU usage";
-            this.CPU.Name = "CPU";
-            this.CPU.ReadOnly = true;
+            this.Affinity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Affinity.HeaderText = "Affinity";
+            this.Affinity.Name = "Affinity";
+            this.Affinity.ReadOnly = true;
+            this.Affinity.Width = 82;
             // 
             // RAM
             // 
-            this.RAM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.RAM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.RAM.HeaderText = "RAM usage";
             this.RAM.Name = "RAM";
             this.RAM.ReadOnly = true;
+            this.RAM.Width = 118;
             // 
             // Path
             // 
@@ -467,7 +472,7 @@ namespace LabWork3.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Process;
         private System.Windows.Forms.DataGridViewTextBoxColumn PID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Affinity;
         private System.Windows.Forms.DataGridViewTextBoxColumn RAM;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
     }
