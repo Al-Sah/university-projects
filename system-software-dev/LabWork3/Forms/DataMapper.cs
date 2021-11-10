@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using LabWork3.Core;
+using static System.String;
 
 namespace LabWork3.Forms
 {
@@ -25,6 +26,24 @@ namespace LabWork3.Forms
                 .ToArray();
         }
         
+        public static List<ProcessInfo> SortProcesses(List<ProcessInfo> process, DataGridView gridView)
+        {
+            switch (gridView.Columns.IndexOf(gridView.SortedColumn))
+            {
+                case 0: process.Sort((x, y) => CompareOrdinal(x.Name, y.Name)); break;
+                case 1: process.Sort((x, y) => x.Pid.CompareTo(y.Pid)); break;
+                case 2: process.Sort((x, y) => CompareOrdinal(x.Priority, y.Priority)); break;
+                case 3: process.Sort((x, y) => x.ProcessorAffinity.CompareTo(y.ProcessorAffinity)); break;
+                case 4: process.Sort((x, y) => x.Memory.CompareTo(y.Memory)); break;
+                case 5: process.Sort((x, y) => CompareOrdinal(x.Path, y.Path)); break;
+            }
+
+            if (gridView.SortOrder == SortOrder.Descending)
+            {
+                process.Reverse();
+            }
+            return process;
+        }
         
         // processes must be sorted as in gridView
         public static void Update(List<ProcessInfo> processes, DataGridView gridView)

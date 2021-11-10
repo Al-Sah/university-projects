@@ -82,10 +82,9 @@ namespace LabWork3.Forms
                 ResetGrid = false;
                 return;
             }
-            // TODO sort list as in grid view !!
-            DataMapper.Update(Selected.Processes.Values.ToList(), ProcessesGridView);
+            DataMapper.Update(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView), ProcessesGridView);
         }
-
+        
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach (var computer in ComputerManager.Computers.Values)
