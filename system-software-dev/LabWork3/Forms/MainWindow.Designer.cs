@@ -374,43 +374,38 @@ namespace LabWork3.Forms
             // 
             // Process
             // 
-            this.Process.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Process.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Process.HeaderText = "Process";
             this.Process.Name = "Process";
             this.Process.ReadOnly = true;
-            this.Process.Width = 91;
             // 
             // PID
             // 
-            this.PID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.PID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.PID.HeaderText = "PID";
             this.PID.Name = "PID";
             this.PID.ReadOnly = true;
-            this.PID.Width = 61;
             // 
             // Priority
             // 
-            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Priority.HeaderText = "Priority";
             this.Priority.Name = "Priority";
             this.Priority.ReadOnly = true;
-            this.Priority.Width = 81;
             // 
             // Affinity
             // 
-            this.Affinity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Affinity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Affinity.HeaderText = "Affinity";
             this.Affinity.Name = "Affinity";
             this.Affinity.ReadOnly = true;
-            this.Affinity.Width = 82;
             // 
             // RAM
             // 
-            this.RAM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.RAM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.RAM.HeaderText = "RAM usage";
             this.RAM.Name = "RAM";
             this.RAM.ReadOnly = true;
-            this.RAM.Width = 118;
             // 
             // Path
             // 
@@ -430,6 +425,7 @@ namespace LabWork3.Forms
             this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "MainWindow";
             this.Text = "Task Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.MainLayoutPanel.ResumeLayout(false);
             this.MainLayoutPanel.PerformLayout();
             this.ComutersControlBasePanel.ResumeLayout(false);

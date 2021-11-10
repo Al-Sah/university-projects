@@ -28,43 +28,50 @@ namespace LabWork3.Core
 
             try
             {
-                if (_process.MainModule != null)
+                try
                 {
-                    Path = _process.MainModule.FileName;
+                    if (_process.MainModule != null)
+                    {
+                        Path = _process.MainModule.FileName;
+                    }
                 }
-            }
-            catch (Win32Exception e)
-            {
-                Debug.WriteLine(_process + "  " + e.Message);
-                Path = Error;
+                catch (Win32Exception e)
+                {
+                    Debug.WriteLine(_process + "  " + e.Message);
+                    Path = Error;
+                }
+                catch (InvalidOperationException e)
+                {
+                    Debug.WriteLine(_process + "  " + e.Message);
+                    Path = Error;
+                }
+            
+                Memory = _process.WorkingSet64 / 1024; // TO KBytes
+                Name = _process.ProcessName;
+                Pid = _process.Id;
+
+                try
+                {
+                    Priority = _process.PriorityClass.ToString();
+                }
+                catch (Win32Exception e)
+                {
+                    Debug.WriteLine(_process + "  " + e.Message);
+                    Priority = Error;
+                }
+                try
+                {
+                    ProcessorAffinity = _process.ProcessorAffinity.ToInt32();
+                }
+                catch (Win32Exception e)
+                {
+                    Debug.WriteLine(_process + "  " + e.Message);
+                    ProcessorAffinity = 0;
+                }
             }
             catch (InvalidOperationException e)
             {
-                Debug.WriteLine(_process + "  " + e.Message);
-                Path = Error;
-            }
-            
-            Memory = _process.WorkingSet64 / 1024; // TO KBytes
-            Name = _process.ProcessName;
-            Pid = _process.Id;
-
-            try
-            {
-                Priority = _process.PriorityClass.ToString();
-            }
-            catch (Win32Exception e)
-            {
-                Debug.WriteLine(_process + "  " + e.Message);
-                Priority = Error;
-            }
-            try
-            {
-                ProcessorAffinity = _process.ProcessorAffinity.ToInt32();
-            }
-            catch (Win32Exception e)
-            {
-                Debug.WriteLine(_process + "  " + e.Message);
-                ProcessorAffinity = 0;
+                Console.WriteLine(e);
             }
         }
     }

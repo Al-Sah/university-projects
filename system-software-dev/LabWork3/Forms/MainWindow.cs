@@ -7,32 +7,44 @@ namespace LabWork3.Forms
 {
     public partial class MainWindow : Form
     {
+        private delegate void SafeCallDelegate();
         public ComputerManager ComputerManager { get; }
 
         public Computer Selected { get; set; }
+
+        public bool ResetGrid { get; set; }
+
         public MainWindow()
         {
             ComputerManager = new ComputerManager();
             InitializeComponent();
             
             // Get current computer
-            foreach (var current in ComputerManager.Computers)
+            foreach (var current in ComputerManager.Computers.Values)
             {
-                Selected = current.Value;
+                ResetCurrent(current);
                 break;
             }
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
+        private void ResetCurrent(Computer computer)
+        {
+            Selected?.ClearEventsHandlers();
+            Selected = computer;
+            Selected.ProcessesUpdated += FillProcessesGridViewSafe;
+            Selected.ProcessesNumberChanged += () => ResetGrid = true;
+        }
+
         private void ComputersList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Selected = ComputerManager.Get(ComputersList.SelectedItem.ToString());
+            ResetCurrent(ComputerManager.Get(ComputersList.SelectedItem.ToString()));
             FillProcessesGridView();
         }
 
         private void AddComputerBtn_Click(object sender, EventArgs e)
         {
-            Selected = ComputerManager.AddComputer();
+            ResetCurrent(ComputerManager.AddComputer());
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
@@ -46,23 +58,40 @@ namespace LabWork3.Forms
             Selected = null;
         }
 
-        public void FillProcessesGridView()
+        
+        private void FillProcessesGridViewSafe()
         {
-            ProcessesGridView.Rows.Clear();
-            if (Selected == null) return;
-            
-            foreach (var process in Selected.Processes.Select(o => o.Value))
+            if (ProcessesGridView.InvokeRequired)
             {
-                ProcessesGridView.Rows.Add(
-                    process.Name,
-                    process.Pid,
-                    process.Priority,
-                    process.ProcessorAffinity,
-                    process.Memory,
-                    process.Path );
+                ProcessesGridView.Invoke(new SafeCallDelegate(FillProcessesGridViewSafe));
+            }
+            else
+            {
+                FillProcessesGridView();
             }
         }
-
+        private void FillProcessesGridView()
+        {
             
+            if (Selected == null) return;
+            if (ResetGrid)
+            {
+                ProcessesGridView.Rows.Clear();
+                ProcessesGridView.Rows.AddRange(DataMapper.Reset(Selected.Processes));
+                ProcessesLabel.Text = Selected.Processes.Count.ToString();
+                ResetGrid = false;
+                return;
+            }
+            // TODO sort list as in grid view !!
+            DataMapper.Update(Selected.Processes.Values.ToList(), ProcessesGridView);
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach (var computer in ComputerManager.Computers.Values)
+            {
+                computer.Updatable = false;
+            }
+        }
     }
 }
