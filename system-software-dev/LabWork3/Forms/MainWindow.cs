@@ -77,7 +77,7 @@ namespace LabWork3.Forms
             if (ResetGrid)
             {
                 ProcessesGridView.Rows.Clear();
-                ProcessesGridView.Rows.AddRange(DataMapper.Reset(Selected.Processes));
+                ProcessesGridView.Rows.AddRange(DataMapper.Reset(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView)));
                 ProcessesLabel.Text = Selected.Processes.Count.ToString();
                 ResetGrid = false;
                 return;

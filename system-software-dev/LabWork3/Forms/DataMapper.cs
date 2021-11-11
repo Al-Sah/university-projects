@@ -8,10 +8,9 @@ namespace LabWork3.Forms
 {
     public static class DataMapper
     {
-        public static DataGridViewRow[] Reset(Dictionary<int, ProcessInfo> processes)
+        public static DataGridViewRow[] Reset(IEnumerable<ProcessInfo> processes)
         {
-            return processes.Select(o => o.Value)
-                .Select(process => new DataGridViewRow
+            return processes.Select(process => new DataGridViewRow
                 {
                     Cells =
                     {
