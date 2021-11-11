@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace LabWork3.Core
@@ -20,58 +19,35 @@ namespace LabWork3.Core
         
         public ProcessInfo(Process process) => GetData(process);
         public ProcessInfo() => GetData(Process.GetCurrentProcess());
-        
 
-        public void GetData(Process process)
+        private void GetData(Process process)
         {
             _process = process;
 
+            // ReSharper disable once PossibleNullReferenceException
+            Path = (string) ValidateProperty(() => _process.MainModule.FileName, string.Empty.GetType());
+
+            Memory = (long) ValidateProperty(() => _process.WorkingSet64 / 1024, Memory.GetType()); // TO KBytes
+            Name = (string) ValidateProperty(() => _process.ProcessName, string.Empty.GetType());
+            Pid = (int) ValidateProperty(() => _process.Id, Pid.GetType());
+            Priority = (string) ValidateProperty(() => _process.PriorityClass, string.Empty.GetType());
+            ProcessorAffinity = (int) ValidateProperty(() => _process.ProcessorAffinity.ToInt32(), ProcessorAffinity.GetType());
+        }
+        private static object ValidateProperty(Func<object> valueGetter, Type toReturn)
+        {
+            // Win32Exception || InvalidOperationException || NullReferenceException
             try
             {
-                try
-                {
-                    if (_process.MainModule != null)
-                    {
-                        Path = _process.MainModule.FileName;
-                    }
-                }
-                catch (Win32Exception e)
-                {
-                    Debug.WriteLine(_process + "  " + e.Message);
-                    Path = Error;
-                }
-                catch (InvalidOperationException e)
-                {
-                    Debug.WriteLine(_process + "  " + e.Message);
-                    Path = Error;
-                }
-            
-                Memory = _process.WorkingSet64 / 1024; // TO KBytes
-                Name = _process.ProcessName;
-                Pid = _process.Id;
-
-                try
-                {
-                    Priority = _process.PriorityClass.ToString();
-                }
-                catch (Win32Exception e)
-                {
-                    Debug.WriteLine(_process + "  " + e.Message);
-                    Priority = Error;
-                }
-                try
-                {
-                    ProcessorAffinity = _process.ProcessorAffinity.ToInt32();
-                }
-                catch (Win32Exception e)
-                {
-                    Debug.WriteLine(_process + "  " + e.Message);
-                    ProcessorAffinity = 0;
-                }
+                return valueGetter() is long or int ? valueGetter() : valueGetter().ToString();
             }
-            catch (InvalidOperationException e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                //Debug.WriteLine(_process + "  " + e.Message);
+                if (toReturn == typeof(long) || toReturn == typeof(int))
+                {
+                    return 0;
+                }
+                return Error;
             }
         }
     }
