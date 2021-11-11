@@ -15,9 +15,10 @@ namespace LabWork3.Core
         public MemoryInformation Memory { get; set; }
         public ProcessorInformation Processor { get; set; }
 
-        public Dictionary<int, ProcessInfo> Processes { get; set; }
+        // Processes collection cannot be assigned by internal class => set is private 
+        public Dictionary<int, ProcessInfo> Processes { get; private set; }
         
-        public Thread ProcessesManager;
+        public readonly Thread DataManager;
         
         public event Action ProcessesUpdated;
         public event Action ProcessesNumberChanged;
@@ -34,40 +35,49 @@ namespace LabWork3.Core
             {
                 ProcessesNumberChanged -=  (Action)d;
             }
+            Memory.ClearEvent();
+            Processor.ClearEvent();
         }
         
         public Computer()
         {
             Name = Environment.MachineName;
             
-            Memory = new MemoryInformation();
+            Memory = new MemoryInformation(MemoryInformation.Unit.KBytes);
             Processor = new ProcessorInformation();
             Processes = new Dictionary<int, ProcessInfo>();
 
             Updatable = true;
-            ProcessesManager = new Thread(UpdateProcesses);
+            DataManager = new Thread(UpdateData);
+            DataManager.Start();
         }
 
-        private void UpdateProcesses()
+        private void UpdateData()
         {
             while (Updatable)
             {
-               
-                var newDictionary = Process.GetProcesses().Select(process => new ProcessInfo(process)).ToDictionary(processInfo => processInfo.Pid);
-                if ( Processes.Count != newDictionary.Count)
-                {
-                    ProcessesNumberChanged?.Invoke();
-                }
-                Processes = newDictionary;
-                ProcessesUpdated?.Invoke();
+                UpdateProcesses();
+                Memory.UpdateData();
+                Processor.UpdateData();
                 Thread.Sleep(1000);
             }
+        }
+        private void UpdateProcesses()
+        {
+            var newDictionary = Process.GetProcesses().Select(process => new ProcessInfo(process)).ToDictionary(processInfo => processInfo.Pid);
+            if ( Processes.Count != newDictionary.Count)
+            {
+                ProcessesNumberChanged?.Invoke();
+            }
+            Processes.Clear();
+            Processes = newDictionary;
+            ProcessesUpdated?.Invoke();
         }
 
         public void Dispose()
         {
             Updatable = false;
-            ProcessesManager.Join();
+            DataManager.Join();
         }
     }
 }

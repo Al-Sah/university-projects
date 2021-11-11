@@ -7,21 +7,33 @@ namespace LabWork3.Core
     public class MemoryInformation
     {
         public ulong TotalVisibleMemory { get; set; }
-        public ulong FreePhysicalMemory { get; set; }
         public ulong TotalVirtualMemory { get; set; }
+        
+        public ulong FreePhysicalMemory { get; set; }
         public ulong FreeVirtualMemory  { get; set; }
 
         public Unit CurrentUnit  { get; set; }
 
         public bool IsValid { get; set; }
         
+        public event Action DataUpdated;
+
+        public void ClearEvent()
+        {
+            if (DataUpdated == null) return;
+            foreach (var d in DataUpdated.GetInvocationList())
+            {
+                DataUpdated -= (Action)d;
+            }
+        }
+        
         public MemoryInformation(Unit unit = Unit.GBytes )
         {
             CurrentUnit = unit;
-            GetData();
+            InitData();
         }
 
-        public void GetData()
+        private void InitData()
         {
             IsValid = false;
 
@@ -40,6 +52,29 @@ namespace LabWork3.Core
                     break;
                 }
                 IsValid = true;
+                DataUpdated?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
+        public void UpdateData()
+        {
+            IsValid = false;
+            try
+            {
+                var memoryProperties = new ManagementObjectSearcher("select FreePhysicalMemory, FreeVirtualMemory from Win32_OperatingSystem");
+                foreach (var o in memoryProperties.Get())
+                {
+                    var result = (ManagementObject) o;
+                    FreePhysicalMemory = ToCurrentUnit(ulong.Parse(result["FreePhysicalMemory"].ToString()));
+                    FreeVirtualMemory = ToCurrentUnit(ulong.Parse(result["FreeVirtualMemory"].ToString()));
+                    break;
+                }
+                IsValid = true;
+                DataUpdated?.Invoke();
             }
             catch (Exception e)
             {

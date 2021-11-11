@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Management;
-using System.Reflection;
 
 namespace LabWork3.Core
 {
@@ -21,10 +19,20 @@ namespace LabWork3.Core
         public string CurrentClockSpeed { get; set; }
 
         public bool IsValid { get; set; }
+        
+        public event Action DataUpdated;
+        
+        public void ClearEvent()
+        {
+            if (DataUpdated == null) return;
+            foreach (var d in DataUpdated.GetInvocationList())
+            {
+                DataUpdated -= (Action)d;
+            }
+        }
+        public ProcessorInformation() => InitData();
 
-        public ProcessorInformation() => GetData();
-
-        public void GetData()
+        private void InitData()
         {
             IsValid = false;
             try
@@ -41,12 +49,43 @@ namespace LabWork3.Core
                     MaxClockSpeed = obj["MaxClockSpeed"].ToString();
                     NumberOfLogicalProcessors = obj["NumberOfLogicalProcessors"].ToString();
                     Architecture = ArchitectureMapper.Get((ushort)obj["Architecture"]);
-                    AddressWidth = obj["AddressWidth"].ToString();
+                    AddressWidth = obj["AddressWidth"]?.ToString();
                     CurrentClockSpeed = obj["CurrentClockSpeed"].ToString();
-                    LoadPercentage = obj["LoadPercentage"].ToString();
+                    LoadPercentage = obj["LoadPercentage"]?.ToString();
                     break;
                 }
                 IsValid = true;
+                DataUpdated?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+        
+        public void UpdateData()
+        {
+            IsValid = false;
+            try
+            {
+                var percentProcessorTime = new ManagementObjectSearcher("select PercentProcessorTime from Win32_PerfFormattedData_PerfOS_Processor");
+                //select LoadPercentage from Win32_Processor
+                //select PercentProcessorTime from Win32_PerfFormattedData_PerfOS_Processor
+                foreach (var o in percentProcessorTime.Get())
+                {
+                    var obj = (ManagementObject) o;
+                    LoadPercentage = obj["PercentProcessorTime"].ToString();
+                    break;
+                }
+                var currentClockSpeed = new ManagementObjectSearcher("select CurrentClockSpeed from Win32_Processor");
+                foreach (var o in currentClockSpeed.Get())
+                {
+                    var obj = (ManagementObject) o;
+                    CurrentClockSpeed = obj["CurrentClockSpeed"].ToString();
+                    break;
+                }
+                IsValid = true;
+                DataUpdated?.Invoke();
             }
             catch (Exception e)
             {

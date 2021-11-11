@@ -10,7 +10,6 @@ namespace LabWork3.Core
         public ComputerManager()
         {
             var current = new Computer();
-            current.ProcessesManager.Start();
             Computers = new Dictionary<string, Computer> { {current.Name, current} };
         }
 
@@ -21,7 +20,6 @@ namespace LabWork3.Core
                 foreach(var pair in Computers) return pair.Value;
             
             var current = new Computer();
-            current.ProcessesManager.Start();
             Computers.Add(current.Name, current);
             return current;
         }

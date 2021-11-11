@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using LabWork3.Core;
@@ -16,8 +18,8 @@ namespace LabWork3.Forms
 
         public MainWindow()
         {
-            ComputerManager = new ComputerManager();
             InitializeComponent();
+            ComputerManager = new ComputerManager();
             
             // Get current computer
             foreach (var current in ComputerManager.Computers.Values)
@@ -34,6 +36,22 @@ namespace LabWork3.Forms
             Selected = computer;
             Selected.ProcessesUpdated += FillProcessesGridViewSafe;
             Selected.ProcessesNumberChanged += () => ResetGrid = true;
+            Selected.Processor.DataUpdated += () =>
+            {
+                if (Selected.Processor.IsValid)
+                {
+                    CpuUsageLabel.Text = Selected.Processor.LoadPercentage;
+                }
+            };
+            Selected.Memory.DataUpdated += 
+                () =>
+                {
+                    if (Selected.Memory.IsValid)
+                    {
+                        RamUsageLabel.Text = (Selected.Memory.FreeVirtualMemory * 100 / Selected.Memory.TotalVirtualMemory)
+                            .ToString();
+                    }
+                };
         }
 
         private void ComputersList_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,15 +79,19 @@ namespace LabWork3.Forms
         
         private void FillProcessesGridViewSafe()
         {
-            if (ProcessesGridView.InvokeRequired)
+            try
             {
-                ProcessesGridView.Invoke(new SafeCallDelegate(FillProcessesGridViewSafe));
+                if (ProcessesGridView.InvokeRequired)
+                    ProcessesGridView.Invoke(new SafeCallDelegate(FillProcessesGridViewSafe));
+                else
+                    FillProcessesGridView();
             }
-            else
+            catch (InvalidAsynchronousStateException e)
             {
-                FillProcessesGridView();
+                Debug.WriteLine(e);
             }
         }
+        
         private void FillProcessesGridView()
         {
             
