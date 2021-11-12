@@ -341,6 +341,7 @@ namespace LabWork3.Forms
             this.AddProcessBtn.TabIndex = 1;
             this.AddProcessBtn.Text = "Add process";
             this.AddProcessBtn.UseVisualStyleBackColor = true;
+            this.AddProcessBtn.Click += new System.EventHandler(this.AddProcessBtn_Click);
             // 
             // ModifyProcessBtn
             // 

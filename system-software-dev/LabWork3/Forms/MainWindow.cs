@@ -10,23 +10,26 @@ namespace LabWork3.Forms
     public partial class MainWindow : Form
     {
         private delegate void SafeCallDelegate();
-        public ComputerManager ComputerManager { get; }
 
+        public ComputerManager ComputerManager { get; }
         public Computer Selected { get; set; }
 
         public bool ResetGrid { get; set; }
+
+        private readonly AddProcessDialog _addProcessDialog;
 
         public MainWindow()
         {
             InitializeComponent();
             ComputerManager = new ComputerManager();
-            
             // Get current computer
             foreach (var current in ComputerManager.Computers.Values)
             {
                 ResetCurrent(current);
                 break;
             }
+
+            _addProcessDialog = new AddProcessDialog(Selected.Processor.NumberOfLogicalProcessors) {Owner = this};
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
@@ -43,12 +46,13 @@ namespace LabWork3.Forms
                     CpuUsageLabel.Text = Selected.Processor.LoadPercentage;
                 }
             };
-            Selected.Memory.DataUpdated += 
+            Selected.Memory.DataUpdated +=
                 () =>
                 {
                     if (Selected.Memory.IsValid)
                     {
-                        RamUsageLabel.Text = (Selected.Memory.FreeVirtualMemory * 100 / Selected.Memory.TotalVirtualMemory)
+                        RamUsageLabel.Text =
+                            (Selected.Memory.FreeVirtualMemory * 100 / Selected.Memory.TotalVirtualMemory)
                             .ToString();
                     }
                 };
@@ -73,10 +77,11 @@ namespace LabWork3.Forms
             if (ComputersList.Items.Count != 0) return;
             ProcessesGridView.Rows.Clear();
             ComputerManager.DeleteComputer(Selected);
+            Selected.ClearEventsHandlers();
             Selected = null;
         }
 
-        
+
         private void FillProcessesGridViewSafe()
         {
             try
@@ -91,22 +96,24 @@ namespace LabWork3.Forms
                 Debug.WriteLine(e);
             }
         }
-        
+
         private void FillProcessesGridView()
         {
-            
             if (Selected == null) return;
             if (ResetGrid)
             {
                 ProcessesGridView.Rows.Clear();
-                ProcessesGridView.Rows.AddRange(DataMapper.Reset(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView)));
+                ProcessesGridView.Rows.AddRange(
+                    DataMapper.Reset(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView)));
                 ProcessesLabel.Text = Selected.Processes.Count.ToString();
                 ResetGrid = false;
                 return;
             }
-            DataMapper.Update(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView), ProcessesGridView);
+
+            DataMapper.Update(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView),
+                ProcessesGridView);
         }
-        
+
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach (var computer in ComputerManager.Computers.Values)
@@ -114,5 +121,7 @@ namespace LabWork3.Forms
                 computer.Updatable = false;
             }
         }
+
+        private void AddProcessBtn_Click(object sender, EventArgs e) => _addProcessDialog.ShowDialog();
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace LabWork3.Core
@@ -10,15 +12,16 @@ namespace LabWork3.Core
         public ComputerManager()
         {
             var current = new Computer();
-            Computers = new Dictionary<string, Computer> { {current.Name, current} };
+            Computers = new Dictionary<string, Computer> {{current.Name, current}};
         }
 
         public Computer AddComputer()
         {
             // TODO
             if (Computers.Count != 0)
-                foreach(var pair in Computers) return pair.Value;
-            
+                foreach (var pair in Computers)
+                    return pair.Value;
+
             var current = new Computer();
             Computers.Add(current.Name, current);
             return current;
@@ -31,6 +34,27 @@ namespace LabWork3.Core
         }
 
         public Computer Get(string name) => Computers[name];
-        
+
+
+        public static bool StartProcess(string file, string args, string priority, long affinity)
+        {
+            try
+            {
+                var process = new Process();
+                process.StartInfo.FileName = file;
+                process.StartInfo.Arguments = args;
+                process.Start();
+                process.PriorityClass = Enum.TryParse(priority, true, out ProcessPriorityClass res)
+                    ? res
+                    : ProcessPriorityClass.Normal;
+                process.ProcessorAffinity = new IntPtr(affinity);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return false;
+            }
+        }
     }
 }

@@ -79,29 +79,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Computer.cs" />
-    <Compile Include="Core\ComputerManager.cs" />
-    <Compile Include="Core\MemoryInformation.cs" />
-    <Compile Include="Core\ProcessInfo.cs" />
-    <Compile Include="Core\ProcessorInformation.cs" />
-    <Compile Include="Forms\DataMapper.cs" />
-    <Compile Include="Forms\MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
+      <Compile Include="Core\Computer.cs"/>
+      <Compile Include="Core\ComputerManager.cs"/>
+      <Compile Include="Core\MemoryInformation.cs"/>
+      <Compile Include="Core\ProcessInfo.cs"/>
+      <Compile Include="Core\ProcessorInformation.cs"/>
+      <Compile Include="Forms\AddProcessDialog.cs">
+          <SubType>Form</SubType>
+      </Compile>
+      <Compile Include="Forms\AddProcessDialog.Designer.cs">
+          <DependentUpon>AddProcessDialog.cs</DependentUpon>
+      </Compile>
+      <Compile Include="Forms\DataMapper.cs"/>
+      <Compile Include="Forms\MainWindow.cs">
+          <SubType>Form</SubType>
+      </Compile>
+      <Compile Include="Forms\MainWindow.Designer.cs">
+          <DependentUpon>MainWindow.cs</DependentUpon>
+      </Compile>
+      <Compile Include="Forms\SetupAffinityDialog.cs"/>
+      <Compile Include="Forms\SetupAffinityDialog.Designer.cs"/>
+      <Compile Include="Program.cs"/>
+      <Compile Include="Properties\AssemblyInfo.cs"/>
+      <EmbeddedResource Include="Forms\AddProcessDialog.resx">
+          <DependentUpon>AddProcessDialog.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Forms\MainWindow.resx">
+          <DependentUpon>MainWindow.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Forms\SetupAffinityDialog.resx"/>
+      <EmbeddedResource Include="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+          <SubType>Designer</SubType>
+      </EmbeddedResource>
+      <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
