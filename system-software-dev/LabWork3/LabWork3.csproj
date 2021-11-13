@@ -97,6 +97,7 @@
       <Compile Include="Forms\MainWindow.Designer.cs">
           <DependentUpon>MainWindow.cs</DependentUpon>
       </Compile>
+      <Compile Include="Forms\Notifier.cs"/>
       <Compile Include="Forms\SetupAffinityDialog.cs"/>
       <Compile Include="Forms\SetupAffinityDialog.Designer.cs"/>
       <Compile Include="Program.cs"/>

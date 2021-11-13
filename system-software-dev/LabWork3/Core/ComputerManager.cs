@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace LabWork3.Core
 {
@@ -55,6 +56,25 @@ namespace LabWork3.Core
                 Debug.WriteLine(e);
                 return false;
             }
+        }
+
+        public static bool DeleteProcesses(IEnumerable<int> ids, out string errors)
+        {
+            var errorsBuilder = new StringBuilder();
+            foreach (var id in ids)
+            {
+                try
+                {
+                    Process.GetProcessById(id).Kill();
+                }
+                catch (Exception e)
+                {
+                    errorsBuilder.Append(e).Append("/n");
+                }
+            }
+
+            errors = errorsBuilder.ToString();
+            return errorsBuilder.Length == 0;
         }
     }
 }

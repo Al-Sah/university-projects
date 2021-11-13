@@ -123,5 +123,20 @@ namespace LabWork3.Forms
         }
 
         private void AddProcessBtn_Click(object sender, EventArgs e) => _addProcessDialog.ShowDialog();
+
+        private void DeleteProcessBtn_Click(object sender, EventArgs e) => DeleteProcesses();
+
+        private void DeleteProcesses()
+        {
+            var selectedRowCount = ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount <= 0) return;
+
+            var processesIds = (from DataGridViewRow selectedRow in ProcessesGridView.SelectedRows
+                select (int) selectedRow.Cells[1].Value).ToList();
+            if (!ComputerManager.DeleteProcesses(processesIds, out var errors))
+            {
+                Notifier.ErrorMessageBox(errors);
+            }
+        }
     }
 }

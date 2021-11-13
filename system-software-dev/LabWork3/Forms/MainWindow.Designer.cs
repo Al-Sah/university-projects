@@ -64,7 +64,7 @@ namespace LabWork3.Forms
             this.ListPanel.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.ProcessControlPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ProcessesGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.ProcessesGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // MainLayoutPanel
@@ -108,7 +108,7 @@ namespace LabWork3.Forms
             // 
             this.ComputersLabel.AutoSize = true;
             this.ComputersLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ComputersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ComputersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.ComputersLabel.Location = new System.Drawing.Point(3, 0);
             this.ComputersLabel.Name = "ComputersLabel";
             this.ComputersLabel.Size = new System.Drawing.Size(194, 61);
@@ -197,15 +197,7 @@ namespace LabWork3.Forms
             // StatusStrip
             // 
             this.StatusStrip.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripLabel1,
-            this.ProcessesLabel,
-            this.StripLabel2,
-            this.CpuUsageLabel,
-            this.PercentLabel1,
-            this.StripLabel3,
-            this.RamUsageLabel,
-            this.PersentLabel2});
+            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.StripLabel1, this.ProcessesLabel, this.StripLabel2, this.CpuUsageLabel, this.PercentLabel1, this.StripLabel3, this.RamUsageLabel, this.PersentLabel2});
             this.StatusStrip.Location = new System.Drawing.Point(0, 697);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
@@ -216,11 +208,10 @@ namespace LabWork3.Forms
             // StripLabel1
             // 
             this.StripLabel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.StripLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StripLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.StripLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
             this.StripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.StripLabel1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StripLabel1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.StripLabel1.Name = "StripLabel1";
             this.StripLabel1.Size = new System.Drawing.Size(77, 27);
             this.StripLabel1.Text = "Processes :";
@@ -228,11 +219,10 @@ namespace LabWork3.Forms
             // ProcessesLabel
             // 
             this.ProcessesLabel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ProcessesLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.ProcessesLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.ProcessesLabel.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
             this.ProcessesLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ProcessesLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ProcessesLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.ProcessesLabel.Name = "ProcessesLabel";
             this.ProcessesLabel.Size = new System.Drawing.Size(19, 27);
             this.ProcessesLabel.Text = "0";
@@ -240,10 +230,9 @@ namespace LabWork3.Forms
             // StripLabel2
             // 
             this.StripLabel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.StripLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StripLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.StripLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.StripLabel2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StripLabel2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.StripLabel2.Name = "StripLabel2";
             this.StripLabel2.Size = new System.Drawing.Size(82, 27);
             this.StripLabel2.Text = "CPU usage :";
@@ -251,9 +240,9 @@ namespace LabWork3.Forms
             // CpuUsageLabel
             // 
             this.CpuUsageLabel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.CpuUsageLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.CpuUsageLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) ((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.CpuUsageLabel.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.CpuUsageLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CpuUsageLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.CpuUsageLabel.Name = "CpuUsageLabel";
             this.CpuUsageLabel.Size = new System.Drawing.Size(19, 27);
             this.CpuUsageLabel.Text = "0";
@@ -261,10 +250,9 @@ namespace LabWork3.Forms
             // PercentLabel1
             // 
             this.PercentLabel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PercentLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.PercentLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.PercentLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.PercentLabel1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PercentLabel1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.PercentLabel1.Name = "PercentLabel1";
             this.PercentLabel1.Size = new System.Drawing.Size(23, 27);
             this.PercentLabel1.Text = "%";
@@ -272,10 +260,9 @@ namespace LabWork3.Forms
             // StripLabel3
             // 
             this.StripLabel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.StripLabel3.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StripLabel3.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.StripLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.StripLabel3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StripLabel3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.StripLabel3.Name = "StripLabel3";
             this.StripLabel3.Size = new System.Drawing.Size(86, 27);
             this.StripLabel3.Text = "RAM usage :";
@@ -283,9 +270,9 @@ namespace LabWork3.Forms
             // RamUsageLabel
             // 
             this.RamUsageLabel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.RamUsageLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.RamUsageLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) ((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.RamUsageLabel.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.RamUsageLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.RamUsageLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.RamUsageLabel.Name = "RamUsageLabel";
             this.RamUsageLabel.Size = new System.Drawing.Size(19, 27);
             this.RamUsageLabel.Text = "0";
@@ -293,10 +280,9 @@ namespace LabWork3.Forms
             // PersentLabel2
             // 
             this.PersentLabel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PersentLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)(((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.PersentLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) (((System.Windows.Forms.ToolStripStatusLabelBorderSides.Top | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.PersentLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
-            this.PersentLabel2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PersentLabel2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.PersentLabel2.Name = "PersentLabel2";
             this.PersentLabel2.Size = new System.Drawing.Size(23, 27);
             this.PersentLabel2.Text = "%";
@@ -330,6 +316,7 @@ namespace LabWork3.Forms
             this.DeleteProcessBtn.TabIndex = 2;
             this.DeleteProcessBtn.Text = "Delete process";
             this.DeleteProcessBtn.UseVisualStyleBackColor = true;
+            this.DeleteProcessBtn.Click += new System.EventHandler(this.DeleteProcessBtn_Click);
             // 
             // AddProcessBtn
             // 
@@ -359,17 +346,12 @@ namespace LabWork3.Forms
             this.ProcessesGridView.AllowUserToAddRows = false;
             this.ProcessesGridView.AllowUserToOrderColumns = true;
             this.ProcessesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ProcessesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Process,
-            this.PID,
-            this.Priority,
-            this.Affinity,
-            this.RAM,
-            this.Path});
+            this.ProcessesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {this.Process, this.PID, this.Priority, this.Affinity, this.RAM, this.Path});
             this.ProcessesGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ProcessesGridView.Location = new System.Drawing.Point(3, 70);
             this.ProcessesGridView.Name = "ProcessesGridView";
             this.ProcessesGridView.ReadOnly = true;
+            this.ProcessesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ProcessesGridView.Size = new System.Drawing.Size(1002, 554);
             this.ProcessesGridView.TabIndex = 5;
             // 
@@ -421,7 +403,7 @@ namespace LabWork3.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.MainLayoutPanel);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "MainWindow";
@@ -436,9 +418,8 @@ namespace LabWork3.Forms
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
             this.ProcessControlPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ProcessesGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.ProcessesGridView)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
