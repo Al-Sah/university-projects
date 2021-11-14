@@ -97,6 +97,8 @@
       <Compile Include="Forms\MainWindow.Designer.cs">
           <DependentUpon>MainWindow.cs</DependentUpon>
       </Compile>
+      <Compile Include="Forms\ModifyProcessDialog.cs"/>
+      <Compile Include="Forms\ModifyProcessDialog.Designer.cs"/>
       <Compile Include="Forms\Notifier.cs"/>
       <Compile Include="Forms\SetupAffinityDialog.cs"/>
       <Compile Include="Forms\SetupAffinityDialog.Designer.cs"/>
@@ -108,6 +110,7 @@
       <EmbeddedResource Include="Forms\MainWindow.resx">
           <DependentUpon>MainWindow.cs</DependentUpon>
       </EmbeddedResource>
+      <EmbeddedResource Include="Forms\ModifyProcessDialog.resx"/>
       <EmbeddedResource Include="Forms\SetupAffinityDialog.resx"/>
       <EmbeddedResource Include="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
@@ -115,10 +118,10 @@
           <SubType>Designer</SubType>
       </EmbeddedResource>
       <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\app.manifest" />
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+      <None Include="Properties\app.manifest"/>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

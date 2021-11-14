@@ -340,6 +340,7 @@ namespace LabWork3.Forms
             this.ModifyProcessBtn.TabIndex = 3;
             this.ModifyProcessBtn.Text = "Modify process";
             this.ModifyProcessBtn.UseVisualStyleBackColor = true;
+            this.ModifyProcessBtn.Click += new System.EventHandler(this.ModifyProcessBtn_Click);
             // 
             // ProcessesGridView
             // 

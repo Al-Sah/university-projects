@@ -29,7 +29,7 @@ namespace LabWork3.Forms
             }
 
             return ProcessorsList.CheckedIndices.Cast<int>()
-                .Aggregate(0L, (current, item) => current | (uint) (1 << item));
+                .Aggregate(0L, (current, item) => current | (uint) (1 << (item - 1)));
         }
 
         private void FinishBtn_Click(object sender, EventArgs e)

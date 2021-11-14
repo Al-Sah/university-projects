@@ -17,6 +17,8 @@ namespace LabWork3.Forms
         public bool ResetGrid { get; set; }
 
         private readonly AddProcessDialog _addProcessDialog;
+        private readonly ModifyProcessDialog _modifyProcessDialog;
+
 
         public MainWindow()
         {
@@ -30,6 +32,7 @@ namespace LabWork3.Forms
             }
 
             _addProcessDialog = new AddProcessDialog(Selected.Processor.NumberOfLogicalProcessors) {Owner = this};
+            _modifyProcessDialog = new ModifyProcessDialog(Selected.Processor.NumberOfLogicalProcessors) {Owner = this};
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
@@ -138,5 +141,26 @@ namespace LabWork3.Forms
                 Notifier.ErrorMessageBox(errors);
             }
         }
+
+        private void ModifyProcesses()
+        {
+            var selectedRowCount = ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount <= 0) return;
+
+            _modifyProcessDialog.Ids = (from DataGridViewRow selectedRow in ProcessesGridView.SelectedRows
+                select (int) selectedRow.Cells[1].Value).ToList();
+
+            if (ProcessesGridView.SelectedRows.Count == 1)
+            {
+                var row = ProcessesGridView.SelectedRows[0];
+                _modifyProcessDialog.ProcessName = (string) row.Cells["Process"].Value;
+                _modifyProcessDialog.Affinity = (int) row.Cells["Affinity"].Value;
+                _modifyProcessDialog.Priority = (string) row.Cells["Priority"].Value;
+            }
+
+            _modifyProcessDialog.ShowDialog();
+        }
+
+        private void ModifyProcessBtn_Click(object sender, EventArgs e) => ModifyProcesses();
     }
 }

@@ -14,10 +14,12 @@ namespace LabWork3.Forms
         }
 
         private void SetupProcess() => ComputerManager.StartProcess(
-            FileTextBox.Text,
-            ArgumentsTextBox.Text,
-            PrioritiesList.SelectedItem.ToString(),
-            _setupAffinityDialog.Mask);
+            new ComputerManager.CreationInfo(
+                FileTextBox.Text,
+                ArgumentsTextBox.Text,
+                PrioritiesList.SelectedItem.ToString(),
+                _setupAffinityDialog.Mask
+            ));
 
         private void SetupProcessBtn_Click(object sender, System.EventArgs e) => SetupProcess();
 
