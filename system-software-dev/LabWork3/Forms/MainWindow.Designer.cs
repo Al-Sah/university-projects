@@ -355,6 +355,7 @@ namespace LabWork3.Forms
             this.ProcessesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ProcessesGridView.Size = new System.Drawing.Size(1002, 554);
             this.ProcessesGridView.TabIndex = 5;
+            this.ProcessesGridView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ProcessesGridView_MouseDoubleClick);
             // 
             // Process
             // 

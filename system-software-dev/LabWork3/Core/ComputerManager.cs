@@ -32,6 +32,7 @@ namespace LabWork3.Core
         public bool DeleteComputer(Computer computer)
         {
             var item = Computers.First(kvp => kvp.Value == computer);
+            item.Value.Updatable = false;
             return Computers.Remove(item.Key);
         }
 

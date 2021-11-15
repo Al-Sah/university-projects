@@ -10,7 +10,10 @@ namespace LabWork3.Forms
         public AddProcessDialog(long processorsCount)
         {
             InitializeComponent();
+            ProcessorAffinityTextBox.Text = ((1U << (int) processorsCount) - 1U).ToString();
             _setupAffinityDialog = new SetupAffinityDialog {Owner = this, ProcessorsCount = processorsCount};
+            _setupAffinityDialog.FormClosing +=
+                (_, _) => ProcessorAffinityTextBox.Text = _setupAffinityDialog.Mask.ToString();
         }
 
         private void SetupProcess() => ComputerManager.StartProcess(
@@ -30,7 +33,11 @@ namespace LabWork3.Forms
             FileTextBox.Text = OpenFileDialog.FileName;
         }
 
-        private void AddProcessDialog_Load(object sender, System.EventArgs e) => PrioritiesList.SelectedIndex = 0;
+        private void AddProcessDialog_Load(object sender, System.EventArgs e)
+        {
+            PrioritiesList.SelectedIndex = 0;
+        }
+
         private void ManageAffinityBtn_Click(object sender, System.EventArgs e) => _setupAffinityDialog.ShowDialog();
     }
 }

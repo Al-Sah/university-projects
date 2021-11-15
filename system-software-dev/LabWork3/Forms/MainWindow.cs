@@ -14,7 +14,7 @@ namespace LabWork3.Forms
         public ComputerManager ComputerManager { get; }
         public Computer Selected { get; set; }
 
-        public bool ResetGrid { get; set; }
+        private bool ResetGrid { get; set; }
 
         private readonly AddProcessDialog _addProcessDialog;
         private readonly ModifyProcessDialog _modifyProcessDialog;
@@ -71,19 +71,42 @@ namespace LabWork3.Forms
         {
             ResetCurrent(ComputerManager.AddComputer());
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
+            if (ComputersList.Items.Count == 1)
+            {
+                ValidateButtons();
+            }
         }
 
         private void DeleteComputerBtn_Click(object sender, EventArgs e)
         {
             if (ComputersList.Items.Count == 0) return;
             ComputersList.Items.Remove(ComputersList.SelectedItem);
-            if (ComputersList.Items.Count != 0) return;
+            if (ComputersList.Items.Count != 0)
+            {
+                ComputersList.SelectedIndex = 0;
+                return;
+            }
+
             ProcessesGridView.Rows.Clear();
             ComputerManager.DeleteComputer(Selected);
             Selected.ClearEventsHandlers();
             Selected = null;
+            ValidateButtons();
+
+            const string zero = "0";
+            ProcessesLabel.Text = zero;
+            CpuUsageLabel.Text = zero;
+            RamUsageLabel.Text = zero;
         }
 
+        private void ValidateButtons()
+        {
+            AddProcessBtn.Enabled = !AddProcessBtn.Enabled;
+            ModifyProcessBtn.Enabled = !ModifyProcessBtn.Enabled;
+            DeleteProcessBtn.Enabled = !DeleteProcessBtn.Enabled;
+            ModifyComputerBtn.Enabled = !ModifyComputerBtn.Enabled;
+            DeleteComputerBtn.Enabled = !DeleteComputerBtn.Enabled;
+        }
 
         private void FillProcessesGridViewSafe()
         {
@@ -125,10 +148,6 @@ namespace LabWork3.Forms
             }
         }
 
-        private void AddProcessBtn_Click(object sender, EventArgs e) => _addProcessDialog.ShowDialog();
-
-        private void DeleteProcessBtn_Click(object sender, EventArgs e) => DeleteProcesses();
-
         private void DeleteProcesses()
         {
             var selectedRowCount = ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
@@ -141,6 +160,10 @@ namespace LabWork3.Forms
                 Notifier.ErrorMessageBox(errors);
             }
         }
+
+        private void AddProcessBtn_Click(object sender, EventArgs e) => _addProcessDialog.ShowDialog();
+
+        private void DeleteProcessBtn_Click(object sender, EventArgs e) => DeleteProcesses();
 
         private void ModifyProcesses()
         {
@@ -162,5 +185,6 @@ namespace LabWork3.Forms
         }
 
         private void ModifyProcessBtn_Click(object sender, EventArgs e) => ModifyProcesses();
+        private void ProcessesGridView_MouseDoubleClick(object sender, MouseEventArgs e) => ModifyProcesses();
     }
 }
