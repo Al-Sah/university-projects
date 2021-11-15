@@ -12,12 +12,13 @@ namespace LabWork3.Forms
         private delegate void SafeCallDelegate();
 
         public ComputerManager ComputerManager { get; }
-        public Computer Selected { get; set; }
+        private Computer Selected { get; set; }
 
         private bool ResetGrid { get; set; }
 
         private readonly AddProcessDialog _addProcessDialog;
         private readonly ModifyProcessDialog _modifyProcessDialog;
+        private readonly ComputerInformationWindow _computerInformationDialog;
 
 
         public MainWindow()
@@ -33,6 +34,7 @@ namespace LabWork3.Forms
 
             _addProcessDialog = new AddProcessDialog(Selected.Processor.NumberOfLogicalProcessors) {Owner = this};
             _modifyProcessDialog = new ModifyProcessDialog(Selected.Processor.NumberOfLogicalProcessors) {Owner = this};
+            _computerInformationDialog = new ComputerInformationWindow {Owner = this};
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
         }
 
@@ -104,7 +106,7 @@ namespace LabWork3.Forms
             AddProcessBtn.Enabled = !AddProcessBtn.Enabled;
             ModifyProcessBtn.Enabled = !ModifyProcessBtn.Enabled;
             DeleteProcessBtn.Enabled = !DeleteProcessBtn.Enabled;
-            ModifyComputerBtn.Enabled = !ModifyComputerBtn.Enabled;
+            ShowInfoComputerBtn.Enabled = !ShowInfoComputerBtn.Enabled;
             DeleteComputerBtn.Enabled = !DeleteComputerBtn.Enabled;
         }
 
@@ -184,7 +186,13 @@ namespace LabWork3.Forms
             _modifyProcessDialog.ShowDialog();
         }
 
-        private void ModifyProcessBtn_Click(object sender, EventArgs e) => ModifyProcesses();
+        private void ShowInfoProcessBtn_Click(object sender, EventArgs e) => ModifyProcesses();
         private void ProcessesGridView_MouseDoubleClick(object sender, MouseEventArgs e) => ModifyProcesses();
+
+        private void ModifyComputerBtn_Click(object sender, EventArgs e)
+        {
+            _computerInformationDialog.Computer = Selected;
+            _computerInformationDialog.ShowDialog();
+        }
     }
 }

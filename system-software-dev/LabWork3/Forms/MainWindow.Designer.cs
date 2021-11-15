@@ -35,7 +35,7 @@ namespace LabWork3.Forms
             this.ComputersControlPanel = new System.Windows.Forms.TableLayoutPanel();
             this.DeleteComputerBtn = new System.Windows.Forms.Button();
             this.AddComputerBtn = new System.Windows.Forms.Button();
-            this.ModifyComputerBtn = new System.Windows.Forms.Button();
+            this.ShowInfoComputerBtn = new System.Windows.Forms.Button();
             this.ListPanel = new System.Windows.Forms.TableLayoutPanel();
             this.ComputersList = new System.Windows.Forms.ComboBox();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
@@ -124,7 +124,7 @@ namespace LabWork3.Forms
             this.ComputersControlPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.ComputersControlPanel.Controls.Add(this.DeleteComputerBtn, 0, 0);
             this.ComputersControlPanel.Controls.Add(this.AddComputerBtn, 0, 0);
-            this.ComputersControlPanel.Controls.Add(this.ModifyComputerBtn, 0, 0);
+            this.ComputersControlPanel.Controls.Add(this.ShowInfoComputerBtn, 0, 0);
             this.ComputersControlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ComputersControlPanel.Location = new System.Drawing.Point(590, 3);
             this.ComputersControlPanel.Name = "ComputersControlPanel";
@@ -157,16 +157,17 @@ namespace LabWork3.Forms
             this.AddComputerBtn.UseVisualStyleBackColor = true;
             this.AddComputerBtn.Click += new System.EventHandler(this.AddComputerBtn_Click);
             // 
-            // ModifyComputerBtn
+            // ShowInfoComputerBtn
             // 
-            this.ModifyComputerBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ModifyComputerBtn.Location = new System.Drawing.Point(4, 5);
-            this.ModifyComputerBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ModifyComputerBtn.Name = "ModifyComputerBtn";
-            this.ModifyComputerBtn.Size = new System.Drawing.Size(128, 45);
-            this.ModifyComputerBtn.TabIndex = 6;
-            this.ModifyComputerBtn.Text = "Modify";
-            this.ModifyComputerBtn.UseVisualStyleBackColor = true;
+            this.ShowInfoComputerBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ShowInfoComputerBtn.Location = new System.Drawing.Point(4, 5);
+            this.ShowInfoComputerBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ShowInfoComputerBtn.Name = "ShowInfoComputerBtn";
+            this.ShowInfoComputerBtn.Size = new System.Drawing.Size(128, 45);
+            this.ShowInfoComputerBtn.TabIndex = 6;
+            this.ShowInfoComputerBtn.Text = "Show info";
+            this.ShowInfoComputerBtn.UseVisualStyleBackColor = true;
+            this.ShowInfoComputerBtn.Click += new System.EventHandler(this.ModifyComputerBtn_Click);
             // 
             // ListPanel
             // 
@@ -340,7 +341,7 @@ namespace LabWork3.Forms
             this.ModifyProcessBtn.TabIndex = 3;
             this.ModifyProcessBtn.Text = "Modify process";
             this.ModifyProcessBtn.UseVisualStyleBackColor = true;
-            this.ModifyProcessBtn.Click += new System.EventHandler(this.ModifyProcessBtn_Click);
+            this.ModifyProcessBtn.Click += new System.EventHandler(this.ShowInfoProcessBtn_Click);
             // 
             // ProcessesGridView
             // 
@@ -446,7 +447,7 @@ namespace LabWork3.Forms
         private System.Windows.Forms.TableLayoutPanel ComputersControlPanel;
         private System.Windows.Forms.Button DeleteComputerBtn;
         private System.Windows.Forms.Button AddComputerBtn;
-        private System.Windows.Forms.Button ModifyComputerBtn;
+        private System.Windows.Forms.Button ShowInfoComputerBtn;
         private System.Windows.Forms.TableLayoutPanel ListPanel;
         private System.Windows.Forms.ComboBox ComputersList;
         private System.Windows.Forms.DataGridViewTextBoxColumn Process;

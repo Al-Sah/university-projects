@@ -90,6 +90,12 @@
       <Compile Include="Forms\AddProcessDialog.Designer.cs">
           <DependentUpon>AddProcessDialog.cs</DependentUpon>
       </Compile>
+      <Compile Include="Forms\ComputerInformationWindow.cs">
+          <SubType>Form</SubType>
+      </Compile>
+      <Compile Include="Forms\ComputerInformationWindow.Designer.cs">
+          <DependentUpon>ComputerInformationWindow.cs</DependentUpon>
+      </Compile>
       <Compile Include="Forms\DataMapper.cs"/>
       <Compile Include="Forms\MainWindow.cs">
           <SubType>Form</SubType>
@@ -97,15 +103,22 @@
       <Compile Include="Forms\MainWindow.Designer.cs">
           <DependentUpon>MainWindow.cs</DependentUpon>
       </Compile>
-      <Compile Include="Forms\ModifyProcessDialog.cs"/>
+      <Compile Include="Forms\ModifyProcessDialog.cs">
+          <SubType>Form</SubType>
+      </Compile>
       <Compile Include="Forms\ModifyProcessDialog.Designer.cs"/>
       <Compile Include="Forms\Notifier.cs"/>
-      <Compile Include="Forms\SetupAffinityDialog.cs"/>
+      <Compile Include="Forms\SetupAffinityDialog.cs">
+          <SubType>Form</SubType>
+      </Compile>
       <Compile Include="Forms\SetupAffinityDialog.Designer.cs"/>
       <Compile Include="Program.cs"/>
       <Compile Include="Properties\AssemblyInfo.cs"/>
       <EmbeddedResource Include="Forms\AddProcessDialog.resx">
           <DependentUpon>AddProcessDialog.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Forms\ComputerInformationWindow.resx">
+          <DependentUpon>ComputerInformationWindow.cs</DependentUpon>
       </EmbeddedResource>
       <EmbeddedResource Include="Forms\MainWindow.resx">
           <DependentUpon>MainWindow.cs</DependentUpon>
@@ -122,15 +135,15 @@
           <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
       <None Include="Properties\app.manifest"/>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+      <None Include="Properties\Settings.settings">
+          <Generator>SettingsSingleFileGenerator</Generator>
+          <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      </None>
+      <Compile Include="Properties\Settings.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Settings.settings</DependentUpon>
+          <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
