@@ -3,13 +3,22 @@
     font-size: 24px;
     margin: 25px;
     background: beige;
+    width: 400pt;
 }
 
+input[type=checkbox]:checked~label{
+    font: 30px bold;
+    color: #ff7347;
+}
 
 .block_row{
     display: flex;
     justify-content: center;
     align-items: flex-start;
+}
+
+.long-item{
+    width: 100%;
 }
 
 .block_item{
@@ -18,12 +27,11 @@
     margin: 5px;
 
     border: 5px dashed blue;
-
 }
 
 .absolute-data{
     position: absolute;
-    margin-top: 200px;
+    margin-top: 300px;
     border: 2px dotted red;
 }
 
