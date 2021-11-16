@@ -182,7 +182,7 @@ namespace LabWork3.Forms
             this.PrioritiesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PrioritiesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrioritiesList.FormattingEnabled = true;
-            this.PrioritiesList.Items.AddRange(new object[] {"Normal", "BelowNormal", "AboveNormal", "High", "Idle"});
+            this.PrioritiesList.Items.AddRange(new object[] {"Normal", "BelowNormal", "AboveNormal", "High", "RealTime", "Idle"});
             this.PrioritiesList.Location = new System.Drawing.Point(107, 151);
             this.PrioritiesList.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.PrioritiesList.Name = "PrioritiesList";

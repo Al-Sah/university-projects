@@ -96,6 +96,7 @@
       <Compile Include="Forms\ComputerInformationWindow.Designer.cs">
           <DependentUpon>ComputerInformationWindow.cs</DependentUpon>
       </Compile>
+      <Compile Include="Forms\CustomDataGridView.cs"/>
       <Compile Include="Forms\MainWindow.cs">
           <SubType>Form</SubType>
       </Compile>

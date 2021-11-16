@@ -51,7 +51,7 @@ namespace LabWork3.Forms
             this.DeleteProcessBtn = new System.Windows.Forms.Button();
             this.AddProcessBtn = new System.Windows.Forms.Button();
             this.ModifyProcessBtn = new System.Windows.Forms.Button();
-            this.ProcessesGridView = new System.Windows.Forms.DataGridView();
+            this.ProcessesGridView = new LabWork3.Forms.CustomDataGridView();
             this.Process = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();

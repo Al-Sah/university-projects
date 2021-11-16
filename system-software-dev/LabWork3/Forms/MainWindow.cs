@@ -25,6 +25,8 @@ namespace LabWork3.Forms
         public MainWindow()
         {
             InitializeComponent();
+            ((CustomDataGridView) ProcessesGridView).RightKeyDown += OnRightKeyDown;
+            ((CustomDataGridView) ProcessesGridView).LeftKeyDown += OnLeftKeyDown;
             ComputerManager = new ComputerManager();
             // Get current computer
             foreach (var current in ComputerManager.Computers.Values)
@@ -173,8 +175,7 @@ namespace LabWork3.Forms
 
         private void ModifyProcesses()
         {
-            var selectedRowCount = ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            if (selectedRowCount <= 0) return;
+            if (ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected) <= 0) return;
 
             _modifyProcessDialog.Ids = (from DataGridViewRow selectedRow in ProcessesGridView.SelectedRows
                 select (int) selectedRow.Cells[1].Value).ToList();
@@ -197,6 +198,30 @@ namespace LabWork3.Forms
         {
             _computerInformationDialog.Computer = Selected;
             _computerInformationDialog.ShowDialog();
+        }
+
+        private void OnRightKeyDown()
+        {
+            if (ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected) <= 0) return;
+
+            var ids = (from DataGridViewRow selectedRow in ProcessesGridView.SelectedRows
+                select (int) selectedRow.Cells[1].Value).ToList();
+            var processes = Selected.Processes.Values.ToList().FindAll(item => ids.Contains(item.Pid));
+
+            for (var index = 0; index < processes.Count; index++)
+                processes[index]++;
+        }
+
+        private void OnLeftKeyDown()
+        {
+            if (ProcessesGridView.Rows.GetRowCount(DataGridViewElementStates.Selected) <= 0) return;
+
+            var ids = (from DataGridViewRow selectedRow in ProcessesGridView.SelectedRows
+                select (int) selectedRow.Cells[1].Value).ToList();
+            var processes = Selected.Processes.Values.ToList().FindAll(item => ids.Contains(item.Pid));
+
+            for (var index = 0; index < processes.Count; index++)
+                processes[index]--;
         }
 
 
@@ -284,7 +309,14 @@ namespace LabWork3.Forms
                 }
                 else
                 {
-                    gridView.Rows.Add(res);
+                    try
+                    {
+                        gridView.Rows.Add(res);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e);
+                    }
                 }
             }
 
