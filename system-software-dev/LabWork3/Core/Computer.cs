@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,9 +16,9 @@ namespace LabWork3.Core
 
         // Processes collection cannot be assigned by internal class => set is private 
         public Dictionary<int, ProcessInfo> Processes { get; private set; }
-        
+
         public readonly Thread DataManager;
-        
+
         public event Action ProcessesUpdated;
         public event Action ProcessesNumberChanged;
 
@@ -28,24 +27,27 @@ namespace LabWork3.Core
             if (ProcessesUpdated == null) return;
             foreach (var d in ProcessesUpdated.GetInvocationList())
             {
-                ProcessesUpdated -=  (Action)d;
+                ProcessesUpdated -= (Action) d;
             }
+
             if (ProcessesNumberChanged == null) return;
             foreach (var d in ProcessesNumberChanged.GetInvocationList())
             {
-                ProcessesNumberChanged -=  (Action)d;
+                ProcessesNumberChanged -= (Action) d;
             }
+
             Memory.ClearEvent();
             Processor.ClearEvent();
         }
-        
+
         public Computer()
         {
             Name = Environment.MachineName;
-            
+
             Memory = new MemoryInformation(MemoryInformation.Unit.KBytes);
             Processor = new ProcessorInformation();
             Processes = new Dictionary<int, ProcessInfo>();
+            UpdateProcesses();
 
             Updatable = true;
             DataManager = new Thread(UpdateData);
@@ -62,13 +64,16 @@ namespace LabWork3.Core
                 Thread.Sleep(1000);
             }
         }
+
         private void UpdateProcesses()
         {
-            var newDictionary = Process.GetProcesses().Select(process => new ProcessInfo(process)).ToDictionary(processInfo => processInfo.Pid);
-            if ( Processes.Count != newDictionary.Count)
+            var newDictionary = Process.GetProcesses().Select(process => new ProcessInfo(process))
+                .ToDictionary(processInfo => processInfo.Pid);
+            if (Processes.Count != newDictionary.Count)
             {
                 ProcessesNumberChanged?.Invoke();
             }
+
             Processes.Clear();
             Processes = newDictionary;
             ProcessesUpdated?.Invoke();

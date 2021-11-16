@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using LabWork3.Core;
+using static System.String;
 
 namespace LabWork3.Forms
 {
@@ -11,15 +13,14 @@ namespace LabWork3.Forms
     {
         private delegate void SafeCallDelegate();
 
-        public ComputerManager ComputerManager { get; }
+        private ComputerManager ComputerManager { get; }
         private Computer Selected { get; set; }
 
-        private bool ResetGrid { get; set; }
+        private const string LoadingStr = " Loading . . . ";
 
         private readonly AddProcessDialog _addProcessDialog;
         private readonly ModifyProcessDialog _modifyProcessDialog;
         private readonly ComputerInformationWindow _computerInformationDialog;
-
 
         public MainWindow()
         {
@@ -42,8 +43,15 @@ namespace LabWork3.Forms
         {
             Selected?.ClearEventsHandlers();
             Selected = computer;
-            Selected.ProcessesUpdated += FillProcessesGridViewSafe;
-            Selected.ProcessesNumberChanged += () => ResetGrid = true;
+            GridViewManager.ResetDataGrid(Selected.Processes.Values.ToList(), ProcessesGridView);
+            SetComputerEventHandlers();
+            ProcessesLabel.Text = Selected.Processes.Count.ToString();
+        }
+
+        private void SetComputerEventHandlers()
+        {
+            Selected.ProcessesUpdated += ProcessesGridViewSafeUpdate;
+            Selected.ProcessesNumberChanged += () => ProcessesLabel.Text = Selected.Processes.Count.ToString();
             Selected.Processor.DataUpdated += () =>
             {
                 if (Selected.Processor.IsValid)
@@ -65,17 +73,24 @@ namespace LabWork3.Forms
 
         private void ComputersList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ComputersList.SelectedItem.Equals(LoadingStr))
+            {
+                return;
+            }
+
             ResetCurrent(ComputerManager.Get(ComputersList.SelectedItem.ToString()));
-            FillProcessesGridView();
+            ProcessesGridViewSafeUpdate();
         }
 
         private void AddComputerBtn_Click(object sender, EventArgs e)
         {
+            ComputersList.SelectedIndex = ComputersList.Items.Add(LoadingStr);
             ResetCurrent(ComputerManager.AddComputer());
+            ComputersList.Items.Remove(LoadingStr);
             ComputersList.SelectedIndex = ComputersList.Items.Add(Selected.Name);
             if (ComputersList.Items.Count == 1)
             {
-                ValidateButtons();
+                InvertButtonsState();
             }
         }
 
@@ -93,7 +108,7 @@ namespace LabWork3.Forms
             ComputerManager.DeleteComputer(Selected);
             Selected.ClearEventsHandlers();
             Selected = null;
-            ValidateButtons();
+            InvertButtonsState();
 
             const string zero = "0";
             ProcessesLabel.Text = zero;
@@ -101,7 +116,7 @@ namespace LabWork3.Forms
             RamUsageLabel.Text = zero;
         }
 
-        private void ValidateButtons()
+        private void InvertButtonsState()
         {
             AddProcessBtn.Enabled = !AddProcessBtn.Enabled;
             ModifyProcessBtn.Enabled = !ModifyProcessBtn.Enabled;
@@ -110,12 +125,12 @@ namespace LabWork3.Forms
             DeleteComputerBtn.Enabled = !DeleteComputerBtn.Enabled;
         }
 
-        private void FillProcessesGridViewSafe()
+        private void ProcessesGridViewSafeUpdate()
         {
             try
             {
                 if (ProcessesGridView.InvokeRequired)
-                    ProcessesGridView.Invoke(new SafeCallDelegate(FillProcessesGridViewSafe));
+                    ProcessesGridView.Invoke(new SafeCallDelegate(ProcessesGridViewSafeUpdate));
                 else
                     FillProcessesGridView();
             }
@@ -128,18 +143,7 @@ namespace LabWork3.Forms
         private void FillProcessesGridView()
         {
             if (Selected == null) return;
-            if (ResetGrid)
-            {
-                ProcessesGridView.Rows.Clear();
-                ProcessesGridView.Rows.AddRange(
-                    DataMapper.Reset(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView)));
-                ProcessesLabel.Text = Selected.Processes.Count.ToString();
-                ResetGrid = false;
-                return;
-            }
-
-            DataMapper.Update(DataMapper.SortProcesses(Selected.Processes.Values.ToList(), ProcessesGridView),
-                ProcessesGridView);
+            GridViewManager.Update(Selected.Processes.Values.ToList(), ProcessesGridView);
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -193,6 +197,104 @@ namespace LabWork3.Forms
         {
             _computerInformationDialog.Computer = Selected;
             _computerInformationDialog.ShowDialog();
+        }
+
+
+        private static class GridViewManager
+        {
+            public static void ResetDataGrid(List<ProcessInfo> processes, DataGridView gridView)
+            {
+                gridView.Rows.Clear();
+                SortProcesses(processes, gridView);
+                gridView.Rows.AddRange(processes.Select(process => new DataGridViewRow
+                {
+                    Cells =
+                    {
+                        new DataGridViewTextBoxCell {Value = process.Name},
+                        new DataGridViewTextBoxCell {Value = process.Pid},
+                        new DataGridViewTextBoxCell {Value = process.Priority},
+                        new DataGridViewTextBoxCell {Value = process.ProcessorAffinity},
+                        new DataGridViewTextBoxCell {Value = process.Memory},
+                        new DataGridViewTextBoxCell {Value = process.Path}
+                    }
+                }).ToArray());
+            }
+
+            public static void Update(List<ProcessInfo> processes, DataGridView gridView)
+            {
+                if (processes.Count != gridView.Rows.Count)
+                {
+                    UpdateRows(processes.Count, gridView);
+                }
+
+                SortProcesses(processes, gridView);
+
+                for (var index = 0; index < gridView.Rows.Count; index++)
+                {
+                    var process = processes[index];
+                    var row = gridView.Rows[index];
+                    UpdateUnit(row.Cells[0], process.Name);
+                    UpdateUnit(row.Cells[1], process.Pid);
+                    UpdateUnit(row.Cells[2], process.Priority);
+                    UpdateUnit(row.Cells[3], process.ProcessorAffinity);
+                    UpdateUnit(row.Cells[4], process.Memory);
+                    UpdateUnit(row.Cells[5], process.Path);
+                }
+            }
+
+            private static void SortProcesses(List<ProcessInfo> processes, DataGridView gridView)
+            {
+                switch (gridView.Columns.IndexOf(gridView.SortedColumn))
+                {
+                    case 0:
+                        processes.Sort((x, y) => CompareOrdinal(x.Name, y.Name));
+                        break;
+                    case 1:
+                        processes.Sort((x, y) => x.Pid.CompareTo(y.Pid));
+                        break;
+                    case 2:
+                        processes.Sort((x, y) => CompareOrdinal(x.Priority, y.Priority));
+                        break;
+                    case 3:
+                        processes.Sort((x, y) => x.ProcessorAffinity.CompareTo(y.ProcessorAffinity));
+                        break;
+                    case 4:
+                        processes.Sort((x, y) => x.Memory.CompareTo(y.Memory));
+                        break;
+                    case 5:
+                        processes.Sort((x, y) => CompareOrdinal(x.Path, y.Path));
+                        break;
+                }
+
+                if (gridView.SortOrder == SortOrder.Descending)
+                {
+                    processes.Reverse();
+                }
+            }
+
+            private static void UpdateRows(int processes, DataGridView gridView)
+            {
+                var res = processes - gridView.Rows.Count;
+                if (res <= 0)
+                {
+                    for (var i = 0; i < (res * -1); i++)
+                    {
+                        gridView.Rows.RemoveAt(gridView.Rows.Count - 1);
+                    }
+                }
+                else
+                {
+                    gridView.Rows.Add(res);
+                }
+            }
+
+            private static void UpdateUnit(DataGridViewCell cell, object value)
+            {
+                if (cell.Value != value)
+                {
+                    cell.Value = value;
+                }
+            }
         }
     }
 }
