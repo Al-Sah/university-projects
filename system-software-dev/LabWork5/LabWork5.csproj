@@ -33,6 +33,10 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />
@@ -46,15 +50,21 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="MainWindow.cs">
-            <SubType>Form</SubType>
+        <Compile Include="Forms\ManageStudentDialog.cs" />
+        <Compile Include="Forms\ManageStudentDialog.Designer.cs" />
+        <Compile Include="Forms\MainWindow.cs">
+          <SubType>Form</SubType>
         </Compile>
-        <Compile Include="MainWindow.Designer.cs">
-            <DependentUpon>MainWindow.cs</DependentUpon>
+        <Compile Include="Forms\MainWindow.Designer.cs">
+          <DependentUpon>MainWindow.cs</DependentUpon>
         </Compile>
+        <Compile Include="Model\StudentInfo.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <EmbeddedResource Include="MainWindow.resx">
+        <EmbeddedResource Include="Forms\ManageStudentDialog.resx">
+          <DependentUpon>ManageStudentDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Forms\MainWindow.resx">
           <DependentUpon>MainWindow.cs</DependentUpon>
         </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
@@ -66,6 +76,7 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
+        <None Include="packages.config" />
         <None Include="Properties\Settings.settings">
             <Generator>SettingsSingleFileGenerator</Generator>
             <LastGenOutput>Settings.Designer.cs</LastGenOutput>

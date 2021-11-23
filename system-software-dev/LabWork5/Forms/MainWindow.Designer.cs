@@ -1,4 +1,4 @@
-﻿namespace LabWork5
+﻿namespace LabWork5.Forms
 {
     partial class MainWindow
     {
@@ -50,6 +50,8 @@
             this.ModifyStudentsBtn = new System.Windows.Forms.Button();
             this.DeleteStudentsBtn = new System.Windows.Forms.Button();
             this.AddStudentBtn = new System.Windows.Forms.Button();
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.MainLayout.SuspendLayout();
             this.TopControlLayout.SuspendLayout();
             this.FiltrationLayout.SuspendLayout();
@@ -191,6 +193,7 @@
             this.StudentsGrid.Location = new System.Drawing.Point(3, 109);
             this.StudentsGrid.Name = "StudentsGrid";
             this.StudentsGrid.ReadOnly = true;
+            this.StudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.StudentsGrid.Size = new System.Drawing.Size(778, 364);
             this.StudentsGrid.TabIndex = 1;
             // 
@@ -258,6 +261,7 @@
             this.SaveFileBtn.TabIndex = 1;
             this.SaveFileBtn.Text = "Save to file";
             this.SaveFileBtn.UseVisualStyleBackColor = true;
+            this.SaveFileBtn.Click += new System.EventHandler(this.SaveFileBtn_Click);
             // 
             // LoadFileBtn
             // 
@@ -268,6 +272,7 @@
             this.LoadFileBtn.TabIndex = 0;
             this.LoadFileBtn.Text = "Load file";
             this.LoadFileBtn.UseVisualStyleBackColor = true;
+            this.LoadFileBtn.Click += new System.EventHandler(this.LoadFileBtn_Click);
             // 
             // StudentsControlLayout
             // 
@@ -296,6 +301,7 @@
             this.ModifyStudentsBtn.TabIndex = 3;
             this.ModifyStudentsBtn.Text = "Modify students";
             this.ModifyStudentsBtn.UseVisualStyleBackColor = true;
+            this.ModifyStudentsBtn.Click += new System.EventHandler(this.ModifyStudentsBtn_Click);
             // 
             // DeleteStudentsBtn
             // 
@@ -306,6 +312,7 @@
             this.DeleteStudentsBtn.TabIndex = 2;
             this.DeleteStudentsBtn.Text = "Delete students";
             this.DeleteStudentsBtn.UseVisualStyleBackColor = true;
+            this.DeleteStudentsBtn.Click += new System.EventHandler(this.DeleteStudentsBtn_Click);
             // 
             // AddStudentBtn
             // 
@@ -316,6 +323,11 @@
             this.AddStudentBtn.TabIndex = 1;
             this.AddStudentBtn.Text = "Add student";
             this.AddStudentBtn.UseVisualStyleBackColor = true;
+            this.AddStudentBtn.Click += new System.EventHandler(this.AddStudentBtn_Click);
+            // 
+            // OpenFileDialog
+            // 
+            this.OpenFileDialog.FileName = "openFileDialog1";
             // 
             // MainWindow
             // 
@@ -337,6 +349,9 @@
             this.StudentsControlLayout.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
+        private System.Windows.Forms.SaveFileDialog SaveFileDialog;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn StudentId;
         private System.Windows.Forms.DataGridViewTextBoxColumn StudentName;
