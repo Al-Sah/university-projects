@@ -11,21 +11,23 @@ namespace LabWork5.Forms
 {
     public partial class MainWindow : Form
     {
-        public List<StudentInfo> StudentList { get; set; }
+        private List<StudentInfo> StudentList { get; set; }
 
         private readonly ManageStudentDialog _manageStudentDialog;
+        private readonly ManageGroupsDialog _manageGroupsDialog;
 
-        public List<string> Groups { get; set; }
+        public List<string> Groups { get; private set; }
 
         public MainWindow()
         {
-            Groups = new List<string> { "G1", "G2", "G3", "G4", "G5"};
+            Groups = new List<string>();
             StudentList = new List<StudentInfo>();
             InitializeComponent();
             _manageStudentDialog = new ManageStudentDialog();
+            _manageGroupsDialog = new ManageGroupsDialog {Owner = this};
             SaveFileDialog.Filter = @"json files (*.json)|*.json";
             OpenFileDialog.Filter = @"json files (*.json)|*.json";
-            SaveFileDialog.RestoreDirectory = true ;
+            SaveFileDialog.RestoreDirectory = true;
         }
 
         private void LoadFileBtn_Click(object sender, EventArgs e)
@@ -34,8 +36,17 @@ namespace LabWork5.Forms
             {
                 return;
             }
+
             var fileData = File.ReadAllText(OpenFileDialog.FileName);
-            StudentList = JsonConvert.DeserializeObject<List<StudentInfo>>(fileData);
+            var data = JsonConvert.DeserializeObject<FileData>(fileData);
+            if (data is null)
+            {
+                MessageBox.Show("data is null", "Ups", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            StudentList = data.Students;
+            Groups = data.Groups;
             ResetDataGrid();
         }
 
@@ -45,8 +56,9 @@ namespace LabWork5.Forms
             {
                 return;
             }
+
             var stream = SaveFileDialog.OpenFile();
-            var json = JsonConvert.SerializeObject(StudentList);
+            var json = JsonConvert.SerializeObject(new FileData {Students = StudentList, Groups = Groups});
             var bytes = Encoding.UTF8.GetBytes(json);
             stream.Write(bytes, 0, bytes.Length);
             stream.Close();
@@ -66,29 +78,33 @@ namespace LabWork5.Forms
             StudentsGrid.Rows.Add(student.StudentId, student.StudentName, student.Group);
         }
 
-        
+
         private void ModifyStudentsBtn_Click(object sender, EventArgs e)
         {
             if (StudentsGrid.SelectedRows.Count != 1)
             {
-                MessageBox.Show("You have select 1 student (1 row in data grid)", "Ups", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You have select 1 student (1 row in data grid)", "Ups", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
             var rowIndex = StudentsGrid.CurrentCell.RowIndex;
             _manageStudentDialog.IsModification = true;
             _manageStudentDialog.Groups = Groups;
-            _manageStudentDialog.Student = StudentList.Find(s => s.StudentName == (string)StudentsGrid.SelectedRows[0].Cells["StudentName"].Value);
+            _manageStudentDialog.Student = StudentList.Find(s =>
+                s.StudentName == (string) StudentsGrid.SelectedRows[0].Cells["StudentName"].Value);
             if (_manageStudentDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
+
             var student = _manageStudentDialog.Student;
             StudentsGrid.Rows[rowIndex].Cells[1].Value = student.StudentName;
             StudentsGrid.Rows[rowIndex].Cells[2].Value = student.Group;
+            // TODO fix StudentList
         }
-        
-        
+
+
         private void ResetDataGrid()
         {
             StudentsGrid.Rows.Clear();
@@ -103,22 +119,46 @@ namespace LabWork5.Forms
             }).ToArray());
         }
 
+        public void OnGroupsDeleted(List<string> deleted)
+        {
+            foreach (var studentInfo in StudentList.Where(studentInfo => deleted.Contains(studentInfo.Group)))
+            {
+                studentInfo.Group = "Undefined";
+            }
+
+            ResetDataGrid();
+        }
+
+        public void OnGroupsRenamed(string newName, string oldName)
+        {
+            foreach (var studentInfo in StudentList.Where(studentInfo => studentInfo.Group == oldName))
+            {
+                studentInfo.Group = newName;
+            }
+
+            ResetDataGrid();
+        }
+
         private void DeleteStudentsBtn_Click(object sender, EventArgs e)
         {
-            
             if (StudentsGrid.Rows.GetRowCount(DataGridViewElementStates.Selected) <= 0)
             {
                 return;
             }
-            
+
             var students = (from DataGridViewRow selectedRow in StudentsGrid.SelectedRows
-                select  (string) selectedRow.Cells["StudentId"].Value).ToList();
+                select (string) selectedRow.Cells["StudentId"].Value).ToList();
 
             StudentList.RemoveAll(s => students.Contains(s.StudentId));
-            foreach (DataGridViewRow row  in StudentsGrid.SelectedRows)
+            foreach (DataGridViewRow row in StudentsGrid.SelectedRows)
             {
                 StudentsGrid.Rows.RemoveAt(row.Index);
             }
+        }
+
+        private void ManageGroupsBtn_Click(object sender, EventArgs e)
+        {
+            _manageGroupsDialog.ShowDialog();
         }
     }
 }

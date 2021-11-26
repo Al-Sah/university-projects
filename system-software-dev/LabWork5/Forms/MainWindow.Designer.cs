@@ -106,6 +106,7 @@
             this.ManageGroupsBtn.TabIndex = 0;
             this.ManageGroupsBtn.Text = "Manage groups";
             this.ManageGroupsBtn.UseVisualStyleBackColor = true;
+            this.ManageGroupsBtn.Click += new System.EventHandler(this.ManageGroupsBtn_Click);
             // 
             // FiltrationLayout
             // 
