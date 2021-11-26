@@ -36,6 +36,7 @@ namespace LabWork5.Forms
             }
 
             ((MainWindow) Owner).Groups.Add(group);
+            ((MainWindow) Owner).OnGroupAdded(group);
             ResetGroupsGrid();
             return true;
         }

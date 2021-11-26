@@ -28,6 +28,9 @@ namespace LabWork5.Forms
             SaveFileDialog.Filter = @"json files (*.json)|*.json";
             OpenFileDialog.Filter = @"json files (*.json)|*.json";
             SaveFileDialog.RestoreDirectory = true;
+            GroupsComboBox.Items.Add("All");
+            GroupsComboBox.Items.Add("Undefined");
+            GroupsComboBox.SelectedItem = "All";
         }
 
         private void LoadFileBtn_Click(object sender, EventArgs e)
@@ -47,6 +50,11 @@ namespace LabWork5.Forms
 
             StudentList = data.Students;
             Groups = data.Groups;
+            GroupsComboBox.Items.Clear();
+            GroupsComboBox.Items.Add("All");
+            GroupsComboBox.Items.Add("Undefined");
+            GroupsComboBox.SelectedItem = "All";
+            GroupsComboBox.Items.AddRange(Groups.ToArray());
             ResetDataGrid();
         }
 
@@ -108,7 +116,11 @@ namespace LabWork5.Forms
         private void ResetDataGrid()
         {
             StudentsGrid.Rows.Clear();
-            StudentsGrid.Rows.AddRange(StudentList.Select(student => new DataGridViewRow
+            var toPrintList = GroupsComboBox.SelectedItem.ToString() == "All"
+                ? StudentList
+                : StudentList.FindAll(s => s.Group == GroupsComboBox.SelectedItem.ToString());
+
+            StudentsGrid.Rows.AddRange(toPrintList.Select(student => new DataGridViewRow
             {
                 Cells =
                 {
@@ -119,6 +131,8 @@ namespace LabWork5.Forms
             }).ToArray());
         }
 
+        public void OnGroupAdded(string group) => GroupsComboBox.Items.Add(group);
+
         public void OnGroupsDeleted(List<string> deleted)
         {
             foreach (var studentInfo in StudentList.Where(studentInfo => deleted.Contains(studentInfo.Group)))
@@ -126,6 +140,12 @@ namespace LabWork5.Forms
                 studentInfo.Group = "Undefined";
             }
 
+            foreach (var s in deleted)
+            {
+                GroupsComboBox.Items.Remove(s);
+            }
+
+            GroupsComboBox.SelectedItem = "All";
             ResetDataGrid();
         }
 
@@ -136,6 +156,7 @@ namespace LabWork5.Forms
                 studentInfo.Group = newName;
             }
 
+            GroupsComboBox.Items[GroupsComboBox.Items.IndexOf(oldName)] = newName;
             ResetDataGrid();
         }
 
@@ -160,5 +181,7 @@ namespace LabWork5.Forms
         {
             _manageGroupsDialog.ShowDialog();
         }
+
+        private void ApplyBtn_Click(object sender, EventArgs e) => ResetDataGrid();
     }
 }

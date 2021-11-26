@@ -159,8 +159,6 @@ namespace LabWork5.Forms
 
         private System.Windows.Forms.Button RenameBtn;
 
-        private System.Windows.Forms.Button button1;
-
         private System.Windows.Forms.Button AddBtn;
 
         private System.Windows.Forms.Button DelBtn;

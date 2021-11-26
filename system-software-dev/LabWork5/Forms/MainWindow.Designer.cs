@@ -37,7 +37,7 @@
             this.StudentsFiltrationLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ChoseGroupLabel = new System.Windows.Forms.Label();
-            this.GroupsList = new System.Windows.Forms.ListBox();
+            this.GroupsComboBox = new System.Windows.Forms.ComboBox();
             this.StudentsGrid = new System.Windows.Forms.DataGridView();
             this.StudentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StudentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -135,6 +135,7 @@
             this.ApplyBtn.TabIndex = 2;
             this.ApplyBtn.Text = "Apply filter";
             this.ApplyBtn.UseVisualStyleBackColor = true;
+            this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtn_Click);
             // 
             // StudentsFiltrationLabel
             // 
@@ -152,7 +153,7 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.ChoseGroupLabel, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.GroupsList, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.GroupsComboBox, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(252, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -174,15 +175,15 @@
             this.ChoseGroupLabel.Text = "Select group";
             this.ChoseGroupLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // GroupsList
+            // GroupsComboBox
             // 
-            this.GroupsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupsList.FormattingEnabled = true;
-            this.GroupsList.ItemHeight = 20;
-            this.GroupsList.Location = new System.Drawing.Point(3, 33);
-            this.GroupsList.Name = "GroupsList";
-            this.GroupsList.Size = new System.Drawing.Size(129, 31);
-            this.GroupsList.TabIndex = 2;
+            this.GroupsComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GroupsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.GroupsComboBox.FormattingEnabled = true;
+            this.GroupsComboBox.Location = new System.Drawing.Point(3, 33);
+            this.GroupsComboBox.Name = "GroupsComboBox";
+            this.GroupsComboBox.Size = new System.Drawing.Size(129, 28);
+            this.GroupsComboBox.TabIndex = 2;
             // 
             // StudentsGrid
             // 
@@ -351,6 +352,8 @@
             this.ResumeLayout(false);
         }
 
+        private System.Windows.Forms.ComboBox GroupsComboBox;
+
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog;
 
@@ -367,8 +370,7 @@
         private System.Windows.Forms.Button SaveFileBtn;
         private System.Windows.Forms.Button ApplyBtn;
         private System.Windows.Forms.Button ManageGroupsBtn;
-        
-        private System.Windows.Forms.ListBox GroupsList;
+
         private System.Windows.Forms.Label ChoseGroupLabel;
         private System.Windows.Forms.Label StudentsFiltrationLabel;
         private System.Windows.Forms.DataGridView StudentsGrid;
