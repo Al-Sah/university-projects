@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script defer src="lab-work3.js"></script>
+</head>
+<body>
+
+    <div>
+        <table>
+            <tr>
+                <th>Параметр</th>
+                <th>Значение</th>
+            </tr>
+            <tr>
+                <td><label for="in-first-name">Имя</label></td>
+                <td><input type="text" name="first-name" id="in-first-name"></td>
+            </tr>
+            <tr>
+                <td><label for="in-last-name">Фамилия</label></td>
+                <td><input type="text" name="last-name" id="in-last-name"></td>
+            </tr>
+            <tr>
+                <td><label for="in-patronymic">Отчество</label></td>
+                <td><input type="text" name="patronymic" id="in-patronymic"></td>
+            </tr>
+            <tr>
+                <td><label for="in-hire-date">дата приема на работу</label></td>
+                <td><input type="date" name="hire-date" id="in-hire-date"> </td>
+            </tr>
+        </table>
+        <button value="submit" onclick='AddItemToList()'> DO IT </button>
+    </div>
+
+
+    <div>
+        <p> AVG <b id='avg_res'> </b> days </p>
+    </div>
+
+    <ol id="e_list"></ol>
+</body>
+</html>
