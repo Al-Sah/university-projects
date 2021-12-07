@@ -46,6 +46,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ConnectionManager.cs" />
         <Compile Include="MainWindow.cs">
             <SubType>Form</SubType>
         </Compile>
@@ -80,4 +81,5 @@
         <None Include="App.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
