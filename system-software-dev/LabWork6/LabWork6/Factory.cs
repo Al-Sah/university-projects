@@ -6,23 +6,22 @@ namespace LabWork6
     public class Factory : IDisposable
     {
         public int Departments { get; }
-        public int Products { get; set; }
-        public int RawMaterial { get; set; }
+        public int Products { get; private set; }
+        public int RawMaterial { get; private set; }
         public int Money { get; set; }
-        public int FreeStorageSpace { get; set; } // in percentage 
-
-        public State CurrentState { get; set; }
+        public int FreeStorageSpace { get; private set; } // in percentage 
+        public State CurrentState { get; set; } // TODO generating report
 
         public bool Runnable { get; set; }
 
-        public event Action ProductSailed;
-        public event Action MaterialBought;
-        public event Action ProductCreated;
+        public event Action PropertiesUpdated;
 
         private const int MaterialPrice = 5;
         private const int SailingPrice = 20;
         private const int CreationPrice = 5;
         private const int MaterialSpace = 5; // Percentage in storage
+
+        public EventWaitHandle Event { get; }
         private readonly Thread _worker;
 
         private const int BuyingTime = 1;
@@ -33,9 +32,10 @@ namespace LabWork6
         public Factory()
         {
             Runnable = true;
-            CurrentState = State.Waiting;
+            CurrentState = State.Buying;
             Departments = new Random().Next(10) * 5;
             FreeStorageSpace = 100;
+            Event = new ManualResetEvent(false);
             _worker = new Thread(Run);
             _worker.Start();
         }
@@ -44,6 +44,7 @@ namespace LabWork6
         {
             while (Runnable)
             {
+                Event.WaitOne();
                 switch (CurrentState)
                 {
                     case State.Buying:
@@ -64,12 +65,9 @@ namespace LabWork6
                         Thread.Sleep(SailingTime * 1000);
                         break;
                     }
-                    case State.Waiting:
-                    {
-                        Thread.Sleep(1000);
-                        break;
-                    }
                 }
+
+                PropertiesUpdated?.Invoke();
             }
         }
 
@@ -84,7 +82,6 @@ namespace LabWork6
             Money -= MaterialPrice;
             RawMaterial++;
             FreeStorageSpace -= MaterialSpace;
-            MaterialBought?.Invoke();
         }
 
         private void CreateProduct()
@@ -98,7 +95,6 @@ namespace LabWork6
             FreeStorageSpace += MaterialSpace;
             RawMaterial--;
             Products++;
-            ProductCreated?.Invoke();
         }
 
         private void SaleProduct()
@@ -110,7 +106,6 @@ namespace LabWork6
 
             Money += SailingPrice;
             Products--;
-            ProductSailed?.Invoke();
         }
 
         public void Dispose() => _worker.Join();
@@ -120,7 +115,6 @@ namespace LabWork6
     {
         Buying,
         Sailing,
-        Creating,
-        Waiting
+        Creating
     }
 }
