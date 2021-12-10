@@ -49,6 +49,7 @@
             this.ResumeBtn = new System.Windows.Forms.Button();
             this.SuspendBtn = new System.Windows.Forms.Button();
             this.StateComboBox = new System.Windows.Forms.ComboBox();
+            this.OpenReportDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainLayout.SuspendLayout();
             this.InfoLabelsLayout.SuspendLayout();
             this.TopCenterLayaut.SuspendLayout();
@@ -60,7 +61,7 @@
             this.MainLayout.ColumnCount = 3;
             this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.11194F));
             this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.88806F));
-            this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 106F));
+            this.MainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             this.MainLayout.Controls.Add(this.InfoLabelsLayout, 1, 1);
             this.MainLayout.Controls.Add(this.TopCenterLayaut, 1, 0);
             this.MainLayout.Controls.Add(this.ControlElementsLayout, 1, 2);
@@ -101,15 +102,15 @@
             this.InfoLabelsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.InfoLabelsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.InfoLabelsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.InfoLabelsLayout.Size = new System.Drawing.Size(583, 268);
+            this.InfoLabelsLayout.Size = new System.Drawing.Size(579, 268);
             this.InfoLabelsLayout.TabIndex = 0;
             // 
             // CurrentStateLabel
             // 
             this.CurrentStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CurrentStateLabel.Location = new System.Drawing.Point(294, 220);
+            this.CurrentStateLabel.Location = new System.Drawing.Point(292, 220);
             this.CurrentStateLabel.Name = "CurrentStateLabel";
-            this.CurrentStateLabel.Size = new System.Drawing.Size(286, 48);
+            this.CurrentStateLabel.Size = new System.Drawing.Size(284, 48);
             this.CurrentStateLabel.TabIndex = 11;
             this.CurrentStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -118,7 +119,7 @@
             this.CurrentStateInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CurrentStateInfoLabel.Location = new System.Drawing.Point(3, 220);
             this.CurrentStateInfoLabel.Name = "CurrentStateInfoLabel";
-            this.CurrentStateInfoLabel.Size = new System.Drawing.Size(285, 48);
+            this.CurrentStateInfoLabel.Size = new System.Drawing.Size(283, 48);
             this.CurrentStateInfoLabel.TabIndex = 10;
             this.CurrentStateInfoLabel.Text = "CurrentState";
             this.CurrentStateInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -126,9 +127,9 @@
             // FreeStorageSpaceLabel
             // 
             this.FreeStorageSpaceLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FreeStorageSpaceLabel.Location = new System.Drawing.Point(294, 176);
+            this.FreeStorageSpaceLabel.Location = new System.Drawing.Point(292, 176);
             this.FreeStorageSpaceLabel.Name = "FreeStorageSpaceLabel";
-            this.FreeStorageSpaceLabel.Size = new System.Drawing.Size(286, 44);
+            this.FreeStorageSpaceLabel.Size = new System.Drawing.Size(284, 44);
             this.FreeStorageSpaceLabel.TabIndex = 9;
             this.FreeStorageSpaceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -137,7 +138,7 @@
             this.FreeStorageSpaceInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FreeStorageSpaceInfoLabel.Location = new System.Drawing.Point(3, 176);
             this.FreeStorageSpaceInfoLabel.Name = "FreeStorageSpaceInfoLabel";
-            this.FreeStorageSpaceInfoLabel.Size = new System.Drawing.Size(285, 44);
+            this.FreeStorageSpaceInfoLabel.Size = new System.Drawing.Size(283, 44);
             this.FreeStorageSpaceInfoLabel.TabIndex = 8;
             this.FreeStorageSpaceInfoLabel.Text = "FreeStorageSpace";
             this.FreeStorageSpaceInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -145,9 +146,9 @@
             // MoneyLabel
             // 
             this.MoneyLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MoneyLabel.Location = new System.Drawing.Point(294, 132);
+            this.MoneyLabel.Location = new System.Drawing.Point(292, 132);
             this.MoneyLabel.Name = "MoneyLabel";
-            this.MoneyLabel.Size = new System.Drawing.Size(286, 44);
+            this.MoneyLabel.Size = new System.Drawing.Size(284, 44);
             this.MoneyLabel.TabIndex = 7;
             this.MoneyLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -156,7 +157,7 @@
             this.MoneyInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MoneyInfoLabel.Location = new System.Drawing.Point(3, 132);
             this.MoneyInfoLabel.Name = "MoneyInfoLabel";
-            this.MoneyInfoLabel.Size = new System.Drawing.Size(285, 44);
+            this.MoneyInfoLabel.Size = new System.Drawing.Size(283, 44);
             this.MoneyInfoLabel.TabIndex = 6;
             this.MoneyInfoLabel.Text = "Money";
             this.MoneyInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -164,9 +165,9 @@
             // RawMaterialLabel
             // 
             this.RawMaterialLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RawMaterialLabel.Location = new System.Drawing.Point(294, 88);
+            this.RawMaterialLabel.Location = new System.Drawing.Point(292, 88);
             this.RawMaterialLabel.Name = "RawMaterialLabel";
-            this.RawMaterialLabel.Size = new System.Drawing.Size(286, 44);
+            this.RawMaterialLabel.Size = new System.Drawing.Size(284, 44);
             this.RawMaterialLabel.TabIndex = 5;
             this.RawMaterialLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -175,7 +176,7 @@
             this.RawMaterialInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RawMaterialInfoLabel.Location = new System.Drawing.Point(3, 88);
             this.RawMaterialInfoLabel.Name = "RawMaterialInfoLabel";
-            this.RawMaterialInfoLabel.Size = new System.Drawing.Size(285, 44);
+            this.RawMaterialInfoLabel.Size = new System.Drawing.Size(283, 44);
             this.RawMaterialInfoLabel.TabIndex = 4;
             this.RawMaterialInfoLabel.Text = "RawMaterial";
             this.RawMaterialInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -183,9 +184,9 @@
             // ProductsLabel
             // 
             this.ProductsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProductsLabel.Location = new System.Drawing.Point(294, 44);
+            this.ProductsLabel.Location = new System.Drawing.Point(292, 44);
             this.ProductsLabel.Name = "ProductsLabel";
-            this.ProductsLabel.Size = new System.Drawing.Size(286, 44);
+            this.ProductsLabel.Size = new System.Drawing.Size(284, 44);
             this.ProductsLabel.TabIndex = 3;
             this.ProductsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -194,7 +195,7 @@
             this.ProductsInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ProductsInfoLabel.Location = new System.Drawing.Point(3, 44);
             this.ProductsInfoLabel.Name = "ProductsInfoLabel";
-            this.ProductsInfoLabel.Size = new System.Drawing.Size(285, 44);
+            this.ProductsInfoLabel.Size = new System.Drawing.Size(283, 44);
             this.ProductsInfoLabel.TabIndex = 2;
             this.ProductsInfoLabel.Text = "Products";
             this.ProductsInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -202,9 +203,9 @@
             // DepartmentsLabel
             // 
             this.DepartmentsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DepartmentsLabel.Location = new System.Drawing.Point(294, 0);
+            this.DepartmentsLabel.Location = new System.Drawing.Point(292, 0);
             this.DepartmentsLabel.Name = "DepartmentsLabel";
-            this.DepartmentsLabel.Size = new System.Drawing.Size(286, 44);
+            this.DepartmentsLabel.Size = new System.Drawing.Size(284, 44);
             this.DepartmentsLabel.TabIndex = 1;
             this.DepartmentsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -213,7 +214,7 @@
             this.DepartmentsInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DepartmentsInfoLabel.Location = new System.Drawing.Point(3, 0);
             this.DepartmentsInfoLabel.Name = "DepartmentsInfoLabel";
-            this.DepartmentsInfoLabel.Size = new System.Drawing.Size(285, 44);
+            this.DepartmentsInfoLabel.Size = new System.Drawing.Size(283, 44);
             this.DepartmentsInfoLabel.TabIndex = 0;
             this.DepartmentsInfoLabel.Text = "Departments";
             this.DepartmentsInfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -230,18 +231,19 @@
             this.TopCenterLayaut.Name = "TopCenterLayaut";
             this.TopCenterLayaut.RowCount = 1;
             this.TopCenterLayaut.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TopCenterLayaut.Size = new System.Drawing.Size(583, 58);
+            this.TopCenterLayaut.Size = new System.Drawing.Size(579, 58);
             this.TopCenterLayaut.TabIndex = 1;
             // 
             // ReportsBtn
             // 
             this.ReportsBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ReportsBtn.Location = new System.Drawing.Point(197, 3);
+            this.ReportsBtn.Location = new System.Drawing.Point(196, 3);
             this.ReportsBtn.Name = "ReportsBtn";
-            this.ReportsBtn.Size = new System.Drawing.Size(188, 52);
+            this.ReportsBtn.Size = new System.Drawing.Size(187, 52);
             this.ReportsBtn.TabIndex = 0;
             this.ReportsBtn.Text = "See reports";
             this.ReportsBtn.UseVisualStyleBackColor = true;
+            this.ReportsBtn.Click += new System.EventHandler(this.ReportsBtn_Click);
             // 
             // ControlElementsLayout
             // 
@@ -257,15 +259,15 @@
             this.ControlElementsLayout.Name = "ControlElementsLayout";
             this.ControlElementsLayout.RowCount = 1;
             this.ControlElementsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ControlElementsLayout.Size = new System.Drawing.Size(583, 48);
+            this.ControlElementsLayout.Size = new System.Drawing.Size(579, 48);
             this.ControlElementsLayout.TabIndex = 2;
             // 
             // ResumeBtn
             // 
             this.ResumeBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResumeBtn.Location = new System.Drawing.Point(391, 3);
+            this.ResumeBtn.Location = new System.Drawing.Point(389, 3);
             this.ResumeBtn.Name = "ResumeBtn";
-            this.ResumeBtn.Size = new System.Drawing.Size(189, 42);
+            this.ResumeBtn.Size = new System.Drawing.Size(187, 42);
             this.ResumeBtn.TabIndex = 1;
             this.ResumeBtn.Text = "Resume";
             this.ResumeBtn.UseVisualStyleBackColor = true;
@@ -275,9 +277,9 @@
             // 
             this.SuspendBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SuspendBtn.Enabled = false;
-            this.SuspendBtn.Location = new System.Drawing.Point(197, 3);
+            this.SuspendBtn.Location = new System.Drawing.Point(196, 3);
             this.SuspendBtn.Name = "SuspendBtn";
-            this.SuspendBtn.Size = new System.Drawing.Size(188, 42);
+            this.SuspendBtn.Size = new System.Drawing.Size(187, 42);
             this.SuspendBtn.TabIndex = 2;
             this.SuspendBtn.Text = "Suspend";
             this.SuspendBtn.UseVisualStyleBackColor = true;
@@ -291,9 +293,13 @@
             this.StateComboBox.Items.AddRange(new object[] {"Buying materials", "Creating products", "Sailing products"});
             this.StateComboBox.Location = new System.Drawing.Point(3, 3);
             this.StateComboBox.Name = "StateComboBox";
-            this.StateComboBox.Size = new System.Drawing.Size(188, 28);
+            this.StateComboBox.Size = new System.Drawing.Size(187, 28);
             this.StateComboBox.TabIndex = 3;
             this.StateComboBox.SelectedIndexChanged += new System.EventHandler(this.StateComboBox_SelectedIndexChanged);
+            // 
+            // OpenReportDialog
+            // 
+            this.OpenReportDialog.FileName = "OpenReportDialog";
             // 
             // MainWindow
             // 
@@ -312,6 +318,8 @@
             this.ControlElementsLayout.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.OpenFileDialog OpenReportDialog;
 
         private System.Windows.Forms.ComboBox StateComboBox;
 

@@ -47,6 +47,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Factory.cs" />
+        <Compile Include="FactoryReport.cs"/>
         <Compile Include="MainWindow.cs">
             <SubType>Form</SubType>
         </Compile>

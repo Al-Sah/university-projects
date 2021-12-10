@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace LabWork6
@@ -10,6 +12,8 @@ namespace LabWork6
         public MainWindow()
         {
             InitializeComponent();
+            OpenReportDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            OpenReportDialog.Filter = @"alx reports (*.alxrp;*.xml)|*.xml;*.alxrp";
             _factory = new Factory {Money = 200};
             DepartmentsLabel.Text = _factory.Departments.ToString();
             _factory.PropertiesUpdated += UpdateLabels;
@@ -21,6 +25,7 @@ namespace LabWork6
         {
             _factory.PropertiesUpdated -= UpdateLabels;
             _factory.Runnable = false;
+            _factory.Event.Set();
         }
 
         private void SuspendBtn_Click(object sender, EventArgs e)
@@ -73,6 +78,19 @@ namespace LabWork6
                     _factory.CurrentState = State.Sailing;
                     break;
             }
+        }
+
+        private void ReportsBtn_Click(object sender, EventArgs e)
+        {
+            if (OpenReportDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            var fileOpener = new Process();
+            fileOpener.StartInfo.FileName = "explorer";
+            fileOpener.StartInfo.Arguments = "\"" + OpenReportDialog.FileName + "\"";
+            fileOpener.Start();
         }
     }
 }
