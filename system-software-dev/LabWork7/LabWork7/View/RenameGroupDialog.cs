@@ -6,6 +6,7 @@ namespace LabWork7.View
     public partial class RenameGroupDialog : Form
     {
         public string GroupName { get; set; }
+        public int Id { get; set; }
 
         public RenameGroupDialog()
         {
@@ -19,7 +20,7 @@ namespace LabWork7.View
                 return;
             }
 
-            if (!((ManageGroupsDialog) Owner).RenameGroup(TextBox.Text, GroupName))
+            if (!((ManageGroupsDialog) Owner).RenameGroup(Id, TextBox.Text))
             {
                 MessageBox.Show("Failed to rename group", "Ups", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -27,6 +28,9 @@ namespace LabWork7.View
             Close();
         }
 
-        private void RenameGroupDialog_Load(object sender, EventArgs e) => TextBox.Text = GroupName;
+        private void RenameGroupDialog_Load(object sender, EventArgs e)
+        {
+            TextBox.Text = GroupName;
+        }
     }
 }

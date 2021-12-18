@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace LabWork7.View
@@ -20,25 +23,35 @@ namespace LabWork7.View
 
         private void ResetGroupsGrid()
         {
-            GroupsGrid.DataSource = ((MainWindow) Owner).Groups.ConvertAll(x => new {Value = x});
-            GroupsGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            GroupsGrid.Columns[0].HeaderText = "Group name";
-            GroupsGrid.ResetBindings();
+            using (var data = new SqlDataAdapter("Select * From Groups", ((MainWindow) Owner).Conn))
+            {
+                var table = new DataTable();
+                data.Fill(table);
+                GroupsGrid.DataSource = table;
+                GroupsGrid.ResetBindings();
+            }
+
+            foreach (DataGridViewColumn groupsGridColumn in GroupsGrid.Columns)
+            {
+                groupsGridColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
         }
 
         private void AddBtn_Click(object sender, EventArgs e) => _addGroupDialog.ShowDialog();
 
         public bool AddNewGroup(string group)
         {
-            if (((MainWindow) Owner).Groups.Contains(group))
+            try
+            {
+                new SqlCommand($"Insert into Groups (Name) Values ('{group}')", ((MainWindow) Owner).Conn)
+                    .ExecuteNonQuery();
+                ResetGroupsGrid();
+                return true;
+            }
+            catch (SqlException)
             {
                 return false;
             }
-
-            ((MainWindow) Owner).Groups.Add(group);
-            ((MainWindow) Owner).OnGroupAdded(group);
-            ResetGroupsGrid();
-            return true;
         }
 
         private void DelBtn_Click(object sender, EventArgs e)
@@ -49,35 +62,57 @@ namespace LabWork7.View
             }
 
             var groupsToDelete = (from DataGridViewRow selectedRow in GroupsGrid.SelectedRows
-                select (string) selectedRow.Cells[0].Value).ToList();
-            ((MainWindow) Owner).Groups.RemoveAll(g => groupsToDelete.Contains(g));
-            ((MainWindow) Owner).OnGroupsDeleted(groupsToDelete);
-            ResetGroupsGrid();
+                select (string) selectedRow.Cells[1].Value).ToList();
+
+            var stringBuilder = new StringBuilder();
+            for (var index = 0; index < groupsToDelete.Count; index++)
+            {
+                stringBuilder.Append("'").Append(groupsToDelete[index]).Append("'");
+                if (index < groupsToDelete.Count - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+            }
+
+            var cmd = new SqlCommand($"Delete From Groups where Name IN ({stringBuilder})", ((MainWindow) Owner).Conn);
+            try
+            {
+                cmd.ExecuteNonQuery();
+                ResetGroupsGrid();
+            }
+            catch
+            {
+                // ignored
+            }
         }
+
 
         private void RenameBtn_Click(object sender, EventArgs e)
         {
-            if (GroupsGrid.SelectedRows.Count == 0)
+            if (GroupsGrid.SelectedRows.Count != 1)
             {
                 return;
             }
 
-            _renameGroupDialog.GroupName = (string) GroupsGrid.SelectedRows[0].Cells[0].Value;
+            _renameGroupDialog.GroupName = (string) GroupsGrid.SelectedRows[0].Cells[1].Value;
+            _renameGroupDialog.Id = (int) GroupsGrid.SelectedRows[0].Cells[0].Value;
             _renameGroupDialog.ShowDialog();
         }
 
-        public bool RenameGroup(string newName, string oldName)
+        public bool RenameGroup(int id, string name)
         {
-            var groups = ((MainWindow) Owner).Groups;
-            if (groups.Contains(newName))
+            try
+            {
+                var cmd = new SqlCommand($"Update Groups Set Name = '{name}' where Id = '{id}'",
+                    ((MainWindow) Owner).Conn);
+                cmd.ExecuteNonQuery();
+                ResetGroupsGrid();
+                return true;
+            }
+            catch
             {
                 return false;
             }
-
-            groups[groups.IndexOf(oldName)] = newName;
-            ((MainWindow) Owner).OnGroupsRenamed(newName, oldName);
-            ResetGroupsGrid();
-            return true;
         }
     }
 }

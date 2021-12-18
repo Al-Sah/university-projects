@@ -55,7 +55,7 @@ namespace LabWork7.View
             this.MainLayout.Name = "MainLayout";
             this.MainLayout.RowCount = 3;
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.26035F));
-            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.63314F));
+            this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.63314F));
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.81065F));
             this.MainLayout.Size = new System.Drawing.Size(482, 338);
             this.MainLayout.TabIndex = 0;
@@ -106,9 +106,9 @@ namespace LabWork7.View
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.84034F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.89916F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.47059F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel2.Controls.Add(this.GroupsGrid, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 85);
@@ -120,6 +120,8 @@ namespace LabWork7.View
             // 
             // GroupsGrid
             // 
+            this.GroupsGrid.AllowUserToAddRows = false;
+            this.GroupsGrid.AllowUserToDeleteRows = false;
             this.GroupsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GroupsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupsGrid.Location = new System.Drawing.Point(125, 3);
@@ -127,6 +129,9 @@ namespace LabWork7.View
             this.GroupsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.GroupsGrid.Size = new System.Drawing.Size(221, 149);
             this.GroupsGrid.TabIndex = 3;
+            this.GroupsGrid.ReadOnly = true;
+            this.GroupsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            
             // 
             // RenameBtn
             // 
@@ -168,7 +173,6 @@ namespace LabWork7.View
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 
         private System.Windows.Forms.TableLayoutPanel MainLayout;
-
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
         #endregion

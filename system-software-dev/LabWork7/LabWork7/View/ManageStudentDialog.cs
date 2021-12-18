@@ -48,7 +48,7 @@ namespace LabWork7.View
                 return;
             }
 
-            Student = new StudentInfo(NameTextBox.Text, GroupsListBox.SelectedItem.ToString());
+            Student = new StudentInfo(Student?.StudentId, NameTextBox.Text, GroupsListBox.SelectedItem.ToString());
             DialogResult = DialogResult.OK;
             Close();
         }

@@ -39,14 +39,14 @@
             this.ChoseGroupLabel = new System.Windows.Forms.Label();
             this.GroupsComboBox = new System.Windows.Forms.ComboBox();
             this.StudentsGrid = new System.Windows.Forms.DataGridView();
-            this.StudentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StudentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Group = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ControlPanel = new System.Windows.Forms.TableLayoutPanel();
             this.StudentsControlLayout = new System.Windows.Forms.TableLayoutPanel();
             this.ModifyStudentsBtn = new System.Windows.Forms.Button();
             this.DeleteStudentsBtn = new System.Windows.Forms.Button();
             this.AddStudentBtn = new System.Windows.Forms.Button();
+            this.StudentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Group = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.MainLayout.SuspendLayout();
@@ -186,7 +186,6 @@
             this.StudentsGrid.AllowUserToAddRows = false;
             this.StudentsGrid.AllowUserToDeleteRows = false;
             this.StudentsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StudentsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {this.StudentId, this.StudentName, this.Group});
             this.StudentsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.StudentsGrid.Location = new System.Drawing.Point(3, 109);
             this.StudentsGrid.Name = "StudentsGrid";
@@ -194,27 +193,6 @@
             this.StudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.StudentsGrid.Size = new System.Drawing.Size(778, 364);
             this.StudentsGrid.TabIndex = 1;
-            // 
-            // StudentId
-            // 
-            this.StudentId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.StudentId.HeaderText = "StudentId";
-            this.StudentId.Name = "StudentId";
-            this.StudentId.ReadOnly = true;
-            // 
-            // StudentName
-            // 
-            this.StudentName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.StudentName.HeaderText = "StudentName";
-            this.StudentName.Name = "StudentName";
-            this.StudentName.ReadOnly = true;
-            // 
-            // Group
-            // 
-            this.Group.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Group.HeaderText = "Group";
-            this.Group.Name = "Group";
-            this.Group.ReadOnly = true;
             // 
             // ControlPanel
             // 
@@ -282,6 +260,27 @@
             this.AddStudentBtn.UseVisualStyleBackColor = true;
             this.AddStudentBtn.Click += new System.EventHandler(this.AddStudentBtn_Click);
             // 
+            // StudentId
+            // 
+            this.StudentId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.StudentId.HeaderText = "StudentId";
+            this.StudentId.Name = "StudentId";
+            this.StudentId.ReadOnly = true;
+            // 
+            // StudentName
+            // 
+            this.StudentName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.StudentName.HeaderText = "StudentName";
+            this.StudentName.Name = "StudentName";
+            this.StudentName.ReadOnly = true;
+            // 
+            // Group
+            // 
+            this.Group.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Group.HeaderText = "Group";
+            this.Group.Name = "Group";
+            this.Group.ReadOnly = true;
+            // 
             // OpenFileDialog
             // 
             this.OpenFileDialog.FileName = "openFileDialog1";
@@ -297,6 +296,7 @@
             this.Name = "MainWindow";
             this.Text = "MainWindow";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.MainLayout.ResumeLayout(false);
             this.TopControlLayout.ResumeLayout(false);
             this.FiltrationLayout.ResumeLayout(false);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using LabWork7.Model;
 
@@ -10,52 +12,75 @@ namespace LabWork7.View
 {
     public partial class MainWindow : Form
     {
-        private List<StudentInfo> StudentList { get; set; }
+        //private List<StudentInfo> StudentList { get; set; }
 
         private readonly ManageStudentDialog _manageStudentDialog;
         private readonly ManageGroupsDialog _manageGroupsDialog;
-        private const string ConnectData = @"Server=localhost\SQLEXPRESS;Database=test;Trusted_Connection=True;";
-        private readonly SqlConnection _conn;
-        public List<string> Groups { get; private set; }
+        private const string ConnectData = @"Server=localhost\SQLEXPRESS;Database=alx-lab;Trusted_Connection=True;";
+        public SqlConnection Conn { get; }
+        public List<string> GroupsList { get; private set; }
 
         public MainWindow()
         {
-            Groups = new List<string>();
-            StudentList = new List<StudentInfo>();
+            GroupsList = new List<string>();
+            //StudentList = new List<StudentInfo>();
             InitializeComponent();
             _manageStudentDialog = new ManageStudentDialog();
             _manageGroupsDialog = new ManageGroupsDialog {Owner = this};
             SaveFileDialog.Filter = @"json files (*.json)|*.json";
             OpenFileDialog.Filter = @"json files (*.json)|*.json";
             SaveFileDialog.RestoreDirectory = true;
-            GroupsComboBox.Items.Add("All");
-            GroupsComboBox.Items.Add("Undefined");
-            GroupsComboBox.SelectedItem = "All";
 
-            _conn = new SqlConnection(ConnectData);
+            Conn = new SqlConnection(ConnectData);
             try
             {
-                _conn.Open();
-                new SqlCommand("IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'students') " +
-                               "CREATE TABLE students ( s_name INT);", _conn).ExecuteNonQuery();
+                Conn.Open();
             }
             catch (SqlException)
             {
             }
         }
 
+        private void ResetGroups()
+        {
+            GroupsList.Clear();
+            GroupsComboBox.Items.Clear();
+            GroupsComboBox.Items.Add("All");
+            GroupsComboBox.SelectedItem = "All";
+
+            var cmd = new SqlCommand("Select Name From Groups", Conn);
+            using (var dr = cmd.ExecuteReader(CommandBehavior.Default))
+            {
+                while (dr.Read())
+                {
+                    var group = dr.GetValue(0).ToString();
+                    GroupsComboBox.Items.Add(group);
+                    GroupsList.Add(group);
+                }
+            }
+        }
+
         private void AddStudentBtn_Click(object sender, EventArgs e)
         {
             _manageStudentDialog.IsModification = false;
-            _manageStudentDialog.Groups = Groups;
+            _manageStudentDialog.Groups = GroupsList;
             if (_manageStudentDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
             var student = _manageStudentDialog.Student;
-            StudentList.Add(student);
-            StudentsGrid.Rows.Add(student.StudentId, student.StudentName, student.Group);
+            try
+            {
+                var group = $"(Select Id from Groups where Name = '{student.Group}')";
+                new SqlCommand(
+                    $"Insert into Students (\"StudentName\", \"Group\") Values ('{student.StudentName}', {group})",
+                    Conn).ExecuteNonQuery();
+                ResetDataGrid();
+            }
+            catch (SqlException)
+            {
+            }
         }
 
 
@@ -68,68 +93,52 @@ namespace LabWork7.View
                 return;
             }
 
-            var rowIndex = StudentsGrid.CurrentCell.RowIndex;
             _manageStudentDialog.IsModification = true;
-            _manageStudentDialog.Groups = Groups;
-            _manageStudentDialog.Student = StudentList.Find(s =>
-                s.StudentName == (string) StudentsGrid.SelectedRows[0].Cells["StudentName"].Value);
+            _manageStudentDialog.Groups = GroupsList;
+            _manageStudentDialog.Student = new StudentInfo(StudentsGrid.SelectedRows[0]);
             if (_manageStudentDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
             var student = _manageStudentDialog.Student;
-            StudentsGrid.Rows[rowIndex].Cells[1].Value = student.StudentName;
-            StudentsGrid.Rows[rowIndex].Cells[2].Value = student.Group;
-            // TODO fix StudentList
+            try
+            {
+                var group = $"(Select Id from Groups where Name = '{student.Group}')";
+                new SqlCommand(
+                    $"Update Students Set \"StudentName\" = '{student.StudentName}', \"Group\" = {group} where Id = '{student.StudentId}'",
+                    Conn).ExecuteNonQuery();
+                ResetDataGrid();
+            }
+            catch (SqlException)
+            {
+            }
         }
 
 
         private void ResetDataGrid()
         {
-            StudentsGrid.Rows.Clear();
-            var toPrintList = GroupsComboBox.SelectedItem.ToString() == "All"
-                ? StudentList
-                : StudentList.FindAll(s => s.Group == GroupsComboBox.SelectedItem.ToString());
-
-            StudentsGrid.Rows.AddRange(toPrintList.Select(student => new DataGridViewRow
+            const string getAllFromDb =
+                "Select s.Id, s.StudentName, g.Name as \"Group\" from [alx-lab].[dbo].Students as s join [alx-lab].[dbo].Groups as g on (g.Id = s.[Group])";
+            var dataString = getAllFromDb;
+            if (GroupsComboBox.SelectedItem.ToString() != "All")
             {
-                Cells =
-                {
-                    new DataGridViewTextBoxCell {Value = student.StudentId},
-                    new DataGridViewTextBoxCell {Value = student.StudentName},
-                    new DataGridViewTextBoxCell {Value = student.Group},
-                }
-            }).ToArray());
-        }
-
-        public void OnGroupAdded(string group) => GroupsComboBox.Items.Add(group);
-
-        public void OnGroupsDeleted(List<string> deleted)
-        {
-            foreach (var studentInfo in StudentList.Where(studentInfo => deleted.Contains(studentInfo.Group)))
-            {
-                studentInfo.Group = "Undefined";
+                dataString +=
+                    $" where s.\"Group\" = (Select Id from Groups where Name = '{GroupsComboBox.SelectedItem}')";
             }
 
-            foreach (var s in deleted)
+            using (var data = new SqlDataAdapter(dataString, Conn))
             {
-                GroupsComboBox.Items.Remove(s);
+                var table = new DataTable();
+                data.Fill(table);
+                StudentsGrid.DataSource = table;
+                StudentsGrid.ResetBindings();
             }
 
-            GroupsComboBox.SelectedItem = "All";
-            ResetDataGrid();
-        }
-
-        public void OnGroupsRenamed(string newName, string oldName)
-        {
-            foreach (var studentInfo in StudentList.Where(studentInfo => studentInfo.Group == oldName))
+            foreach (DataGridViewColumn groupsGridColumn in StudentsGrid.Columns)
             {
-                studentInfo.Group = newName;
+                groupsGridColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-
-            GroupsComboBox.Items[GroupsComboBox.Items.IndexOf(oldName)] = newName;
-            ResetDataGrid();
         }
 
         private void DeleteStudentsBtn_Click(object sender, EventArgs e)
@@ -140,22 +149,46 @@ namespace LabWork7.View
             }
 
             var students = (from DataGridViewRow selectedRow in StudentsGrid.SelectedRows
-                select (string) selectedRow.Cells["StudentId"].Value).ToList();
+                select (int) selectedRow.Cells["Id"].Value).ToList();
 
-            StudentList.RemoveAll(s => students.Contains(s.StudentId));
-            foreach (DataGridViewRow row in StudentsGrid.SelectedRows)
+            var stringBuilder = new StringBuilder();
+            for (var index = 0; index < students.Count; index++)
             {
-                StudentsGrid.Rows.RemoveAt(row.Index);
+                stringBuilder.Append("'").Append(students[index]).Append("'");
+                if (index < students.Count - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+            }
+
+            var cmd = new SqlCommand($"Delete From Students where Id IN ({stringBuilder})", Conn);
+            try
+            {
+                cmd.ExecuteNonQuery();
+                ResetDataGrid();
+            }
+            catch
+            {
+                // ignored
             }
         }
+
 
         private void ManageGroupsBtn_Click(object sender, EventArgs e)
         {
             _manageGroupsDialog.ShowDialog();
+            ResetGroups();
+            ResetDataGrid();
         }
 
         private void ApplyBtn_Click(object sender, EventArgs e) => ResetDataGrid();
 
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) => _conn.Close();
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) => Conn.Close();
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            ResetGroups();
+            ResetDataGrid();
+        }
     }
 }
