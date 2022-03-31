@@ -1,52 +1,47 @@
 <?php
 
+function get_sessions($pdo, int $client_id){
+    try{
+        $statement = $pdo->query("SELECT * FROM `seanse` where client_id = $client_id");
+        $sessions = $statement->fetchAll(PDO::FETCH_OBJ);
 
-function print_sessions_list($sessions)
-{
-    echo " <h3>Sessions list:</h3> <div class='list-group'>";
-    foreach ($sessions as $session) {
-        echo '<div class="list-group-item list-group-item-action d-flex w-100 justify-content-between">
-                <div class="row justify-content-between">
-                    <div class="col-md-auto">
-                        <h5 class="mb-1"> Traffic </h5>
-                        <table class="table">
-                            <tr>
-                                <td> in trafic </td>
-                                <td> out trafic </td>
-                            </tr>
-                            <tr>
-                                <td>'.$session->in_traffic.' MByte</td>
-                                <td>'.$session->out_traffic.' MByte</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-auto">
-                        <h5 class="mb-1"> Time </h5>
-                            <table class="table">
-                                <tr>
-                                    <td> start </td>
-                                    <td> stop </td>
-                                </tr>
-                                <tr>
-                                    <td>'.$session->start.'</td>
-                                    <td>'.$session->stop.'</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>';
+        print_sessions_list($sessions);
+
+    }catch(PDOException $e) {
+        echo "<h2> Error: ".$e->getMessage()."</h2>";
     }
-    echo "</div>";
 }
 
-function print_head($title){
-    echo '<head>
-            <meta charset="UTF-8">
-            <title>'.$title.'</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-            <!-- Bootstrap CSS -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-        
-        </head>';
+function get_clients($pdo){
+    if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['filter'])) {
+        $sql_str = 'SELECT * FROM `client` where balance > 0';
+    } else{
+        $sql_str = 'SELECT * FROM `client`';
+    }
+
+    try{
+        $statement = $pdo->query($sql_str);
+        $clients = $statement->fetchAll(PDO::FETCH_OBJ);
+        print_clients_list($clients);
+    }catch(PDOException $e) {
+        echo "<h2> Error: ".$e->getMessage()."</h2>";
+    }
+}
+
+function get_client($pdo){
+    if(array_key_exists("id", $_GET)){
+        if(!is_numeric($_GET['id'])){
+            print_error_page();
+            exit;
+        } else{
+            $client_id = $_GET['id'];
+            $client = $pdo->query("SELECT * FROM `client` WHERE id = $client_id")->fetch(PDO::FETCH_OBJ);
+            if(!$client){
+                print_error_page();
+                exit;
+            }
+            return $client;
+        }
+    }
+    return null;
 }
