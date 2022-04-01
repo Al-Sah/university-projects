@@ -81,21 +81,27 @@ function print_clients_list($clients){
 
 
 function print_error_page(int $code = 404, string $data = null){
+
+    http_response_code($code);
+    function print_error_content($code, $data){
+        echo "<div class='jumbotron p-4 bg-light'><div class='container'><h1 class='display-4'>Error $code</h1></div></div>";
+        if($data != null){
+            echo "<div class='container p-6 border-top border-bottom'>$data</div>";
+        }
+    }
+
     require 'parts/head.html';
-    if($code != 500){
+    if($code == 500){
+        print_error_content($code, $data);
+    } else{
         print_header();
-    }
-
-    echo "<div class='jumbotron p-4 bg-light'><div class='container'><h1 class='display-4'>Error $code</h1></div></div>";
-    if($data != null){
-        echo "<div class='container p-6 border-top border-bottom'>$data</div>";
-    }
-
-    if($code != 500){
+        print_error_content($code, $data);
         print_footer();
     }
     require 'parts/tail.html';
 }
+
+
 
 
 function print_client($client){

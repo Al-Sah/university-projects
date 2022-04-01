@@ -3,12 +3,10 @@
 function get_sessions($pdo, int $client_id){
     try{
         $statement = $pdo->query("SELECT * FROM `seanse` where client_id = $client_id");
-        $sessions = $statement->fetchAll(PDO::FETCH_OBJ);
-
-        print_sessions_list($sessions);
-
+        return $statement->fetchAll(PDO::FETCH_OBJ);
     }catch(PDOException $e) {
-        echo "<h2> Error: ".$e->getMessage()."</h2>";
+        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        exit;
     }
 }
 
@@ -17,31 +15,31 @@ function get_clients($pdo){
         $sql_str = 'SELECT * FROM `client` where balance > 0';
     } else{
         $sql_str = 'SELECT * FROM `client`';
-    }
+    } // TODO advanced filters
 
     try{
-        $statement = $pdo->query($sql_str);
-        $clients = $statement->fetchAll(PDO::FETCH_OBJ);
-        print_clients_list($clients);
+        return $pdo->query($sql_str)->fetchAll(PDO::FETCH_OBJ);
     }catch(PDOException $e) {
-        echo "<h2> Error: ".$e->getMessage()."</h2>";
+        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        exit;
     }
 }
 
 function get_client($pdo){
     if(array_key_exists("id", $_GET)){
         if(!is_numeric($_GET['id'])){
-            print_error_page();
+            print_error_page(400, "User id must be a number > 0");
             exit;
         } else{
             $client_id = $_GET['id'];
             $client = $pdo->query("SELECT * FROM `client` WHERE id = $client_id")->fetch(PDO::FETCH_OBJ);
             if(!$client){
-                print_error_page();
+                print_error_page(data: "Client with id $client_id not found");
                 exit;
             }
             return $client;
         }
     }
-    return null;
+    print_error_page(400, "key id was not sent");
+    exit;
 }

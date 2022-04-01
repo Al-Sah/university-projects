@@ -4,6 +4,8 @@
     require "database/config.php";
     require "utils.php";
 
+    $clients = get_clients($pdo);
+
     require "parts/head.html";
 ?>
 
@@ -16,7 +18,7 @@
                     <input type="submit" name="showAll" value = "Show all clients" />
                     <input type="submit" name="filter" value = "filter clients" />
                 </form>
-                <?php get_clients($pdo); ?>
+                <?php  print_clients_list($clients);?>
             </div>
         </div>
         <?php print_footer();?>

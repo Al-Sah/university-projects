@@ -4,6 +4,7 @@
     require "utils.php";
 
     $client = get_client($pdo);
+    $sessions = get_sessions($pdo, $client->id);
 
     require "parts/head.html";
 ?>
@@ -16,7 +17,7 @@
                 <div class="shadow-sm p-3 mb-5 bg-body rounded">
                     <?php print_client($client); ?>
                 </div>
-                <?php get_sessions($pdo, $client->id);?>
+                <?php print_sessions_list($sessions); ?>
             </div>
         </div>
         <?php print_footer();?>
