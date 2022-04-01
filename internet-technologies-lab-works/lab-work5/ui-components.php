@@ -66,11 +66,11 @@ function print_sessions_list($sessions){
 
 function print_clients_list($clients){
     if (!$clients) {
-        echo "<p>No clients found</p>";
+        echo "<p>No clients found".check_filter()."</p>";
         exit();
     }
 
-    echo "<h3>Clients list:</h3> <div class='list-group'>";
+    echo "<h3>Clients list ".check_filter().":</h3> <div class='list-group'>";
     foreach ($clients as $client) {
         echo "<a href='/client-statistic.php?id=$client->id'class='list-group-item list-group-item-info' aria-current='true'>";
         print_client($client);

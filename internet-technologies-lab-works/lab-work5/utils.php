@@ -10,12 +10,31 @@ function get_sessions($pdo, int $client_id){
     }
 }
 
+function check_filter(): string {
+    if (isset($_GET['clients-filter'])) {
+        switch ($_GET['clients-filter']){
+            case 'cf2':
+                return ' (balance > 0)';
+            case 'cf3':
+                return ' (balance <= 0)';
+        }
+    }
+    return '(no filters)';
+}
+
 function get_clients($pdo){
-    if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['filter'])) {
-        $sql_str = 'SELECT * FROM `client` where balance > 0';
-    } else{
-        $sql_str = 'SELECT * FROM `client`';
-    } // TODO advanced filters
+
+    $sql_str = 'SELECT * FROM `client`';
+
+    if (isset($_GET['clients-filter'])) {
+        switch ($_GET['clients-filter']){
+            case 'cf2':
+                $sql_str .= 'where balance > 0';
+                break;
+            case 'cf3':
+                $sql_str .= 'where balance <= 0';
+        }
+    }
 
     try{
         return $pdo->query($sql_str)->fetchAll(PDO::FETCH_OBJ);
