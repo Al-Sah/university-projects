@@ -6,8 +6,8 @@ function print_footer(){
     <div class="container">
         <footer class="py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Global statistic</a></li>
+                <li class="nav-item"><a href="/index.php" class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="/global-statistic.php" class="nav-link px-2 text-muted">Global statistic</a></li>
             </ul>
             <p class="text-center text-muted"> 2022; University al-sah :)</p>
         </footer>
@@ -22,7 +22,7 @@ function print_header(){
     <nav class="navbar navbar-light" >
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/index.php" class="nav-link active" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Global statistic</a></li>
+            <li class="nav-item"><a href="/global-statistic.php" class="nav-link">Global statistic</a></li>
         </ul>
     </nav>
     </header>
@@ -142,4 +142,50 @@ function print_client($client){
         </div>
         <p class="mb-1"> $client->login : $client->ip </p>
     CLIENT;
+}
+
+
+function print_global_statistic(GlobalStatistic $global_statistic)
+{
+    echo <<< STAT
+        <table class="table table-striped table-bordered ">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col"> Statistic </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"> Clients </th>
+          <td>$global_statistic->clients</td>
+        </tr>
+        <tr>
+          <th scope="row"> Sessions </th>
+          <td>$global_statistic->sessions</td>
+        </tr>
+        <tr>
+          <th scope="row"> Time online in minutes (summary) </th>
+          <td>$global_statistic->time_online</td>
+        </tr>
+        <tr>
+          <th scope="row"> Out traffic sum </th>
+          <td>$global_statistic->out_traffic_sum MByte</td>
+        </tr>
+        <tr>
+          <th scope="row"> In traffic sum </th>
+          <td>$global_statistic->in_traffic_sum MByte</td>
+        </tr>
+        <tr>
+          <th scope="row"> Client (id) with max out traffic for one session </th>
+          <td>$global_statistic->out_traffic_sum MByte</td>
+        </tr>
+        <tr>
+          <th scope="row"> Client (id) with max in traffic for one session </th>
+          <td>$global_statistic->in_traffic_sum MByte</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    STAT;
 }
