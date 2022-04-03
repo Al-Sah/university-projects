@@ -102,6 +102,36 @@ function print_error_page(int $code = 404, string $data = null){
 }
 
 
+function print_client_statistic($client_statistic){
+    echo <<< STAT
+        <table class="table table-striped table-bordered ">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col"> Statistic </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"> Time online </th>
+          <td>$client_statistic->time_online</td>
+        </tr>
+        <tr>
+          <th scope="row"> Out traffic sum </th>
+          <td>$client_statistic->out_traffic_sum MByte</td>
+        </tr>
+        <tr>
+          <th scope="row"> In traffic sum </th>
+          <td>$client_statistic->in_traffic_sum MByte</td>
+        </tr>
+        <tr>
+          <th scope="row"> Sessions count </th>
+          <td>$client_statistic->sessions_number</td>
+        </tr>
+      </tbody>
+    </table>
+    STAT;
+}
 
 
 function print_client($client){
