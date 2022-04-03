@@ -1,11 +1,12 @@
 <?php
+
+    require "models/ClientStatistic.php";
     require "database/config.php";
     require "ui-components.php";
-    require "statistic.php";
     require "utils.php";
 
     $client = get_client($pdo);
-    $client_statistic = new statistic($client->id, $pdo);
+    $client_statistic = new ClientStatistic($client->id, $pdo);
     $sessions = get_sessions($pdo, $client->id);
 
     require "parts/head.html";
