@@ -1,11 +1,13 @@
 package com.alsah.dao.impl;
 
 import com.alsah.dao.Dao;
+import com.alsah.dao.Utils;
 import com.alsah.models.Branch;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class BranchDao implements Dao<Branch> {
@@ -45,6 +47,20 @@ public class BranchDao implements Dao<Branch> {
     }
 
     @Override
+    public List<Branch> getAll(Map<String, Object> filter) {
+        try (Statement statement = connection.createStatement()) {
+            var rs = statement.executeQuery(sql.GET_ALL.QUERY + Utils.generateSql(filter));
+            var resultList =  new ArrayList<Branch>();
+            while(rs.next()) {
+                resultList.add(ResultSetToBranch(rs));
+            }
+            return resultList;
+        } catch (SQLException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public boolean save(Branch branch) {
 
         try (PreparedStatement statement = connection.prepareStatement(sql.INSERT.QUERY)) {
@@ -76,6 +92,7 @@ public class BranchDao implements Dao<Branch> {
             return false;
         }
     }
+
 
 
 

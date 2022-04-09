@@ -1,11 +1,13 @@
 package com.alsah.dao.impl;
 
 import com.alsah.dao.Dao;
+import com.alsah.dao.Utils;
 import com.alsah.models.Department;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class DepartmentDao implements Dao<Department> {
@@ -33,6 +35,20 @@ public class DepartmentDao implements Dao<Department> {
     public List<Department> getAll() {
         try (Statement statement = connection.createStatement()) {
             var rs = statement.executeQuery(sql.GET_ALL.QUERY);
+            var resultList =  new ArrayList<Department>();
+            while(rs.next()) {
+                resultList.add(ResultSetToDepartment(rs));
+            }
+            return resultList;
+        } catch (SQLException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Department> getAll(Map<String, Object> filter) {
+        try (Statement statement = connection.createStatement()) {
+            var rs = statement.executeQuery(sql.GET_ALL.QUERY + Utils.generateSql(filter));
             var resultList =  new ArrayList<Department>();
             while(rs.next()) {
                 resultList.add(ResultSetToDepartment(rs));

@@ -7,6 +7,7 @@ import com.alsah.models.Department;
 
 import java.util.Date;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
@@ -40,6 +41,14 @@ public class Main {
 
         System.out.printf("Branches count: %d%n", branchDao.getAll().size());
         System.out.printf("Departments count: %d%n", departmentDao.getAll().size());
+
+        branchDao.get(1).ifPresentOrElse(branch -> {
+            var filter = new HashMap<String, Object>();
+            filter.put("branch_id", branch.getId());
+            for (Department department : departmentDao.getAll(filter)) {
+                System.out.printf(" * Department: %d, branchId: %d%n", department.getId(), branch.getId());
+            }
+        }, () -> System.out.println("ERROR: Branch not found"));
 
         branchDao.get(1).ifPresentOrElse(Main::updateBranch, () -> System.out.println("ERROR: Branch not found"));
         departmentDao.get(1).ifPresentOrElse(Main::updateDepartment, () -> System.out.println("ERROR: Department not found"));
