@@ -3,7 +3,9 @@ package com.alsah;
 import com.alsah.dao.impl.BranchDao;
 import com.alsah.dao.impl.DepartmentDao;
 import com.alsah.models.Branch;
+import com.alsah.models.Department;
 
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.Random;
 import java.util.UUID;
@@ -30,11 +32,17 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             insertBranch();
         }
-        var branches_count = branchDao.getAll().size();
-        System.out.printf("Branches count: %d%n", branches_count);
+        for (Branch branch : branchDao.getAll()) {
+            for (int i = 0; i < 3; i++) {
+                insertDepartment(branch.getId());
+            }
+        }
+
+        System.out.printf("Branches count: %d%n", branchDao.getAll().size());
+        System.out.printf("Departments count: %d%n", departmentDao.getAll().size());
 
         branchDao.get(1).ifPresentOrElse(Main::updateBranch, () -> System.out.println("ERROR: Branch not found"));
-        branchDao.get(branches_count).ifPresentOrElse(Main::updateBranch, () -> System.out.println("ERROR: Branch not found"));
+        departmentDao.get(1).ifPresentOrElse(Main::updateDepartment, () -> System.out.println("ERROR: Department not found"));
 
         for (var brunch: branchDao.getAll()) {
             if(branchDao.delete(brunch)){
@@ -79,4 +87,38 @@ public class Main {
             System.out.printf("Failed to update branch: %d%n", branch.getId());
         }
     }
+
+    private static void updateDepartment(Department department){
+        var random = new Random();
+
+        department.setAddress(department.getAddress() + "-UP");
+        department.setCreation(new Date(new Date().getTime()-200000));
+        department.setEmployees(department.getEmployees() + random.nextInt(50));
+        department.setAvgIncome(department.getAvgIncome() + random.nextInt(10000));
+
+        if(departmentDao.update(department)){
+            System.out.printf("Updated department: %d%n", department.getId());
+        } else {
+            System.out.printf("Failed to update department: %d%n", department.getId());
+        }
+    }
+
+    private static void insertDepartment(int branchId){
+        var random = new Random();
+        var insertBranch = new Department(0, // ID is not used here
+                "address-" + UUID.randomUUID().toString().substring(0,6),
+                new Date(new Date().getTime()-200000),
+                random.nextInt(100),
+                true,
+                random.nextInt(99000) + 1000,
+                branchId
+        );
+
+        if(departmentDao.save(insertBranch)){
+            System.out.printf("Created new department: branch - %d |%s%n", branchId, insertBranch.getAddress());
+        } else {
+            System.out.printf("Failed to create new department: branch - %d |%s%n", branchId, insertBranch.getAddress());
+        }
+    }
+
 }
