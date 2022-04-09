@@ -32,7 +32,7 @@ public class DepartmentDao implements Dao<Department> {
     }
 
     @Override
-    public boolean update(Department department, String[] params) {
+    public boolean update(Department department) {
         return false;
     }
 
