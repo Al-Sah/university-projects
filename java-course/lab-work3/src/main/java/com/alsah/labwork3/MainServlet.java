@@ -1,5 +1,9 @@
 package com.alsah.labwork3;
 
+import com.alsah.labwork3.calculator.CalculationResult;
+import com.alsah.labwork3.calculator.Calculator;
+import com.alsah.labwork3.calculator.InvalidCalculatorArgument;
+
 import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -19,11 +23,12 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-           double result = Calculator.execute(
+            CalculationResult result = Calculator.execute(
                     request.getParameter("number1"),
                     request.getParameter("number2"),
                     request.getParameter("operation"));
-           request.setAttribute("message",  "Result: " + result);
+           request.setAttribute("message",  "Result: " + result.getResult());
+           request.setAttribute("result",  result);
 
         } catch (InvalidCalculatorArgument e) {
             request.setAttribute("message",  "Failed to calculate: " + e.getMessage());

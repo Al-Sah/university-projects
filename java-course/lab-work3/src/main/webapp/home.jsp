@@ -1,3 +1,4 @@
+<jsp:useBean id="result" scope="request" class="com.alsah.labwork3.calculator.CalculationResult"/>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <jsp:include page="head.jsp" />
@@ -16,6 +17,13 @@
     <div class="row">
       <div class="col-md-8">
         <h1> ${requestScope.message}</h1>
+
+        <div>
+          <% if ("POST".equalsIgnoreCase(request.getMethod())) { %>
+            <p> ${result.number1} ${result.operation} ${result.number2} = ${result.result}</p>
+          <% } %>
+
+        </div>
 
         <form action="${pageContext.request.contextPath}/" method="post" class="shadow-sm p-3 mb-5 bg-body rounded">
 

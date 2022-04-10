@@ -1,4 +1,4 @@
-package com.alsah.labwork3;
+package com.alsah.labwork3.calculator;
 
 public class InvalidCalculatorArgument extends Exception{
 
