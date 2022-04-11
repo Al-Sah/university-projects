@@ -7,10 +7,11 @@
 
     <tlib-version>1.0</tlib-version>
     <jsp-version>1.2</jsp-version>
-    <short-name>my-tag</short-name>
+    <short-name>mytag</short-name>
 
     <tag>
-        <name>my-tag</name>
+        <name>mytag</name>
         <tag-class>com.alsah.labwork4.MyTagHandler</tag-class>
+        <body-content>scriptless</body-content>
     </tag>
 </taglib>
