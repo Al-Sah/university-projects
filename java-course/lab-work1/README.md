@@ -1,5 +1,9 @@
 # java-course (lab-work1)
 
+## Collections
+
 ### Task:
 
-Создать класс, который в конструкторе принимал бы предложение (одну строку - набор слов, разделенных пробелами) и предоставлял методы для получения количества слов в предложении, а также словаря использованных слов в алфавитном порядке без учета регистра.
+Create a class to parse the sentence (one string - a set of words separated by spaces) 
+and provide methods for getting the number of words in the sentence, 
+as well as a dictionary of used words in alphabetical order, case-insensitive.

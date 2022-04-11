@@ -1,11 +1,13 @@
 # java-course (lab-work2)
 
+## JDBC + DAO
+
 ### Task:
 
-Создать программу для работы с БД филиалов компании. БД должна содержать две
-взаимосвязанные таблицы: "Филиалы" и "Подразделения филиалов". Программа
-должна осуществлять занесение данных в диалоговом режиме, редактирование и
-просмотр. Просмотр списка подразделений заданного филиала.
+Create an application to work with the database of the company's branches. 
+The database should contain two interrelated tables: 
+"Branches" and "Subdivisions of branches" (Departments). 
+Program must provide CRUD operation to each table.
 
 
-#### (mysql-connector-java) added manually 
+#### (mysql-connector-java) was added manually 
