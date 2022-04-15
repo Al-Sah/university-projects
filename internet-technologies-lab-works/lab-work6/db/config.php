@@ -1,13 +1,13 @@
 <?php
 
-require "ui-components.php";
+require_once "ui-components.php";
+require_once "setup-collections.php";
 
 $db_config = array(
     "db_name" => "itech_lab",
     "clients_collection" => "clients",
-    "traffic_collection" => "clients",
+    "seances_collection" => "seances",
 );
-
 
 try{
     $mongo = new MongoDB\Client("mongodb://localhost:27017");
@@ -15,9 +15,12 @@ try{
         throw new DataBaseNotFoundException("Database '".$db_config["db_name"]."' not found");
     }
     $database = $mongo->selectDatabase($db_config["db_name"]);
-    validate_database($database, $db_config["clients_collection"], $db_config["traffic_collection"]);
+    validate_database($database, $db_config["clients_collection"], $db_config["seances_collection"]);
     $clients_collection = $database->selectCollection($db_config["clients_collection"]);
-    $traffic_collection = $database->selectCollection($db_config["traffic_collection"]);
+    $seances_collection = $database->selectCollection($db_config["seances_collection"]);
+
+    #fill_collections($clients_collection, $seances_collection);
+
 }catch(Exception $e) {
     print_error_page(500, "Exception: ".$e->getMessage());
     phpinfo();
