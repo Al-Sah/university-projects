@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 require_once "utils.php";
 
 function print_footer(){
@@ -30,7 +32,7 @@ function print_header(){
     HEADER;
 }
 
-function print_error_page(int $code = 404, string $data = null){
+#[NoReturn] function print_error_page(int $code = 404, string $data = null){
 
     http_response_code($code);
     function print_error_content($code, $data){
@@ -49,6 +51,7 @@ function print_error_page(int $code = 404, string $data = null){
         print_footer();
     }
     require 'parts/tail.html';
+    exit();
 }
 
 
