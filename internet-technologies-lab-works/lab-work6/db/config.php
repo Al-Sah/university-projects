@@ -1,7 +1,6 @@
 <?php
 
 require_once "ui-components.php";
-require_once "setup-collections.php";
 
 $db_config = array(
     "db_name" => "itech_lab",
@@ -19,12 +18,8 @@ try{
     $clients_collection = $database->selectCollection($db_config["clients_collection"]);
     $seances_collection = $database->selectCollection($db_config["seances_collection"]);
 
-    #fill_collections($clients_collection, $seances_collection);
-
 }catch(Exception $e) {
     print_error_page(500, "Exception: ".$e->getMessage());
-    phpinfo();
-    die();
 }
 
 

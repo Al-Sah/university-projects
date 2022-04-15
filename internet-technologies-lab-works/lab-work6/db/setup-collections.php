@@ -4,6 +4,8 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\InsertOneResult;
 
+require_once "config.php";
+
 function fill_collections(Collection $clients_collection, Collection $seances_collection){
 
     $clients_collection->deleteMany([]);
@@ -49,3 +51,6 @@ function create_seance_document(Collection $collection, ObjectId $clientId){
         ]
     );
 }
+
+
+fill_collections($clients_collection, $seances_collection);
