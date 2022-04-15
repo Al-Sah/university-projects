@@ -2,8 +2,9 @@
 
 function get_sessions($pdo, int $client_id){
     try{
-        $statement = $pdo->query("SELECT * FROM `seanse` where client_id = $client_id");
-        return $statement->fetchAll(PDO::FETCH_OBJ);
+        $sth = $pdo->prepare("SELECT * FROM `seanse` where client_id = :id");
+        $sth->execute(array('id' => $client_id));
+        return $sth->fetchAll(PDO::FETCH_OBJ);
     }catch(PDOException $e) {
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
@@ -51,7 +52,9 @@ function get_client($pdo){
             exit;
         } else{
             $client_id = $_GET['id'];
-            $client = $pdo->query("SELECT * FROM `client` WHERE id = $client_id")->fetch(PDO::FETCH_OBJ);
+            $sth = $pdo->prepare("SELECT * FROM `client` where id = :id");
+            $sth->execute(array('id' => $client_id));
+            $client = $sth->fetch(PDO::FETCH_OBJ);
             if(!$client){
                 print_error_page(data: "Client with id $client_id not found");
                 exit;

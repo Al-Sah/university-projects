@@ -126,7 +126,7 @@ function print_client_statistic($client_statistic){
         </tr>
         <tr>
           <th scope="row"> Sessions count </th>
-          <td>$client_statistic->sessions_number</td>
+          <td>$client_statistic->sessions</td>
         </tr>
       </tbody>
     </table>
