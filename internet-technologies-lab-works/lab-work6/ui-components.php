@@ -1,5 +1,6 @@
 <?php
 
+require_once "utils.php";
 
 function print_footer(){
     echo <<< FOOTER
@@ -48,4 +49,30 @@ function print_error_page(int $code = 404, string $data = null){
         print_footer();
     }
     require 'parts/tail.html';
+}
+
+
+function print_client($client){
+    echo <<< CLIENT
+        <div class="d-flex w-100 justify-content-between ">
+            <h5 class="mb-1">$client->login</h5>
+            <small> Balance: $client->balance</small>
+        </div>
+        <p class="mb-1"> ip $client->ip </p>
+    CLIENT;
+}
+
+function print_clients_list($clients){
+    if (!$clients) {
+        echo "<p>No clients found".check_filter()."</p>";
+        return;
+    }
+
+    echo "<h3>Clients list ".check_filter().":</h3> <div class='list-group'>";
+    foreach ($clients as $client) {
+        echo "<a href='/client-statistic.php?id=$client->_id'class='list-group-item list-group-item-info' aria-current='true'>";
+        print_client($client);
+        echo '</a>';
+    }
+    echo "</div>";
 }
