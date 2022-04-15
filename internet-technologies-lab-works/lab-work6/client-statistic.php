@@ -1,7 +1,7 @@
 <?php
 
     require_once __DIR__ . '/vendor/autoload.php'; // Composer autoload
-    require_once "db/config.php";
+    require_once "db/collections.php";
     require_once "ui-components.php";
     require_once "utils.php";
 

@@ -1,19 +1,25 @@
 <?php
 
+require_once '../vendor/autoload.php'; // Composer autoload
+require_once 'ConnectionFactory.php';
+
 use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\InsertOneResult;
 
-require_once "config.php";
+try{
+    $res = ConnectionFactory::getCollections();
+    $clients_collection = $res[0];
+    $seances_collection = $res[1];
+}catch(Exception $e) {
+    die("Failed to get collections");
+}
 
 function fill_collections(Collection $clients_collection, Collection $seances_collection){
 
-    $clients_collection->deleteMany([]);
-    $seances_collection->deleteMany([]);
-
-    for ($i = 0; $i < 10; $i++){
+    for ($i = 0; $i < 2; $i++){
         $res = create_client_document($clients_collection);
-        for ($j = 0; $j < 10; $j++){
+        for ($j = 0; $j < 5; $j++){
               create_seance_document($seances_collection, $res->getInsertedId());
         }
     }
@@ -21,7 +27,7 @@ function fill_collections(Collection $clients_collection, Collection $seances_co
 
 function create_client_document(Collection $collection): InsertOneResult
 {
-    return $collection->insertOne(
+    $result =  $collection->insertOne(
         [
             'login' => 'user-' . uniqid(),
             'password' => password_hash(uniqid(),PASSWORD_DEFAULT),
@@ -30,6 +36,8 @@ function create_client_document(Collection $collection): InsertOneResult
             'messages' => ["message1", "message2", "Message3", "Message4"]
         ]
     );
+    echo " ******* New client: ".$result->getInsertedId()."\n";
+    return $result;
 }
 
 
@@ -39,7 +47,7 @@ function create_seance_document(Collection $collection, ObjectId $clientId){
     $out_traffic = rand(32, 100000);
     $price = ($in_traffic + $out_traffic) / 10000;
 
-    $collection->insertOne(
+    $result = $collection->insertOne(
         [
             'start' => date('Y/m/d h:i:s a', time() - rand(60, 86400)),
             'end' => date('Y/m/d h:i:s a', time()),
@@ -50,6 +58,7 @@ function create_seance_document(Collection $collection, ObjectId $clientId){
             'client' => $clientId
         ]
     );
+    echo "New session: ".$result->getInsertedId()."\n";
 }
 
 
