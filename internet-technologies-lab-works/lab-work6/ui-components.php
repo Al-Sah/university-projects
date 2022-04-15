@@ -62,8 +62,8 @@ function print_client($client){
     CLIENT;
 }
 
-function print_clients_list($clients){
-    if (!$clients) {
+function print_clients_list(array $clients){
+    if (count($clients) == 0) {
         echo "<p>No clients found".check_filter()."</p>";
         return;
     }
