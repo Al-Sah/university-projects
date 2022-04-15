@@ -7,7 +7,7 @@
 
     $client_id = get_client_id_from_request();
     $client = get_client($client_id, $clients_collection);
-    $sessions = get_sessions($client_id, $seances_collection);
+    $sessions = get_sessions($client_id, $sessions_collection);
 
     require "parts/head.html";
 ?>

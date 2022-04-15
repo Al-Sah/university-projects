@@ -7,20 +7,12 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\InsertOneResult;
 
-try{
-    $res = ConnectionFactory::getCollections();
-    $clients_collection = $res[0];
-    $seances_collection = $res[1];
-}catch(Exception $e) {
-    die("Failed to get collections");
-}
-
-function fill_collections(Collection $clients_collection, Collection $seances_collection){
+function fill_collections(Collection $clients, Collection $sessions){
 
     for ($i = 0; $i < 2; $i++){
-        $res = create_client_document($clients_collection);
+        $res = create_client_document($clients);
         for ($j = 0; $j < 5; $j++){
-              create_seance_document($seances_collection, $res->getInsertedId());
+              create_seance_document($sessions, $res->getInsertedId());
         }
     }
 }
@@ -62,4 +54,12 @@ function create_seance_document(Collection $collection, ObjectId $clientId){
 }
 
 
-fill_collections($clients_collection, $seances_collection);
+try{
+    $res = ConnectionFactory::getCollections();
+    $clients = $res[0];
+    $sessions = $res[1];
+}catch(Exception $e) {
+    die("Failed to get collections");
+}
+
+fill_collections($clients, $sessions);
