@@ -1,11 +1,16 @@
 <?php
 
-    require "models/GlobalStatistic.php";
+    require "db/config.php";
+    require "db/mapping/GlobalStatisticMapper.php";
     require "ui-components.php";
-    require "database/config.php";
     require "utils.php";
 
-    $global_statistic = new GlobalStatistic($pdo);
+    try{
+        $global_statistic = GlobalStatisticMapper::get($pdo);
+    } catch (PDOException){
+        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        exit;
+    }
 
     require "parts/head.html";
 ?>

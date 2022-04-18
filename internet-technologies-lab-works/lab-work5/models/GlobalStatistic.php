@@ -1,47 +1,42 @@
 <?php
 
+namespace models;
+
 class GlobalStatistic{
 
+    /**
+     * Number of clients and sessions stored in DB
+     */
     public int $clients;
     public int $sessions;
 
-    public string $time_online;
+    /**
+     * time in minutes. Sum of duration all sessions
+     */
+    public int $time_online;
+
+    /**
+     * Sum of out and in traffic of all sessions
+     */
     public int $out_traffic_sum;
     public int $in_traffic_sum;
 
+    /**
+     * client (id) with maximal in and out traffic
+     */
     public int $max_out_traffic_client;
     public int $max_in_traffic_client;
 
+    function __construct($clients, $sessions, $time_online, $sum_in, $sum_out, $max_in, $max_out)
+    {
+        $this->clients = $clients;
+        $this->sessions = $sessions;
+        $this->time_online = $time_online;
 
-    function __construct($pdo) {
+        $this->in_traffic_sum = $sum_in;
+        $this->out_traffic_sum = $sum_out;
 
-        try{
-            $res = $pdo->query("select sum(in_traffic) `in`, sum(out_traffic) `out` from seanse")
-                ->fetch(PDO::FETCH_ASSOC);
-            $this->out_traffic_sum = $res['out'];
-            $this->in_traffic_sum = $res['in'];
-
-            $this->time_online = $pdo->query("select sum(timestampdiff(minute, stop, start )) `minutes` from seanse")
-                ->fetch(PDO::FETCH_OBJ)
-                ->minutes;
-
-            $this->sessions = $pdo->query("select count(id) `count` from seanse")->fetch(PDO::FETCH_OBJ)->count;
-            $this->clients = $pdo->query("select count(id) `count` from client")->fetch(PDO::FETCH_OBJ)->count;
-
-            $this->max_in_traffic_client = $pdo
-                ->query("select client_id from seanse where in_traffic = (select max(in_traffic)from seanse)")
-                ->fetch(PDO::FETCH_OBJ)
-                ->client_id;
-
-            $this->max_out_traffic_client = $pdo
-                ->query("select client_id from seanse where out_traffic = (select max(out_traffic)from seanse)")
-                ->fetch(PDO::FETCH_OBJ)
-                ->client_id;
-
-        }catch (PDOException $exception){
-            print_error_page(500, "<h2> Error: ".$exception->getMessage()."</h2>");
-            exit;
-        }
+        $this->max_out_traffic_client = $max_out;
+        $this->max_in_traffic_client = $max_in;
     }
-
 }

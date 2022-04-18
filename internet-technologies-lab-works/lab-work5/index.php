@@ -1,7 +1,7 @@
 <?php
 
     require "ui-components.php";
-    require "database/config.php";
+    require "db/config.php";
     require "utils.php";
 
     $clients = get_clients($pdo);

@@ -1,6 +1,9 @@
 <?php
 
 
+use models\GlobalStatistic;
+use models\ClientStatistic;
+
 function print_footer(){
     echo <<< FOOTER
     <div class="container">
@@ -102,7 +105,8 @@ function print_error_page(int $code = 404, string $data = null){
 }
 
 
-function print_client_statistic($client_statistic){
+function print_client_statistic(ClientStatistic $client_statistic){
+    $time = $client_statistic->timeToFormat();
     echo <<< STAT
         <table class="table table-striped table-bordered ">
       <thead>
@@ -114,7 +118,7 @@ function print_client_statistic($client_statistic){
       <tbody>
         <tr>
           <th scope="row"> Time online </th>
-          <td>$client_statistic->time_online</td>
+          <td>$time</td>
         </tr>
         <tr>
           <th scope="row"> Out traffic sum </th>

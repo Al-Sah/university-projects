@@ -1,12 +1,12 @@
 <?php
 
-    require "models/ClientStatistic.php";
-    require "database/config.php";
+    require "db/config.php";
+    require "db/mapping/ClientStatisticMapper.php";
     require "ui-components.php";
     require "utils.php";
 
     $client = get_client($pdo);
-    $client_statistic = new ClientStatistic($client->id, $pdo);
+    $client_statistic = ClientStatisticMapper::get($pdo, $client->id);
     $sessions = get_sessions($pdo, $client->id);
 
     require "parts/head.html";
