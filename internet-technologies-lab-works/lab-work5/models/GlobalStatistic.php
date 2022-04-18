@@ -13,30 +13,30 @@ class GlobalStatistic{
     /**
      * time in minutes. Sum of duration all sessions
      */
-    public int $time_online;
+    public int $timeOnline;
 
     /**
      * Sum of out and in traffic of all sessions
      */
-    public int $out_traffic_sum;
-    public int $in_traffic_sum;
+    public int $outTraffic;
+    public int $inTraffic;
 
     /**
      * client (id) with maximal in and out traffic
      */
-    public int $max_out_traffic_client;
-    public int $max_in_traffic_client;
+    public int $maxOut;
+    public int $maxIn;
 
-    function __construct($clients, $sessions, $time_online, $sum_in, $sum_out, $max_in, $max_out)
+    function __construct(int $clients, int $sessions, int $timeOnline, int $sumIn, int $sumOut, int $maxIn, int $maxOut)
     {
         $this->clients = $clients;
         $this->sessions = $sessions;
-        $this->time_online = $time_online;
+        $this->timeOnline = $timeOnline;
 
-        $this->in_traffic_sum = $sum_in;
-        $this->out_traffic_sum = $sum_out;
+        $this->inTraffic = $sumIn;
+        $this->outTraffic = $sumOut;
 
-        $this->max_out_traffic_client = $max_out;
-        $this->max_in_traffic_client = $max_in;
+        $this->maxOut = $maxOut;
+        $this->maxIn = $maxIn;
     }
 }

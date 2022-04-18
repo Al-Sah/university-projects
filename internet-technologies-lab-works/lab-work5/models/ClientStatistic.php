@@ -7,26 +7,26 @@ use DateTime;
 class ClientStatistic
 {
 
-    public int $client_id;
+    public int $clientId;
     public int $sessions;
-    public int $seconds_online;
+    public int $secondsOnline;
 
     /**
      * The sum of input and output traffic of client sessions.
      */
-    public int $out_traffic_sum;
-    public int $in_traffic_sum;
+    public int $outTraffic;
+    public int $inTraffic;
 
-    function __construct($id, $in, $out, $sessions, $seconds_online)
+    function __construct(int $id, int $in, int $out, int $sessions, int $secondsOnline)
     {
-        $this->client_id = $id;
-        $this->in_traffic_sum = $in;
-        $this->out_traffic_sum = $out;
+        $this->clientId = $id;
+        $this->inTraffic = $in;
+        $this->outTraffic = $out;
         $this->sessions = $sessions;
-        $this->seconds_online = $seconds_online;
+        $this->secondsOnline = $secondsOnline;
     }
 
     public function timeToFormat($format = "%a days, %h hours, %i minutes and %s seconds"): string {
-        return (new DateTime('@0'))->diff((new DateTime("@$this->seconds_online")))->format($format);
+        return (new DateTime('@0'))->diff((new DateTime("@$this->secondsOnline")))->format($format);
     }
 }

@@ -122,11 +122,11 @@ function print_client_statistic(ClientStatistic $client_statistic){
         </tr>
         <tr>
           <th scope="row"> Out traffic sum </th>
-          <td>$client_statistic->out_traffic_sum MByte</td>
+          <td>$client_statistic->outTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> In traffic sum </th>
-          <td>$client_statistic->in_traffic_sum MByte</td>
+          <td>$client_statistic->inTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> Sessions count </th>
@@ -170,23 +170,23 @@ function print_global_statistic(GlobalStatistic $global_statistic)
         </tr>
         <tr>
           <th scope="row"> Time online in minutes (summary) </th>
-          <td>$global_statistic->time_online</td>
+          <td>$global_statistic->timeOnline</td>
         </tr>
         <tr>
           <th scope="row"> Out traffic sum </th>
-          <td>$global_statistic->out_traffic_sum MByte</td>
+          <td>$global_statistic->outTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> In traffic sum </th>
-          <td>$global_statistic->in_traffic_sum MByte</td>
+          <td>$global_statistic->inTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> Client (id) with max out traffic for one session </th>
-          <td>$global_statistic->out_traffic_sum MByte</td>
+          <td>$global_statistic->maxOut MByte</td>
         </tr>
         <tr>
           <th scope="row"> Client (id) with max in traffic for one session </th>
-          <td>$global_statistic->in_traffic_sum MByte</td>
+          <td>$global_statistic->maxIn MByte</td>
         </tr>
         
       </tbody>
