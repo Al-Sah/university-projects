@@ -11,10 +11,15 @@
     <br>
 
     <?php
-        $file = file("count.txt");
+        $filename = "count.txt";
+        if (!file_exists($filename)) {
+            touch($filename);
+        }
+
+        $file = file($filename);
         $count = implode($file);
         $count++;
-        $countFile = fopen("count.txt","w");
+        $countFile = fopen($filename,"w");
         fputs($countFile, $count);
         fclose($countFile);
         echo "<p> Просмотров: $count </p>";
