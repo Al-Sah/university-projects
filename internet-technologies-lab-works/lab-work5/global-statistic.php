@@ -1,12 +1,11 @@
 <?php
 
-    require "db/ConnectionFactory.php";
-    require "db/mapping/GlobalStatisticMapper.php";
+    require_once "db/GlobalStatisticDAO.php";
     require "ui-components.php";
     require "utils.php";
 
     try{
-        $global_statistic = GlobalStatisticMapper::get();
+        $global_statistic = GlobalStatisticDAO::get();
     } catch (PDOException){
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;

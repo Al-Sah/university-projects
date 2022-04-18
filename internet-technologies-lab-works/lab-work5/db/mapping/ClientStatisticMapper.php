@@ -1,8 +1,6 @@
 <?php
 
-
 use models\ClientStatistic;
-require_once "models/ClientStatistic.php";
 
 class ClientStatisticMapper{
 

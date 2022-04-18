@@ -1,14 +1,14 @@
 <?php
 
     require "db/ConnectionFactory.php";
-    require "db/mapping/ClientStatisticMapper.php";
+    require "db/ClientStatisticDAO.php";
     require "ui-components.php";
     require "utils.php";
 
     try{
         $pdo = ConnectionFactory::getPDO();
         $client = get_client($pdo);
-        $client_statistic = ClientStatisticMapper::get($client->id);
+        $client_statistic = ClientStatisticDAO::get($client->id);
         $sessions = get_sessions($pdo, $client->id);
     } catch (PDOException){
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");

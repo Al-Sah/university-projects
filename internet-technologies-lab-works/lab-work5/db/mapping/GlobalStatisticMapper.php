@@ -1,7 +1,6 @@
 <?php
 
 use models\GlobalStatistic;
-require_once "models/GlobalStatistic.php";
 
 class GlobalStatisticMapper
 {
