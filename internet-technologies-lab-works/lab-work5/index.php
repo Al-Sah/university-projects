@@ -1,11 +1,11 @@
 <?php
 
     require "ui-components.php";
-    require "db/ConnectionFactory.php";
+    require "db/ClientsRepository.php";
     require "utils.php";
 
     try{
-        $clients = get_clients(ConnectionFactory::getPDO());
+        $clients = get_clients(new ClientsRepository());
     } catch (PDOException){
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
@@ -38,8 +38,7 @@
                     </div>
                 </form>
 
-
-                <?php  print_clients_list($clients);?>
+                <?php print_clients_list($clients);?>
             </div>
         </div>
         <?php print_footer();?>

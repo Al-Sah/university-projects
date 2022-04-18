@@ -1,16 +1,18 @@
 <?php
 
     require "db/ConnectionFactory.php";
+    require "db/ClientsRepository.php";
     require "db/ClientStatisticDAO.php";
     require "ui-components.php";
     require "utils.php";
 
+    $client_id = get_client_id();
     try{
-        $pdo = ConnectionFactory::getPDO();
-        $client = get_client($pdo);
-        $client_statistic = ClientStatisticDAO::get($client->id);
-        $sessions = get_sessions($pdo, $client->id);
-    } catch (PDOException){
+        $client = (new ClientsRepository())->getById($client_id);
+        $client_statistic = ClientStatisticDAO::get($client_id);
+
+        $sessions = get_sessions(ConnectionFactory::getPDO(), $client_id); // TODO replace with repository
+    } catch (PDOException $e){
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
     }

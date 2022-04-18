@@ -11,11 +11,16 @@ class ClientStatisticMapper{
 
         $pdo = ConnectionFactory::getPDO();
 
+        $sessions = self::execute_statement($pdo, $client_id, "count")->count;
+        if($sessions == 0){
+            return new ClientStatistic($client_id, 0, 0, 0, 0);
+        }
+
         $traffic = self::execute_statement($pdo, $client_id, "traffic", PDO::FETCH_ASSOC);
         $out_traffic_sum = $traffic['out'];
         $in_traffic_sum = $traffic['in'];
         $time_online = self::execute_statement($pdo, $client_id, "time")->seconds;
-        $sessions = self::execute_statement($pdo, $client_id, "count")->count;
+
 
         return new ClientStatistic($client_id, $in_traffic_sum, $out_traffic_sum, $sessions, $time_online);
     }
