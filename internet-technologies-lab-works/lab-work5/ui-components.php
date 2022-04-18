@@ -41,6 +41,8 @@ function print_sessions_list($sessions){
 
     echo " <h3>Sessions list:</h3> <div class='list-group'>";
     foreach ($sessions as $session) {
+        $start = $session->start->format('Y-m-d H:i:s');
+        $stop = $session->stop->format('Y-m-d H:i:s');
         echo <<< SESSIONS_LIST
             <div class="list-group-item list-group-item-action d-flex w-100 justify-content-between">
                 <div class="row justify-content-between">
@@ -49,7 +51,7 @@ function print_sessions_list($sessions){
                         <h5 class="mb-1"> Traffic </h5>
                         <table class="table">
                             <tr><td> in trafic </td><td> out trafic </td></tr>
-                            <tr><td> $session->in_traffic MByte</td><td> $session->out_traffic MByte</td></tr>
+                            <tr><td> $session->in MByte</td><td> $session->out MByte</td></tr>
                         </table>
                     </div>
                     
@@ -57,7 +59,7 @@ function print_sessions_list($sessions){
                         <h5 class="mb-1"> Time </h5>
                         <table class="table">
                             <tr><td> start </td><td> stop </td></tr>
-                            <tr><td> $session->start </td><td> $session->stop </td></tr>
+                            <tr><td> $start </td><td> $stop </td></tr>
                         </table>
                     </div>
                 </div>

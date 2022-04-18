@@ -1,6 +1,6 @@
 <?php
 
-    require "db/ConnectionFactory.php";
+    require "db/SessionsRepository.php";
     require "db/ClientsRepository.php";
     require "db/ClientStatisticDAO.php";
     require "ui-components.php";
@@ -10,9 +10,8 @@
     try{
         $client = (new ClientsRepository())->getById($client_id);
         $client_statistic = ClientStatisticDAO::get($client_id);
-
-        $sessions = get_sessions(ConnectionFactory::getPDO(), $client_id); // TODO replace with repository
-    } catch (PDOException $e){
+        $sessions =  (new SessionsRepository())->getAllWhereClientId($client_id);
+    } catch (Exception $e){
         print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
     }

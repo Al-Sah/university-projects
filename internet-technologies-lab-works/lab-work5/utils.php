@@ -1,16 +1,5 @@
 <?php
 
-function get_sessions($pdo, int $client_id){
-    try{
-        $sth = $pdo->prepare("SELECT * FROM `seanse` where client_id = :id");
-        $sth->execute(array('id' => $client_id));
-        return $sth->fetchAll(PDO::FETCH_OBJ);
-    }catch(PDOException $e) {
-        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
-        exit;
-    }
-}
-
 function check_filter(): string {
     if (isset($_GET['clients-filter'])) {
         switch ($_GET['clients-filter']){
