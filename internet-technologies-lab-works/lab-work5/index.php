@@ -1,10 +1,15 @@
 <?php
 
     require "ui-components.php";
-    require "db/config.php";
+    require "db/ConnectionFactory.php";
     require "utils.php";
 
-    $clients = get_clients($pdo);
+    try{
+        $clients = get_clients(ConnectionFactory::getPDO());
+    } catch (PDOException){
+        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        exit;
+    }
 
     require "parts/head.html";
 ?>

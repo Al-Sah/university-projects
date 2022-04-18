@@ -8,7 +8,9 @@ class GlobalStatisticMapper
     /**
      * @throws PDOException
      */
-    public static function get(PDO $pdo): GlobalStatistic {
+    public static function get(): GlobalStatistic {
+
+        $pdo = ConnectionFactory::getPDO();
 
         $res = $pdo->query(self::statements["traffic"])->fetch(PDO::FETCH_ASSOC);
         $out_traffic = $res['out'];

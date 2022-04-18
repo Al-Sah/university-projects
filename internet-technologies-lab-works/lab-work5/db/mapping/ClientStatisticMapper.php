@@ -9,7 +9,9 @@ class ClientStatisticMapper{
     /**
      * @throws PDOException
      */
-    public static function get(PDO $pdo, $client_id): ClientStatistic {
+    public static function get($client_id): ClientStatistic {
+
+        $pdo = ConnectionFactory::getPDO();
 
         $traffic = self::execute_statement($pdo, $client_id, "traffic", PDO::FETCH_ASSOC);
         $out_traffic_sum = $traffic['out'];
