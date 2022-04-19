@@ -11,17 +11,17 @@ class GlobalStatisticMapper
 
         $pdo = ConnectionFactory::getPDO();
 
-        $res = $pdo->query(self::statements["traffic"])->fetch(PDO::FETCH_ASSOC);
-        $out_traffic = $res['out'];
-        $in_traffic = $res['in'];
+        $trafficSums = $pdo->query(self::statements["traffic"])->fetch(PDO::FETCH_ASSOC);
+        $SumOut = $trafficSums['out'];
+        $sumIn = $trafficSums['in'];
 
         $time = $pdo->query(self::statements["time"])->fetch(PDO::FETCH_OBJ)->minutes;
         $sessions = $pdo->query(self::statements["sessions"])->fetch(PDO::FETCH_OBJ)->count;
         $clients = $pdo->query(self::statements["clients"])->fetch(PDO::FETCH_OBJ)->count;
-        $max_in = $pdo->query(self::statements["in_traffic"])->fetch(PDO::FETCH_OBJ)->client_id;
-        $max_out = $pdo->query(self::statements["out_traffic"])->fetch(PDO::FETCH_OBJ)->client_id;
+        $maxIn = $pdo->query(self::statements["inTraffic"])->fetch(PDO::FETCH_OBJ)->client_id;
+        $maxOut = $pdo->query(self::statements["outTraffic"])->fetch(PDO::FETCH_OBJ)->client_id;
 
-        return new GlobalStatistic($clients, $sessions, $time, $in_traffic, $out_traffic, $max_in, $max_out);
+        return new GlobalStatistic($clients, $sessions, $time, $sumIn, $SumOut, $maxIn, $maxOut);
     }
 
     private const statements = array(
@@ -29,8 +29,8 @@ class GlobalStatisticMapper
         "time" => "select sum(timestampdiff(minute, stop, start )) `minutes` from seanse",
         "sessions" => "select count(id) `count` from seanse",
         "clients" => "select count(id) `count` from client",
-        "in_traffic" => "select client_id from seanse where in_traffic = (select max(in_traffic)from seanse)",
-        "out_traffic" => "select client_id from seanse where out_traffic = (select max(out_traffic)from seanse)"
+        "inTraffic" => "select client_id from seanse where in_traffic = (select max(in_traffic)from seanse)",
+        "outTraffic" => "select client_id from seanse where out_traffic = (select max(out_traffic)from seanse)"
     );
 
 

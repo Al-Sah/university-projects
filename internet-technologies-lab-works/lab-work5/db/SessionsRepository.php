@@ -11,6 +11,9 @@ class SessionsRepository
         $this->pdo = ConnectionFactory::getPDO();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getAllWhereClientId($value) : array {
         $sth = $this->pdo->prepare("SELECT * FROM `seanse` where client_id > :id");
         $sth->execute(array('id' => $value));
@@ -21,6 +24,9 @@ class SessionsRepository
         return $this->collect($sessions);
     }
 
+    /**
+     * @throws Exception
+     */
     private function collect(array $sessions) : array{
         $result = array();
         foreach ($sessions as $session){

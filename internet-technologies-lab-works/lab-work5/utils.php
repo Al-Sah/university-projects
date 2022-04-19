@@ -1,18 +1,18 @@
 <?php
 
-function check_filter(): string {
+function checkFilter(): string {
+    $filter ="";
     if (isset($_GET['clients-filter'])) {
-        switch ($_GET['clients-filter']){
-            case 'cf2':
-                return ' (balance > 0)';
-            case 'cf3':
-                return ' (balance <= 0)';
-        }
+        $filter = $_GET['clients-filter'];
     }
-    return '(no filters)';
+    return match ($filter) {
+        'cf2' => ' (balance > 0)',
+        'cf3' => ' (balance <= 0)',
+        default => '(no filters)',
+    };
 }
 
-function get_clients(ClientsRepository $clientsRepository): array{
+function getClients(ClientsRepository $clientsRepository): array{
 
     $filter = "";
     if (isset($_GET['clients-filter'])) {
@@ -25,15 +25,15 @@ function get_clients(ClientsRepository $clientsRepository): array{
     };
 }
 
-function get_client_id(): int {
+function getClientId(): int {
     if(array_key_exists("id", $_GET)){
         if(!is_numeric($_GET['id'])){
-            print_error_page(400, "User id must be a number > 0");
+            printErrorPage(400, "User id must be a number > 0");
             exit;
         } else{
             return $_GET['id'];
         }
     }
-    print_error_page(400, "key id was not sent");
+    printErrorPage(400, "key id was not sent");
     exit;
 }

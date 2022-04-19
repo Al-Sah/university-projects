@@ -1,10 +1,10 @@
 <?php
 
-
+use models\Client;
 use models\GlobalStatistic;
 use models\ClientStatistic;
 
-function print_footer(){
+function printFooter(): void {
     echo <<< FOOTER
     <div class="container">
         <footer class="py-3 my-4">
@@ -19,7 +19,7 @@ function print_footer(){
 }
 
 
-function print_header(){
+function printHeader(): void {
     echo <<< HEADER
     <header class="d-flex justify-content-center py-3">
     <nav class="navbar navbar-light" >
@@ -33,10 +33,11 @@ function print_header(){
 }
 
 
-function print_sessions_list($sessions){
-    if (!$sessions) {
+function printSessions(array $sessions): void {
+
+    if (count($sessions) == 0) {
         echo "<p>No sessions found</p>";
-        exit();
+        return;
     }
 
     echo " <h3>Sessions list:</h3> <div class='list-group'>";
@@ -69,26 +70,27 @@ function print_sessions_list($sessions){
     echo "</div>";
 }
 
-function print_clients_list($clients){
-    if (!$clients) {
-        echo "<p>No clients found".check_filter()."</p>";
-        exit();
+function printClients(array $clients): void{
+
+    if (count($clients) == 0) {
+        echo "<p>No clients found".checkFilter()."</p>";
+        return;
     }
 
-    echo "<h3>Clients list ".check_filter().":</h3> <div class='list-group'>";
+    echo "<h3>Clients list ".checkFilter().":</h3> <div class='list-group'>";
     foreach ($clients as $client) {
         echo "<a href='/client-statistic.php?id=$client->id'class='list-group-item list-group-item-info' aria-current='true'>";
-        print_client($client);
+        printClient($client);
         echo '</a>';
     }
     echo "</div>";
 }
 
 
-function print_error_page(int $code = 404, string $data = null){
+function printErrorPage(int $code = 404, string $data = null): void {
 
     http_response_code($code);
-    function print_error_content($code, $data){
+    function printErrorContent($code, $data): void {
         echo "<div class='jumbotron p-4 bg-light'><div class='container'><h1 class='display-4'>Error $code</h1></div></div>";
         if($data != null){
             echo "<div class='container p-6 border-top border-bottom'>$data</div>";
@@ -97,19 +99,20 @@ function print_error_page(int $code = 404, string $data = null){
 
     require 'parts/head.html';
     if($code == 500){
-        print_error_content($code, $data);
+        printErrorContent($code, $data);
     } else{
-        print_header();
-        print_error_content($code, $data);
-        print_footer();
+        printHeader();
+        printErrorContent($code, $data);
+        printFooter();
     }
     require 'parts/tail.html';
 }
 
 
-function print_client_statistic(ClientStatistic $client_statistic){
-    $time = $client_statistic->timeToFormat();
-    echo <<< STAT
+function printClientStatistic(ClientStatistic $statistic): void {
+
+    $time = $statistic->timeToFormat();
+    echo <<< CLIENT_STATISTIC
         <table class="table table-striped table-bordered ">
       <thead>
         <tr>
@@ -124,23 +127,23 @@ function print_client_statistic(ClientStatistic $client_statistic){
         </tr>
         <tr>
           <th scope="row"> Out traffic sum </th>
-          <td>$client_statistic->outTraffic MByte</td>
+          <td>$statistic->outTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> In traffic sum </th>
-          <td>$client_statistic->inTraffic MByte</td>
+          <td>$statistic->inTraffic MByte</td>
         </tr>
         <tr>
           <th scope="row"> Sessions count </th>
-          <td>$client_statistic->sessions</td>
+          <td>$statistic->sessions</td>
         </tr>
       </tbody>
     </table>
-    STAT;
+    CLIENT_STATISTIC;
 }
 
 
-function print_client($client){
+function printClient(Client $client): void {
     echo <<< CLIENT
         <div class="d-flex w-100 justify-content-between ">
             <h5 class="mb-1">$client->name</h5>
@@ -151,9 +154,8 @@ function print_client($client){
 }
 
 
-function print_global_statistic(GlobalStatistic $global_statistic)
-{
-    echo <<< STAT
+function printGlobalStatistic(GlobalStatistic $global_statistic): void {
+    echo <<< GLOBAL_STATISTIC
         <table class="table table-striped table-bordered ">
       <thead>
         <tr>
@@ -193,5 +195,5 @@ function print_global_statistic(GlobalStatistic $global_statistic)
         
       </tbody>
     </table>
-    STAT;
+    GLOBAL_STATISTIC;
 }

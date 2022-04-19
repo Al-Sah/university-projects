@@ -7,33 +7,33 @@ class ClientStatisticMapper{
     /**
      * @throws PDOException
      */
-    public static function get($client_id): ClientStatistic {
+    public static function get($clientId): ClientStatistic {
 
         $pdo = ConnectionFactory::getPDO();
 
-        $sessions = self::execute_statement($pdo, $client_id, "count")->count;
+        $sessions = self::executeStatement($pdo, $clientId, "count")->count;
         if($sessions == 0){
-            return new ClientStatistic($client_id, 0, 0, 0, 0);
+            return new ClientStatistic($clientId, 0, 0, 0, 0);
         }
 
-        $traffic = self::execute_statement($pdo, $client_id, "traffic", PDO::FETCH_ASSOC);
-        $out_traffic_sum = $traffic['out'];
-        $in_traffic_sum = $traffic['in'];
-        $time_online = self::execute_statement($pdo, $client_id, "time")->seconds;
+        $traffic = self::executeStatement($pdo, $clientId, "traffic", PDO::FETCH_ASSOC);
+        $outTraffic = $traffic['out'];
+        $inTraffic = $traffic['in'];
+        $timeOnline = self::executeStatement($pdo, $clientId, "time")->seconds;
 
 
-        return new ClientStatistic($client_id, $in_traffic_sum, $out_traffic_sum, $sessions, $time_online);
+        return new ClientStatistic($clientId, $inTraffic, $outTraffic, $sessions, $timeOnline);
     }
 
     private const statements = array(
-        "traffic" => "select sum(in_traffic) `in`, sum(out_traffic) `out` from seanse where client_id = :client_id",
-        "time" => "select sum(timestampdiff(second, stop, start )) `seconds` from seanse where client_id = :client_id",
-        "count" => "select count(id) `count` from seanse where client_id = :client_id"
+        "traffic" => "select sum(in_traffic) `in`, sum(out_traffic) `out` from seanse where client_id = :id",
+        "time" => "select sum(timestampdiff(second, stop, start )) `seconds` from seanse where client_id = :id",
+        "count" => "select count(id) `count` from seanse where client_id = :id"
     );
 
-    private static function execute_statement($pdo, $id, $statement_name, $fetch_mode = PDO::FETCH_OBJ){
-        $statement = $pdo->prepare(self::statements[$statement_name]);
-        $statement->execute(array('client_id' => $id));
-        return $statement->fetch($fetch_mode);
+    private static function executeStatement($pdo, $id, $statementName, $fetchMode = PDO::FETCH_OBJ){
+        $statement = $pdo->prepare(self::statements[$statementName]);
+        $statement->execute(array('id' => $id));
+        return $statement->fetch($fetchMode);
     }
 }

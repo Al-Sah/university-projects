@@ -1,13 +1,13 @@
 <?php
 
-    require "ui-components.php";
-    require "db/ClientsRepository.php";
-    require "utils.php";
+    require_once "ui-components.php";
+    require_once "db/ClientsRepository.php";
+    require_once "utils.php";
 
     try{
-        $clients = get_clients(new ClientsRepository());
+        $clients = getClients(new ClientsRepository());
     } catch (PDOException){
-        print_error_page(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
     }
 
@@ -16,7 +16,7 @@
 
 <main role="main">
     <div class="container">
-        <?php print_header();?>
+        <?php printHeader();?>
         <div class="row">
             <div class="col-md-8">
 
@@ -38,10 +38,10 @@
                     </div>
                 </form>
 
-                <?php print_clients_list($clients);?>
+                <?php printClients($clients);?>
             </div>
         </div>
-        <?php print_footer();?>
+        <?php printFooter();?>
     </div>
 </main>
 
