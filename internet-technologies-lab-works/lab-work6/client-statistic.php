@@ -5,27 +5,31 @@
     require_once "ui-components.php";
     require_once "utils.php";
 
-    $client_id = get_client_id_from_request();
-    $client = get_client($client_id, $clients_collection);
-    $sessions = get_sessions($client_id, $sessions_collection);
+    try {
+        $clientId = getClientId();
+        $client = getClient($clientId, $clientsCollection);
+        $sessions = getSessions($clientId, $sessionsCollection);
+    } catch (Exception $e) {
+        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
+    }
 
     require "parts/head.html";
 ?>
 
 <main role="main">
     <div class="container">
-        <?php print_header();?>
+        <?php printHeader();?>
         <div class="row">
             <div class="col-md-auto">
                 <div class="shadow-sm p-3 mb-5 bg-body rounded">
-                    <?php print_client($client); ?>
+                    <?php printClient($client); ?>
                 </div>
                 <?php
-                print_sessions_list($sessions);
+                printSessions($sessions);
                 ?>
             </div>
         </div>
-        <?php print_footer();?>
+        <?php printFooter();?>
     </div>
 </main>
 

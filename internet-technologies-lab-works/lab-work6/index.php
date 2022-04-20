@@ -5,12 +5,17 @@
     require_once "ui-components.php";
     require_once "parts/head.html";
 
-    $clients = get_clients($clients_collection);
+    try {
+        $clients = getClients($clientsCollection);
+    } catch (Exception $e) {
+        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
+    }
+
 ?>
 
 <main role="main">
     <div class="container">
-        <?php print_header();?>
+        <?php printHeader();?>
         <div class="row">
             <div class="col-md-8">
                 <form action="index.php" method="get" class="shadow-sm p-3 mb-5 bg-body rounded">
@@ -52,9 +57,9 @@
                     </div>
                 </form>
             </div>
-            <?php print_clients_list($clients) ?>
+            <?php printClients($clients) ?>
         </div>
-        <?php print_footer();?>
+        <?php printFooter();?>
     </div>
 </main>
 

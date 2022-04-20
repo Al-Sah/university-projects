@@ -7,18 +7,18 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\InsertOneResult;
 
-function fill_collections(Collection $clients, Collection $sessions){
+function fillCollections(Collection $clients, Collection $sessions): void {
 
     for ($i = 0; $i < 2; $i++){
-        $res = create_client_document($clients);
+        $res = createClientDocument($clients);
         for ($j = 0; $j < 5; $j++){
-              create_seance_document($sessions, $res->getInsertedId());
+              createSeanceDocument($sessions, $res->getInsertedId());
         }
     }
 }
 
-function create_client_document(Collection $collection): InsertOneResult
-{
+function createClientDocument(Collection $collection): InsertOneResult {
+
     $result =  $collection->insertOne(
         [
             'login' => 'user-' . uniqid(),
@@ -33,18 +33,18 @@ function create_client_document(Collection $collection): InsertOneResult
 }
 
 
-function create_seance_document(Collection $collection, ObjectId $clientId){
+function createSeanceDocument(Collection $collection, ObjectId $clientId): void {
 
-    $in_traffic = rand(32, 100000);
-    $out_traffic = rand(32, 100000);
-    $price = ($in_traffic + $out_traffic) / 10000;
+    $inTraffic = rand(32, 100000);
+    $outTraffic = rand(32, 100000);
+    $price = ($inTraffic + $outTraffic) / 10000;
 
     $result = $collection->insertOne(
         [
             'start' => date('Y/m/d h:i:s a', time() - rand(60, 86400)),
             'end' => date('Y/m/d h:i:s a', time()),
-            'in' => $in_traffic,
-            'out' => $out_traffic,
+            'in' => $inTraffic,
+            'out' => $outTraffic,
             'ip' => sprintf("%d.%d.%d.%d", rand(0, 255), rand(0, 255), rand(0, 255), rand(0, 255)),
             'price' => $price,
             'client' => $clientId
@@ -62,4 +62,4 @@ try{
     die("Failed to get collections");
 }
 
-fill_collections($clients, $sessions);
+fillCollections($clients, $sessions);

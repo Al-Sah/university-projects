@@ -20,26 +20,27 @@ class ConnectionFactory
      */
     public static function getCollections(): array
     {
-        $db_config = array(
-            "db_name" => "itech_lab",
+        $config = array(
+            "name" => "itech_lab",
             "clients_collection" => "clients",
             "sessions_collection" => "sessions",
         );
 
         $mongo = new MongoDB\Client("mongodb://localhost:27017");
-        if(!in_array($db_config["db_name"], iterator_to_array($mongo->listDatabaseNames()))) {
-
-            throw new DataBaseNotFoundException("Database '".$db_config["db_name"]."' not found");
+        if(!in_array($config["name"], iterator_to_array($mongo->listDatabaseNames()))) {
+            throw new DataBaseNotFoundException("Database '".$config["name"]."' not found");
         }
-        $database = $mongo->selectDatabase($db_config["db_name"]);
-        ConnectionFactory::validate_database($database, $db_config["clients_collection"], $db_config["sessions_collection"]);
+
+        $database = $mongo->selectDatabase($config["db_name"]);
+        ConnectionFactory::validateDatabase($database, $config["clients_collection"], $config["sessions_collection"]);
         return array(
-            $database->selectCollection($db_config["clients_collection"]),
-            $database->selectCollection($db_config["sessions_collection"])
+            $database->selectCollection($config["clients_collection"]),
+            $database->selectCollection($config["sessions_collection"])
         );
     }
 
-    private static function validate_database(Database $database, $clients, $sessions){
+    private static function validateDatabase(Database $database, $clients, $sessions): void
+    {
         if(!in_array($sessions, iterator_to_array($database->listCollectionNames()))) {
             $database->createCollection($sessions);
         }
