@@ -8,7 +8,8 @@
     try {
         $clientId = getClientId();
         $client = getClient($clientId, $clientsCollection);
-        $sessions = $clientsCollection->find(['client' => $clientId]);
+        $sessions = $sessionsCollection->find(['client' => $clientId]);
+        $statistic = getClientStatistic($clientId, $sessionsCollection);
     } catch (ClientNotFountException $e) {
         PageBuilder::printErrorPage(404, "<h2> Error: ".$e->getMessage()."</h2>");
     } catch (Exception $e) {
@@ -26,7 +27,10 @@
                 <div class="shadow-sm p-3 mb-5 bg-body rounded">
                     <?php PageBuilder::printClient($client); ?>
                 </div>
-                <?php PageBuilder::printSessions($sessions); ?>
+                <?php
+                    PageBuilder::printClientStatistic($statistic);
+                    PageBuilder::printSessions($sessions);
+                ?>
             </div>
         </div>
         <?php PageBuilder::printFooter();?>

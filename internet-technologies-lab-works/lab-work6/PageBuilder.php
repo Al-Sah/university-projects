@@ -1,6 +1,9 @@
 <?php
 
+use models\ClientStatistic;
 use MongoDB\Driver\Cursor;
+
+require_once "models/ClientStatistic.php";
 
 class PageBuilder {
 
@@ -110,7 +113,7 @@ class PageBuilder {
                         <h5 class="mb-1"> Traffic </h5>
                         <table class="table">
                             <tr><td> in trafic </td><td> out trafic </td></tr>
-                            <tr><td> $session->in_traffic MByte</td><td> $session->out_traffic MByte</td></tr>
+                            <tr><td> $session->in MByte</td><td> $session->out MByte</td></tr>
                         </table>
                     </div>
                     
@@ -118,7 +121,7 @@ class PageBuilder {
                         <h5 class="mb-1"> Time </h5>
                         <table class="table">
                             <tr><td> start </td><td> stop </td></tr>
-                            <tr><td> $session->start </td><td> $session->stop </td></tr>
+                            <tr><td> $session->start </td><td> $session->end </td></tr>
                         </table>
                     </div>
                     
@@ -136,6 +139,42 @@ class PageBuilder {
         echo "</div>";
     }
 
+    public static function printClientStatistic(ClientStatistic $statistic): void {
+
+        $time = $statistic->timeToFormat();
+        echo <<< CLIENT_STATISTIC
+        <table class="table table-striped table-bordered ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"> Statistic </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"> Time online </th>
+              <td>$time</td>
+            </tr>
+            <tr>
+              <th scope="row"> Out traffic sum </th>
+              <td>$statistic->outTraffic MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> In traffic sum </th>
+              <td>$statistic->inTraffic MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> Sessions count </th>
+              <td>$statistic->sessions</td>
+            </tr>
+            <tr>
+              <th scope="row"> Summary price </th>
+              <td>$statistic->summaryPrice</td>
+            </tr>
+          </tbody>
+        </table>
+        CLIENT_STATISTIC;
+    }
 
 
     private static function printErrorContent($code, $data): void {

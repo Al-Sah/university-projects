@@ -1,6 +1,7 @@
 <?php
 
 
+use models\ClientStatistic;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
@@ -9,6 +10,7 @@ use MongoDB\Exception\UnsupportedException;
 
 
 require_once "PageBuilder.php";
+require_once "models/ClientStatistic.php";
 
 /**
  * @throws UnsupportedException if options are not supported by the selected server
@@ -48,4 +50,28 @@ function getClient(ObjectID $client_id, Collection $collection): object{
         throw new ClientNotFountException("Client with id ".$_GET['id']." not found");
     }
     return $client;
+}
+
+
+/**
+ * @throws Exception if DataTime creation fails
+ */
+function getClientStatistic(ObjectID $clientId, Collection $sessions) : ClientStatistic{
+
+    $clientSessions = $sessions->find(['client' => $clientId])->toArray();
+    if(count($clientSessions) == 0){
+        return new ClientStatistic($clientId->serialize(), 0,0,0,0,0);
+    }
+    $inTraffic = 0;
+    $outTraffic = 0;
+    $price = 0;
+    $time = 0;
+
+    foreach ($clientSessions as $session){
+        $inTraffic += $session->in;
+        $outTraffic += $session->out;
+        $price += $session->price;
+        $time += (new DateTime($session->end))->getTimestamp() - (new DateTime($session->start))->getTimestamp();
+    }
+    return new ClientStatistic($clientId->serialize(), $inTraffic,$outTraffic,count($clientSessions),$time,$price);
 }
