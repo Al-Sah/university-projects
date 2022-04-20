@@ -6,7 +6,7 @@
 
     try{
         $globalStatistic = GlobalStatisticDAO::get();
-    } catch (PDOException){
+    } catch (PDOException $e){
         printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
         exit;
     }
