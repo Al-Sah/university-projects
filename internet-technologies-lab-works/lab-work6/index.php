@@ -1,21 +1,21 @@
 <?php
-    require_once __DIR__ . '/vendor/autoload.php'; // Composer autoload
-
+    require_once "vendor/autoload.php"; // Composer autoload
     require_once "db/collections.php";
-    require_once "ui-components.php";
-    require_once "parts/head.html";
+    require_once "PageBuilder.php";
+    require_once "utils.php";
 
     try {
         $clients = getClients($clientsCollection);
     } catch (Exception $e) {
-        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
+        PageBuilder::printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
     }
 
+    require_once "parts/head.html";
 ?>
 
 <main role="main">
     <div class="container">
-        <?php printHeader();?>
+        <?php PageBuilder::printHeader();?>
         <div class="row">
             <div class="col-md-8">
                 <form action="index.php" method="get" class="shadow-sm p-3 mb-5 bg-body rounded">
@@ -57,12 +57,12 @@
                     </div>
                 </form>
             </div>
-            <?php printClients($clients) ?>
+            <?php PageBuilder::printClients($clients) ?>
         </div>
-        <?php printFooter();?>
+        <?php PageBuilder::printFooter();?>
     </div>
 </main>
 
-<?php require "parts/tail.html";?>
+<?php require_once "parts/tail.html";?>
 
 

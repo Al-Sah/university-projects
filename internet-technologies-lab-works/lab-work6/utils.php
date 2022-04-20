@@ -5,30 +5,13 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 
 
-function getFilterValue() : string {
-    $filter ="";
-    if (isset($_GET['clients-filter'])) {
-        $filter = $_GET['clients-filter'];
-    }
-    return $filter;
-}
-
-
-function checkFilter(): string {
-    return match (getFilterValue()) {
-        'cf2' => ' (balance > 0)',
-        'cf3' => ' (balance <= 0)',
-        'cf4' => ' ('.$_GET['number1'].' <= balance <= '.$_GET['number2'].')',
-        default => '(no filters)',
-    };
-}
-
+require_once "PageBuilder.php";
 
 /**
  * @throws Exception
 */
 function getClients(Collection $clients) : array{
-    return match (getFilterValue()) {
+    return match (PageBuilder::getFilterValue()) {
         'cf2' => $clients->find(['balance' => ['$gt' => 0]])->toArray(),
         'cf3' => $clients->find(['balance' => ['$lt' => 0]])->toArray(),
         'cf4' => $clients->find(
@@ -49,7 +32,7 @@ function getClientId(): ObjectID {
     if(array_key_exists("id", $_GET)){
         return new ObjectID($_GET['id']);
     }
-    throw new Exception();
+    throw new Exception("key id was not found"); // FIXME
 }
 
 
@@ -61,16 +44,6 @@ function getClient(ObjectID $client_id, Collection $collection){
             printErrorPage(data: "Client with id ".$_GET['id']." not found"); // FIXME
         }
         return $client;
-    }catch(Exception $e) {
-        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>"); // FIXME
-    }
-}
-
-
-function getSessions(ObjectID $client_id, Collection $collection){
-
-    try{
-        return $collection->find(['client' => $client_id]);
     }catch(Exception $e) {
         printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>"); // FIXME
     }

@@ -22,8 +22,8 @@ class ConnectionFactory
     {
         $config = array(
             "name" => "itech_lab",
-            "clients_collection" => "clients",
-            "sessions_collection" => "sessions",
+            "clientsCollection" => "clients",
+            "sessionsCollection" => "sessions",
         );
 
         $mongo = new MongoDB\Client("mongodb://localhost:27017");
@@ -31,11 +31,11 @@ class ConnectionFactory
             throw new DataBaseNotFoundException("Database '".$config["name"]."' not found");
         }
 
-        $database = $mongo->selectDatabase($config["db_name"]);
-        ConnectionFactory::validateDatabase($database, $config["clients_collection"], $config["sessions_collection"]);
+        $database = $mongo->selectDatabase($config["name"]);
+        ConnectionFactory::validateDatabase($database, $config["clientsCollection"], $config["sessionsCollection"]);
         return array(
-            $database->selectCollection($config["clients_collection"]),
-            $database->selectCollection($config["sessions_collection"])
+            $database->selectCollection($config["clientsCollection"]),
+            $database->selectCollection($config["sessionsCollection"])
         );
     }
 
