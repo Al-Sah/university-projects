@@ -2,6 +2,7 @@
 
 
 use models\ClientStatistic;
+use models\GlobalStatistic;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
@@ -74,4 +75,35 @@ function getClientStatistic(ObjectID $clientId, Collection $sessions) : ClientSt
         $time += (new DateTime($session->end))->getTimestamp() - (new DateTime($session->start))->getTimestamp();
     }
     return new ClientStatistic($clientId->serialize(), $inTraffic,$outTraffic,count($clientSessions),$time,$price);
+}
+
+
+/**
+ * @throws Exception
+ */
+function getGlobalStatistic(int $clients, Collection $sessionsCollection) : GlobalStatistic{
+
+    $sessions = $sessionsCollection->find()->toArray();
+    if(count($sessions) == 0){
+        return new GlobalStatistic($clients);
+    }
+
+    $statistic = new GlobalStatistic($clients, count($sessions), $sessions[0]->client, $sessions[0]->client);
+    $maxIn = $sessions[0]->in;
+    $maxOut = $sessions[0]->out;
+    foreach ($sessions as $session){
+        $statistic->inTraffic += $session->in;
+        $statistic->outTraffic += $session->out;
+        if($session->in > $maxIn){
+            $maxIn = $session->in;
+            $statistic->maxIn = $session->client;
+        }
+        if($session->out > $maxOut){
+            $maxOut = $session->out;
+            $statistic->maxOut = $session->client;
+        }
+        $statistic->summaryPrice += $session->price;
+        $statistic->timeOnline += (new DateTime($session->end))->getTimestamp() - (new DateTime($session->start))->getTimestamp();
+    }
+    return $statistic;
 }

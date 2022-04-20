@@ -1,9 +1,11 @@
 <?php
 
 use models\ClientStatistic;
+use models\GlobalStatistic;
 use MongoDB\Driver\Cursor;
 
 require_once "models/ClientStatistic.php";
+require_once "models/GlobalStatistic.php";
 
 class PageBuilder {
 
@@ -182,5 +184,52 @@ class PageBuilder {
         if($data != null){
             echo "<div class='container p-6 border-top border-bottom'>$data</div>";
         }
+    }
+
+    public static function printGlobalStatistic(GlobalStatistic $globalStatistic): void{
+        echo <<< GLOBAL_STATISTIC
+            <table class="table table-striped table-bordered ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"> Statistic </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"> Clients </th>
+              <td>$globalStatistic->clients</td>
+            </tr>
+            <tr>
+              <th scope="row"> Sessions </th>
+              <td>$globalStatistic->sessions</td>
+            </tr>
+            <tr>
+              <th scope="row"> Time online in minutes (summary) </th>
+              <td>$globalStatistic->timeOnline</td>
+            </tr>
+            <tr>
+              <th scope="row"> Out traffic sum </th>
+              <td>$globalStatistic->outTraffic MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> In traffic sum </th>
+              <td>$globalStatistic->inTraffic MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> Client (id) with max out traffic for one session </th>
+              <td>$globalStatistic->maxOut</td>
+            </tr>
+            <tr>
+              <th scope="row"> Client (id) with max in traffic for one session </th>
+              <td>$globalStatistic->maxIn</td>
+            </tr>
+            <tr>
+              <th scope="row"> Summary price </th>
+              <td>$globalStatistic->summaryPrice</td>
+            </tr>
+          </tbody>
+        </table>
+    GLOBAL_STATISTIC;
     }
 }
