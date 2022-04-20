@@ -13,3 +13,26 @@ function handleChange(myRadio) {
         number1.required = false;
     }
 }
+
+function handleClick() {
+    if(document.querySelector('input[name="clients-filter"]:checked').value !== "cf4"){
+        return;
+    }
+
+    let res = parseInt(document.getElementById("number1").value);
+    if(!isNaN(res)){
+        sessionStorage.number1 = res;
+    }
+    res = parseInt(document.getElementById("number2").value);
+    if(!isNaN(res)){
+        sessionStorage.number2 = res;
+    }
+}
+
+
+if (sessionStorage.getItem("number1") !== null) {
+    document.getElementById("number1").value = sessionStorage.number1
+}
+if (sessionStorage.getItem("number2") !== null) {
+    document.getElementById("number2").value = sessionStorage.number2
+}

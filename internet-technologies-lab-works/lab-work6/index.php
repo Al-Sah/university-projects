@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="p-2 mt-1">
-                        <button type="submit" class="btn btn-success">Apply filter</button>
+                        <button type="submit" class="btn btn-success" onclick="handleClick();">Apply filter</button>
                     </div>
                 </form>
             </div>
@@ -62,7 +62,7 @@
         <?php PageBuilder::printFooter();?>
     </div>
 </main>
-
+<script src="index.js"></script>
 <?php require_once "parts/tail.html";?>
 
 
