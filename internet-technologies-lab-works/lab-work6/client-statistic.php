@@ -9,6 +9,8 @@
         $clientId = getClientId();
         $client = getClient($clientId, $clientsCollection);
         $sessions = $clientsCollection->find(['client' => $clientId]);
+    } catch (ClientNotFountException $e) {
+        PageBuilder::printErrorPage(404, "<h2> Error: ".$e->getMessage()."</h2>");
     } catch (Exception $e) {
         PageBuilder::printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>");
     }

@@ -3,12 +3,17 @@
 
 use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
+use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Exception\InvalidArgumentException;
+use MongoDB\Exception\UnsupportedException;
 
 
 require_once "PageBuilder.php";
 
 /**
- * @throws Exception
+ * @throws UnsupportedException if options are not supported by the selected server
+ * @throws InvalidArgumentException for parameter/option parsing errors
+ * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
 */
 function getClients(Collection $clients) : array{
     return match (PageBuilder::getFilterValue()) {
@@ -24,27 +29,23 @@ function getClients(Collection $clients) : array{
     };
 }
 
-
-/**
- * @throws Exception
- */
 function getClientId(): ObjectID {
     if(array_key_exists("id", $_GET)){
         return new ObjectID($_GET['id']);
     }
-    throw new Exception("key id was not found"); // FIXME
+    throw new InvalidArgumentException("key id was not found");
 }
 
-
-function getClient(ObjectID $client_id, Collection $collection){
-
-    try{
-        $client = $collection->findOne(['_id' => $client_id]);
-        if($client == null){
-            printErrorPage(data: "Client with id ".$_GET['id']." not found"); // FIXME
-        }
-        return $client;
-    }catch(Exception $e) {
-        printErrorPage(500, "<h2> Error: ".$e->getMessage()."</h2>"); // FIXME
+/**
+ * @throws UnsupportedException if options are not supported by the selected server
+ * @throws InvalidArgumentException for parameter/option parsing errors
+ * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
+ * @throws ClientNotFountException
+*/
+function getClient(ObjectID $client_id, Collection $collection): object{
+    $client = $collection->findOne(['_id' => $client_id]);
+    if($client == null || count($client) == 0){
+        throw new ClientNotFountException("Client with id ".$_GET['id']." not found");
     }
+    return $client;
 }
