@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-md-auto">
                 <div class="shadow-sm p-3 mb-5 bg-body rounded">
-                    <?php PageBuilder::printClient($client); ?>
+                    <?php PageBuilder::printClientWithMessages($client); ?>
                 </div>
                 <?php
                     PageBuilder::printClientStatistic($statistic);

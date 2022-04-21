@@ -60,6 +60,15 @@ class PageBuilder {
         CLIENT;
     }
 
+    public static function printClientWithMessages($client): void {
+        self::printClient($client);
+        echo '<ul class="list-group">';
+        foreach ($client->messages as $message){
+            echo '<li class="list-group-item">'.$message.'</li>';
+        }
+        echo '</ul>';
+    }
+
     public static function printClients(array $clients): void{
 
         if (count($clients) == 0) {
