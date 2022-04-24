@@ -1,4 +1,5 @@
 from buttonsFrames import *
+from inputFrames import *
 
 
 class App(tk.Tk):
@@ -16,6 +17,9 @@ class App(tk.Tk):
         self.buttons = {0: StartButtonsFrame(self), 1: NextPrevButtonsFrame(self), 2: FinishButtonsFrame(self)}
         self.currentButtonsFrameId = 0
         self.change_frame(self.currentButtonsFrameId)
+
+        self.inputs = {0: WelcomeFrame(self)}
+        self.currentInputFrameId = 0
 
     def handleFrameBtnClick(self, val):
         if val == "Next" or val == "Start":
