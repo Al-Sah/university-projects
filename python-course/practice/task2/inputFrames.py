@@ -111,9 +111,9 @@ class BasicInputFrame(InputFrame):
             .grid(column=0, row=0, columnspan=3, sticky=tk.EW + tk.S, padx=5, pady=5)
 
         self.selectedRadio = tk.IntVar()
-        tk.Radiobutton(frame, value=0, variable=self.selectedRadio, command=self.onRadio)\
+        tk.Radiobutton(frame, value=0, variable=self.selectedRadio, command=self.onRadio) \
             .grid(column=0, row=1, padx=5, pady=5, sticky=tk.E)
-        tk.Radiobutton(frame, value=1, variable=self.selectedRadio, command=self.onRadio)\
+        tk.Radiobutton(frame, value=1, variable=self.selectedRadio, command=self.onRadio) \
             .grid(column=0, row=2, padx=5, pady=5, sticky=tk.E)
 
         self.salaryInput = tk.Entry(frame)
@@ -152,3 +152,45 @@ class BasicInputFrame(InputFrame):
             self.userdata["salary"] = self.salaryInput.get()
         else:
             self.userdata["salary"] = self.salarySlider.get()
+
+
+class ExtraInfoInputFrame(InputFrame):
+
+    def __init__(self, parent, userdata):
+        self.check = None
+        self.txt = None
+        self.scroll = None
+        super().__init__(parent, userdata)
+
+    def setup(self, parent):
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=2)
+
+        tk.Label(
+            self,
+            text='Here you can add extra information about yourself',
+            font=("Helvetica", 14)
+        ).grid(column=0, row=0, sticky=tk.EW)
+
+        self.check = tk.IntVar()
+        tk.Checkbutton(self, text="Add this block to the result", variable=self.check)\
+            .grid(column=0, row=1, sticky=tk.EW)
+
+        txtFrame = tk.Frame(self)
+
+        self.txt = tk.Text(txtFrame, width=60, height=10, borderwidth=2)
+        self.txt.pack(side=tk.LEFT)
+
+        self.scroll = tk.Scrollbar(txtFrame, command=self.txt.yview)
+        self.scroll.pack(side=tk.LEFT, expand=True, fill=tk.Y)
+        self.txt.config(yscrollcommand=self.scroll.set)
+
+        txtFrame.grid(column=0, row=2)
+
+    def save(self):
+        if self.check.get() == 1:
+            self.userdata["extra"] = self.txt.get("1.0", "end-1c")
+        else:
+            self.userdata.pop("extra", None)

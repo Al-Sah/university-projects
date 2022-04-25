@@ -17,11 +17,11 @@ class App(tk.Tk):
         self.rowconfigure(0, weight=6)
         self.rowconfigure(1, weight=1)
 
-        self.buttons = {0: StartButtonsFrame(self), 1: NextPrevButtonsFrame(self), 2: FinishButtonsFrame(self)}
+        self.buttons = [StartButtonsFrame(self), NextPrevButtonsFrame(self), FinishButtonsFrame(self)]
         self.currentButtonsFrameId = 0
         self.changeButtonsFrame(self.currentButtonsFrameId)
 
-        self.inputs = [WelcomeFrame(self), BasicInputFrame(self, self.userData)]
+        self.inputs = [WelcomeFrame(self), BasicInputFrame(self, self.userData), ExtraInfoInputFrame(self, self.userData)]
         self.currentInputFrameId = 0
         self.changeInputsFrame(self.currentButtonsFrameId)
 
@@ -41,6 +41,7 @@ class App(tk.Tk):
         self.buttons[frameid].tkraise()
 
     def changeInputsFrame(self, frameid):
+        self.inputs[self.currentInputFrameId].save()
         self.currentInputFrameId = frameid
         self.inputs[frameid].tkraise()
 
