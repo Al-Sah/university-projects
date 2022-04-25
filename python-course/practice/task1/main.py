@@ -7,12 +7,10 @@ skill = []
 
 # "Say function"
 def get_user_info():
-    print("Hi user!\n Enter your name: ")
-    name = input()
-    print("Surname: ")
-    surname = input()
-    print("patronymic: ")
-    patronymic = input()
+
+    name = input("Hi user!\n Enter your name: ")
+    surname = input("Surname: ")
+    patronymic = input("Patronymic: ")
 
     global full_name
     full_name = (surname, name, patronymic)
@@ -23,8 +21,7 @@ def work():
     print("Enter position ( 3 - max; '0' or 'return' to finish )... ")
     jobs = []
     for i in range(3):
-        print(f"Position {i + 1} : ")
-        res = input()
+        res = input(f"Position {i + 1} : ")
         if res == "0" or res == "return":
             break
         jobs.append(res)
@@ -36,8 +33,7 @@ def experience_skill():
     print("Your experience in IT : ( '0' or 'return' to finish )... ")
 
     for i in range(10):
-        print(f"Exp {i + 1} : ")
-        res = input()
+        res = input(f"Exp {i + 1} : ")
         if res == "0" or res == "return":
             break
         experience.append(res)
@@ -45,8 +41,7 @@ def experience_skill():
     print("Your skills in IT : ( '0' or 'return' to finish )... ")
 
     for i in range(10):
-        print(f"Skill {i + 1} : ")
-        res = input()
+        res = input(f"Skill {i + 1} : ")
         if res == "0" or res == "return":
             break
         skill.append(res)
@@ -62,16 +57,12 @@ def cv():
     work()
     experience_skill()
 
-    print("Year of birth: ")
-    birth = input()
-    print("Education (school/university): ")
-    education = input()
-    print("Hobbies: ")
-    hobbies = input()
-    print("Location: ")
-    location = input()
-    print("Salary: ")
-    salary = input()
+    birth = input("Year of birth: ")
+    education = input("Education (school/university): ")
+    hobbies = input("Hobbies: ")
+    location = input("Location: ")
+    salary = input("Salary: ")
+
     return birth, education, hobbies, location, salary
 
 
