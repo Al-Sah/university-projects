@@ -36,7 +36,6 @@ class FinishButtonsFrame(ButtonsFrame):
     def setup(self, parent):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
-        self.columnconfigure(2, weight=1)
 
         tk.Button(
             self,
@@ -46,15 +45,9 @@ class FinishButtonsFrame(ButtonsFrame):
 
         tk.Button(
             self,
-            text="Generate file",
-            command=lambda: parent.handleFrameBtnClick("Generate file")
-        ).grid(column=1, row=0, sticky=tk.NSEW, **self.options)
-
-        tk.Button(
-            self,
-            text='Close',
-            command=lambda: parent.handleFrameBtnClick("Close")
-        ).grid(column=2, row=0, sticky=tk.W, **self.options)
+            text="Show result",
+            command=lambda: parent.handleFrameBtnClick("result")
+        ).grid(column=1, row=0, sticky=tk.W, **self.options)
 
 
 class NextPrevButtonsFrame(ButtonsFrame):
