@@ -2,9 +2,9 @@ let socket = io();
 
 let username = prompt("Please enter your name", "undefined creature");
 if (username == null || username === "") {
-    document.getElementById("username").innerHTML = "undefined creature"
+    document.getElementById("username").innerHTML = "Hello 'undefined creature'";
 } else {
-    document.getElementById("username").innerHTML = username
+    document.getElementById("username").innerHTML = "Hello '" + username + "'";
 }
 function uuidv4() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -30,7 +30,7 @@ socket.emit("new-user", username, uuid);
 
 socket.on('new-msg', function(senderName, senderId, msg) {
     let item = document.createElement('li');
-    item.textContent = senderName + ":" + msg;
+    item.textContent = senderName + ": " + msg;
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
 });
