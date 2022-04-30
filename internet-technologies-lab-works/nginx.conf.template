@@ -1,0 +1,38 @@
+
+
+server {
+    server_name lw1.{S_NAME};
+    root {PROJ_ROOT}/lab-work1;
+    location / {
+        index lab-work1.html;
+    }
+}
+
+server {
+    server_name lw2.{S_NAME};
+    root {PROJ_ROOT}/lab-work2;
+    location / {
+        index lab-work2.html;
+    }
+}
+
+server {
+    server_name lw3.{S_NAME};
+    root {PROJ_ROOT}/lab-work3;
+
+    location / {
+        index lab-work3.html;
+    }
+}
+
+server {
+    server_name lw4.{S_NAME};
+    root {PROJ_ROOT}/lab-work4;
+    error_log {PROJ_ROOT}/lab-work4/nginx-error.log warn;
+    access_log {PROJ_ROOT}/lab-work4/nginx-access.log combined;
+
+    location / {
+        {FASTCGI}
+        fastcgi_index lab-work4.php;
+    }
+}
