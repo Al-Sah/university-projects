@@ -35,6 +35,6 @@
 *.userosscache
 *.sln.docstates
 
-composer.lock
-/node_modules
-/vendor
+
+nginx-error.log
+nginx-access.log

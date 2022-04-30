@@ -34,7 +34,3 @@
 *.user
 *.userosscache
 *.sln.docstates
-
-composer.lock
-/node_modules
-/vendor
