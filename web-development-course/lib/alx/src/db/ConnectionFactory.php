@@ -1,10 +1,15 @@
 <?php
 
+namespace lib\db;
+
+use PDO;
+use PDOException;
+
 class ConnectionFactory{
 
     private static string $dsn = 'mysql:host=localhost;dbname=itech_labs';
-    private static string $username = "";
-    private static string $password = "";
+    private static string $username = "alx";
+    private static string $password = "zzz";
 
     /**
      * @throws PDOException if the attempt to connect to the requested database fails.

@@ -1,10 +1,11 @@
 <?php
+namespace lib\db;
 
-require_once "ConnectionFactory.php";
-require_once "mapping/ClientMapper.php";
-require_once "models/Client.php";
 
-use models\Client;
+use lib\db\mapping\ClientMapper;
+use lib\db\models\Client;
+use PDO;
+use PDOException;
 
 class ClientsRepository{
 

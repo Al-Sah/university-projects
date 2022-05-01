@@ -1,6 +1,11 @@
 <?php
 
-use models\GlobalStatistic;
+namespace lib\db\mapping;
+
+use lib\db\ConnectionFactory;
+use lib\db\models\GlobalStatistic;
+use PDO;
+use PDOException;
 
 class GlobalStatisticMapper
 {

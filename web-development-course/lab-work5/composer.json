@@ -1,0 +1,9 @@
+{
+    "repositories": [{
+      "type": "path",
+      "url": "../lib/alx"
+    }],
+    "require": {
+        "alx/lib": "@dev"
+    }
+}

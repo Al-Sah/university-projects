@@ -1,6 +1,8 @@
 <?php
 
-    require_once "db/GlobalStatisticDAO.php";
+    require_once __DIR__ . '/vendor/autoload.php';
+    use lib\db\GlobalStatisticDAO;
+
     require_once "ui-components.php";
     require_once "utils.php";
 

@@ -1,0 +1,20 @@
+{
+    "name": "alx/lib",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Al Sah",
+            "email": "aplexidr@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+      "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "lib\\db\\": "src/db",
+            "lib\\db\\models\\": "src/models"
+        }
+    }
+}

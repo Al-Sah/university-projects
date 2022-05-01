@@ -1,6 +1,8 @@
 <?php
 
-use models\Client;
+namespace lib\db\mapping;
+
+use lib\db\models\Client;
 
 class ClientMapper{
 

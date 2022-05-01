@@ -1,6 +1,10 @@
 <?php
 
-use models\Session;
+namespace lib\db\mapping;
+
+use DateTime;
+use Exception;
+use lib\db\models\Session;
 
 class SessionMapper{
 

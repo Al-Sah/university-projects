@@ -1,8 +1,8 @@
 <?php
 
-use models\Client;
-use models\GlobalStatistic;
-use models\ClientStatistic;
+use lib\db\models\Client;
+use lib\db\models\ClientStatistic;
+use lib\db\models\GlobalStatistic;
 
 function printFooter(): void {
     echo <<< FOOTER

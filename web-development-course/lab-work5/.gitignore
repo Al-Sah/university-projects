@@ -38,3 +38,6 @@
 
 nginx-error.log
 nginx-access.log
+
+vendor
+composer.lock

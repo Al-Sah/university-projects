@@ -1,8 +1,11 @@
 <?php
 
-require_once "ConnectionFactory.php";
-require_once "mapping/SessionMapper.php";
-require_once "models/Session.php";
+namespace lib\db;
+
+use lib\db\mapping\SessionMapper;
+use Exception;
+use PDO;
+
 
 class SessionsRepository
 {

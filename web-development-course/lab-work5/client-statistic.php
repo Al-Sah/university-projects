@@ -1,8 +1,10 @@
 <?php
 
-    require_once "db/SessionsRepository.php";
-    require_once "db/ClientsRepository.php";
-    require_once "db/ClientStatisticDAO.php";
+    require_once __DIR__ . '/vendor/autoload.php';
+    use lib\db\ClientsRepository;
+    use lib\db\ClientStatisticDAO;
+    use lib\db\SessionsRepository;
+
     require_once "ui-components.php";
     require_once "utils.php";
 

@@ -1,5 +1,7 @@
 <?php
 
+use lib\db\ClientsRepository;
+
 function checkFilter(): string {
     $filter ="";
     if (isset($_GET['clients-filter'])) {

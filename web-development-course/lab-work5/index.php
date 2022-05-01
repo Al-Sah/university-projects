@@ -1,7 +1,9 @@
 <?php
 
+    require_once __DIR__ . '/vendor/autoload.php';
+    use lib\db\ClientsRepository;
+
     require_once "ui-components.php";
-    require_once "db/ClientsRepository.php";
     require_once "utils.php";
 
     try{

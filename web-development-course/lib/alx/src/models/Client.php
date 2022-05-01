@@ -1,7 +1,6 @@
 <?php
 
-namespace models;
-
+namespace lib\db\models;
 
 class Client{
 
