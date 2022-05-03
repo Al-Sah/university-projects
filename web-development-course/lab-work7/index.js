@@ -5,7 +5,7 @@ function renderForm(){
         <form action="index.php" method="get" class="shadow-sm p-3 mb-5 bg-body rounded">
             <div class="form-check ">
                 <label class="form-check-label"> 
-                    <input class="form-check-input" type="radio" name="clients-filter" id="filter1" value="cf1">
+                    <input class="form-check-input" type="radio" name="clients-filter" id="filter1" value="cf1" checked>
                     Show all clients
                 </label>
             </div>
@@ -28,10 +28,8 @@ async function getClients(){
     let filter = document.querySelector('input[name="clients-filter"]:checked').value
 
     fetch(`${window.location.href}get-clients.php?filter=${filter}`,{method: 'GET'})
-        .then(function(response) { return response.json(); })
-        .then(function(json) {
-            printClients(json)
-        });
+        .then(function(response) { return response.json() })
+        .then(function(json) { printClients(json) });
 }
 
 function printClients(clients){
@@ -57,8 +55,7 @@ function printClients(clients){
         clients.forEach(c => {
             let client = document.createElement("a");
             client.setAttribute( "class", "list-group-item list-group-item-info" );
-            client.setAttribute( "href", "#" );
-            client.setAttribute( "onclick", `console.log(${c.id})` );
+            client.onclick = function() { getClientStatistic(c.id); }
             client.innerHTML = `
                 <div class="d-flex w-100 justify-content-between ">
                     <h5 class="mb-1">${c.name}</h5>
@@ -68,4 +65,18 @@ function printClients(clients){
             list.appendChild(client)
         });
     }
+}
+
+function getClientStatistic(id){
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', `client-statistic.php?id=${id}`, true);
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) {
+            return null
+        }
+        document.getElementById("dynamic-content").innerHTML = xhr.responseText
+    }
+    return null
 }
