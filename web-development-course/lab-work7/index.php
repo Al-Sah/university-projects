@@ -26,7 +26,10 @@
         </header>
 
         <div class="row">
-            <div class="col-md-auto" id="dynamic-content">
+            <div class="col" id="dynamic-content">
+                <script>
+                    renderForm()
+                </script>
             </div>
         </div>
 
