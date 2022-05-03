@@ -10,7 +10,8 @@
     "url": "../lib/alx"
   }],
   "require": {
-    "alx/lib": "@dev"
+    "alx/lib": "@dev",
+    "ext-simplexml": "*"
   }
 }
 

@@ -80,3 +80,60 @@ function getClientStatistic(id){
     }
     return null
 }
+
+function getGlobalStatistic(){
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', "global-statistic.php", true);
+    xhr.responseType = "document";
+    xhr.send();
+    xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                document.getElementById("dynamic-content").innerHTML = getTable(xhr.responseXML)
+            }
+        }
+    };
+}
+
+function getTable(stat){
+    return `
+        <table class="table table-striped table-bordered ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"> Statistic </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"> Clients </th>
+              <td>${stat.getElementsByTagName('clients')[0].firstChild.nodeValue}</td>
+            </tr>
+            <tr>
+              <th scope="row"> Sessions </th>
+              <td>${stat.getElementsByTagName('sessions')[0].firstChild.nodeValue}</td>
+            </tr>
+            <tr>
+              <th scope="row"> Time online in minutes (summary) </th>
+              <td>${stat.getElementsByTagName('timeOnline')[0].firstChild.nodeValue}</td>
+            </tr>
+            <tr>
+              <th scope="row"> Out traffic sum </th>
+              <td>${stat.getElementsByTagName('outTraffic')[0].firstChild.nodeValue} MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> In traffic sum </th>
+              <td>${stat.getElementsByTagName('inTraffic')[0].firstChild.nodeValue} MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> Client (id) with max out traffic for one session </th>
+              <td>${stat.getElementsByTagName('maxOut')[0].firstChild.nodeValue} MByte</td>
+            </tr>
+            <tr>
+              <th scope="row"> Client (id) with max in traffic for one session </th>
+              <td>${stat.getElementsByTagName('maxIn')[0].firstChild.nodeValue}  MByte</td>
+            </tr>
+          </tbody>
+        </table>
+        `
+}

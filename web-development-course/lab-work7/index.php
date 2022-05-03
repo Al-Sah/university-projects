@@ -20,7 +20,7 @@
             <nav class="navbar navbar-light" >
                 <ul class="nav nav-pills">
                     <li class="nav-item"> <button class="nav-link" onclick="renderForm()"> Home </button> </li>
-                    <li class="nav-item"> <button class="nav-link"> Global statistic </button> </li>
+                    <li class="nav-item"> <button class="nav-link" onclick="getGlobalStatistic()"> Global statistic </button> </li>
                 </ul>
             </nav>
         </header>
@@ -39,7 +39,7 @@
                     <button class="nav-link px-2 text-muted" onclick="renderForm()"> Home </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link px-2 text-muted"> Global statistic </button>
+                    <button class="nav-link px-2 text-muted" onclick="getGlobalStatistic()"> Global statistic </button>
                 </li>
             </ul>
             <p class="text-center text-muted"> 2022; University al-sah :)</p>
