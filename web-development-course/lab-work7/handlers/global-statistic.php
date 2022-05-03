@@ -1,8 +1,8 @@
 <?php
 
     header("Content-type: text/xml; charset=utf-8");
-    require_once __DIR__ . '/vendor/autoload.php';
-    require_once "ui-components.php";
+    require_once '../vendor/autoload.php';
+    require_once '../ui-components.php';
     use lib\db\GlobalStatisticDAO;
 
     function toXML(SimpleXMLElement $object, array $data): void{

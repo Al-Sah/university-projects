@@ -27,7 +27,7 @@ function renderForm(){
 async function getClients(){
     let filter = document.querySelector('input[name="clients-filter"]:checked').value
 
-    fetch(`${window.location.href}get-clients.php?filter=${filter}`,{method: 'GET'})
+    fetch(`${window.location.href}handlers/get-clients.php?filter=${filter}`,{method: 'GET'})
         .then(function(response) { return response.json() })
         .then(function(json) { printClients(json) });
 }
@@ -69,7 +69,7 @@ function printClients(clients){
 
 function getClientStatistic(id){
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `client-statistic.php?id=${id}`, true);
+    xhr.open('GET', `handlers/client-statistic.php?id=${id}`, true);
     xhr.send();
 
     xhr.onreadystatechange = function() {
@@ -83,7 +83,7 @@ function getClientStatistic(id){
 
 function getGlobalStatistic(){
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', "global-statistic.php", true);
+    xhr.open('GET', "handlers/global-statistic.php", true);
     xhr.responseType = "document";
     xhr.send();
     xhr.onload = function () {

@@ -1,7 +1,7 @@
 <?php
 
     header("Content-Type: application/json; charset=UTF-8");
-    require_once __DIR__ . '/vendor/autoload.php';
+    require_once '../vendor/autoload.php';
     use lib\db\ClientsRepository;
 
     $repository = new ClientsRepository();
