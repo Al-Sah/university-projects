@@ -73,3 +73,14 @@ server {
     }
 }
 
+server {
+    server_name lw8.{S_NAME};
+    root {PROJ_ROOT}/lab-work8/;
+    error_log {PROJ_ROOT}/lab-work8/nginx-error.log warn;
+    access_log {PROJ_ROOT}/lab-work8/nginx-access.log combined;
+
+    location / {
+            proxy_pass http://localhost:3000/;
+            proxy_set_header Host $host;
+    }
+}
