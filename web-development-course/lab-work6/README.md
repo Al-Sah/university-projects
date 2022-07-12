@@ -14,8 +14,9 @@ traffic, amount of outgoing traffic, client IP address, session cost.
 Provide the user with the opportunity to obtain the following information:
 1. Messages from the selected client
 2. Total incoming and outgoing traffic
-3. Display a list of customers with a negative account balance
+3. Display a list of customers with a negative account balance 
 
+Use db/setup-collections.php to add random data to the mongodb
 
 ---
 
@@ -34,3 +35,5 @@ Provide the user with the opportunity to obtain the following information:
 1. Сообщения от выбранного клиента
 2. Общий входящий и исходящий трафик
 3. Вывести список клиентов с отрицательным балансом счета
+
+Используйте db/setup-collections.php, чтобы добавить случайные данные в mongodb.
