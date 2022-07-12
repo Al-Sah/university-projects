@@ -36,3 +36,40 @@ server {
         fastcgi_index lab-work4.php;
     }
 }
+
+server {
+    server_name lw5.{S_NAME};
+    root {PROJ_ROOT}/lab-work5;
+    error_log {PROJ_ROOT}/lab-work5/nginx-error.log warn;
+    access_log {PROJ_ROOT}/lab-work5/nginx-access.log combined;
+
+    location / {
+        {FASTCGI}
+        fastcgi_index index.php;
+    }
+}
+
+server {
+    server_name lw6.{S_NAME};
+    root {PROJ_ROOT}/lab-work6;
+    error_log {PROJ_ROOT}/lab-work6/nginx-error.log warn;
+    access_log {PROJ_ROOT}/lab-work6/nginx-access.log combined;
+
+    location / {
+        {FASTCGI}
+        fastcgi_index index.php;
+    }
+}
+
+server {
+    server_name lw7.{S_NAME};
+    root {PROJ_ROOT}/lab-work7;
+    error_log {PROJ_ROOT}/lab-work7/nginx-error.log warn;
+    access_log {PROJ_ROOT}/lab-work7/nginx-access.log combined;
+
+    location / {
+        {FASTCGI}
+        fastcgi_index lab-work7.php;
+    }
+}
+
