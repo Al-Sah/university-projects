@@ -10,3 +10,5 @@ Top level classes, API:
 3. SessionsRepository
 4. ClientsStatisticDAO
 5. GlobalStatisticDAO
+
+Use database dump (itech_lab.sql) to setup MySQL.
