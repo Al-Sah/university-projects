@@ -38,3 +38,5 @@
 
 nginx-error.log
 nginx-access.log
+
+count.txt
