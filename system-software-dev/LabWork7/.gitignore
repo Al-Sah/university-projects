@@ -1,8 +1,0 @@
-﻿
-.idea
-bin/
-obj/
-.vs
-packages/
-
-*.user
