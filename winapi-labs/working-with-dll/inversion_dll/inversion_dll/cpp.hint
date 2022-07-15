@@ -1,0 +1,2 @@
+#define INVERSIONDLL_API __declspec(dllexport)
+#define INVERSIONDLL_API __declspec(dllimport)
