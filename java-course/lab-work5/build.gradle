@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+}
+
+group 'org.alsah'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
